@@ -1,14 +1,14 @@
 [build]
   command = "echo 'No build step needed'"
-    publish = "public"
-      functions = "netlify/functions"
+  publish = "public"
+  functions = "netlify/functions"
 
-      [[plugins]]
-        package = "@netlify/plugin-functions-install-core"
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
 
-        [functions]
-          node_bundler = "esbuild
+[functions]
+  node_bundler = "esbuild"
 
-          # Fires daily at 9am UTC
-          [functions."daily-post-background"]
-              schedule = "0 9 * * *"
+# Fires daily at 9am UTC
+[functions."daily-post-background"]
+  schedule = "0 9 * * *"
