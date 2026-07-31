@@ -1,0 +1,15 @@
+[build]
+  command = "echo 'No build step needed'"
+    publish = "public"
+      functions = "netlify/functions"
+
+      [[plugins]]
+        package = "@netlify/plugin-functions-install-core"
+
+        [functions]
+          node_bundler = "esbuild"
+
+          # Fires daily at 9am UTC
+          [[functions]]
+            name = "daily-post-background"
+              schedule = "0 9 * * *"
