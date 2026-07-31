@@ -1,0 +1,13 @@
+{
+  "name": "anne-beast",
+  "version": "1.0.0",
+  "description": "Everyday Ceremony By Anne — The Magnificent Beast",
+  "main": "index.js",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0",
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
