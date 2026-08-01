@@ -1,152 +1,1170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Everyday Ceremony By Anne — Beast Active</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Magnificent Beast — Everyday Ceremony By Anne</title>
+<style>
+  :root {
+    --bg:        #0b0618;
+    --surface:   #130d22;
+    --surface2:  #1a1230;
+    --border:    #2d1a56;
+    --border-lt: #3d2570;
+    --amber:     #c9a227;
+    --amber-lt:  #e8bb38;
+    --amber-dim: rgba(201,162,39,0.12);
+    --cream:     #f0e8d8;
+    --muted:     #7a6090;
+    --success:   #5ba87a;
+    --danger:    #c0453a;
+  }
 
-    :root {
-      --bg:       #0a0616;
-      --surface:  #150d25;
-      --surface2: #1e1435;
-      --border:   #4a2a7a;
-      --amber:    #e88c1a;
-      --amber-lt: #f5b030;
-      --cream:    #f0e8ff;
-      --muted:    #9b72bc;
-      --purple:   #6b3fa0;
-    }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      background: var(--bg);
-      color: var(--cream);
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 56px 24px 80px;
-    }
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
 
-    header { text-align: center; margin-bottom: 52px; }
-    .logo-wrap { margin-bottom: 20px; }
-    .logo-wrap img { width: 120px; height: 120px; object-fit: contain; filter: drop-shadow(0 0 18px rgba(232,140,26,0.35)); }
-    h1 { font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 300; color: var(--amber-lt); letter-spacing: 0.08em; margin-bottom: 10px; }
-    .tagline { font-size: 1rem; font-style: italic; color: var(--muted); letter-spacing: 0.05em; }
-    .status-pill { display: inline-block; margin-top: 20px; padding: 6px 20px; border: 1px solid var(--amber); border-radius: 40px; font-family: 'Montserrat', sans-serif; font-size: 0.68rem; letter-spacing: 0.15em; color: var(--amber); text-transform: uppercase; }
-    .divider { width: 60px; height: 1px; background: var(--border); margin: 44px auto; }
-    .divider-sm { width: 28px; height: 1px; background: var(--border); margin: 10px auto; }
-    .section-label { font-family: 'Montserrat', sans-serif; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); text-align: center; margin-bottom: 28px; }
-    .agents { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; width: 100%; max-width: 880px; margin-bottom: 8px; }
-    .agent-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 28px 24px; text-align: center; cursor: pointer; transition: border-color 0.25s, background 0.25s; }
-    .agent-card:hover, .agent-card.active { border-color: var(--amber); background: var(--surface2); }
-    .agent-icon { font-size: 1.5rem; margin-bottom: 12px; }
-    .agent-role { font-family: 'Montserrat', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
-    .agent-title { font-size: 1.15rem; font-weight: 400; color: var(--amber-lt); letter-spacing: 0.04em; margin-bottom: 8px; }
-    .agent-desc { font-size: 0.83rem; font-style: italic; color: var(--muted); line-height: 1.6; }
-    .agent-detail { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); text-align: left; }
-    .agent-card.active .agent-detail { display: block; }
-    .agent-detail h4 { font-family: 'Montserrat', sans-serif; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; }
-    .agent-detail ul { list-style: none; }
-    .agent-detail ul li { font-size: 0.8rem; color: var(--cream); font-style: italic; padding: 4px 0; border-bottom: 1px solid rgba(74,42,122,0.4); line-height: 1.5; }
-    .agent-detail ul li:last-child { border-bottom: none; }
-    .click-hint { font-family: 'Montserrat', sans-serif; font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--border); text-align: center; margin-bottom: 44px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; width: 100%; max-width: 880px; }
-    .dept-card { background: var(--surface); border: 1px solid rgba(74,42,122,0.5); border-radius: 2px; padding: 22px 18px; text-align: center; cursor: pointer; transition: border-color 0.25s, background 0.25s; }
-    .dept-card:hover, .dept-card.active { border-color: var(--amber); background: var(--surface2); }
-    .dept-icon { font-size: 1.2rem; margin-bottom: 10px; }
-    .dept-title { font-size: 0.95rem; font-weight: 400; color: var(--amber-lt); letter-spacing: 0.04em; margin-bottom: 6px; }
-    .dept-theme { font-size: 0.76rem; font-style: italic; color: var(--muted); line-height: 1.55; }
-    .dept-hooks { display: none; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); text-align: left; }
-    .dept-card.active .dept-hooks { display: block; }
-    .dept-hooks h4 { font-family: 'Montserrat', sans-serif; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; }
-    .dept-hooks ul { list-style: none; }
-    .dept-hooks ul li { font-size: 0.8rem; font-style: italic; color: var(--cream); padding: 5px 0; border-bottom: 1px solid rgba(74,42,122,0.35); line-height: 1.5; }
-    .dept-hooks ul li:last-child { border-bottom: none; }
-    footer { margin-top: 60px; text-align: center; font-family: 'Montserrat', sans-serif; font-size: 0.58rem; letter-spacing: 0.15em; color: var(--border); text-transform: uppercase; }
-  </style>
+  /* ── HEADER ───────────────────────────────────────────── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 36px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .hdr-left { display: flex; align-items: center; gap: 18px; }
+  .hdr-logo {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--surface2);
+    border: 1.5px solid var(--border-lt);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hdr-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hdr-logo-fallback { font-size: 22px; color: var(--amber); display: none; }
+  .hdr-eyebrow {
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--amber);
+    margin-bottom: 3px;
+  }
+  .hdr-title { font-size: 24px; color: var(--cream); letter-spacing: 0.01em; }
+  .hdr-sub { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 1px; }
+  .live-pill {
+    display: flex; align-items: center; gap: 7px;
+    border: 1px solid rgba(91,168,122,0.4);
+    background: rgba(91,168,122,0.08);
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--success);
+  }
+  .live-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--success);
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* ── NAV ──────────────────────────────────────────────── */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 36px;
+    display: flex;
+    overflow-x: auto;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .tab {
+    background: none; border: none;
+    color: var(--muted);
+    font-family: 'Georgia', serif;
+    font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 15px 26px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .tab:hover { color: var(--cream); }
+  .tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+
+  /* ── LAYOUT ───────────────────────────────────────────── */
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 64px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── CARDS ────────────────────────────────────────────── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 28px 24px;
+    margin-bottom: 20px;
+  }
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .card-label {
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--amber);
+  }
+  .badge {
+    font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: 1px solid var(--border-lt);
+    border-radius: 20px;
+    padding: 5px 14px;
+    color: var(--muted);
+  }
+  .badge.amber { border-color: rgba(201,162,39,0.4); color: var(--amber); }
+  .badge.green { border-color: rgba(91,168,122,0.4); color: var(--success); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  /* ── STATUS BAR ───────────────────────────────────────── */
+  .status-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .stat {
+    padding: 24px 20px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-label {
+    font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .stat-value {
+    font-size: 22px; color: var(--cream);
+    letter-spacing: 0.01em;
+  }
+  .stat-value.amber { color: var(--amber); }
+  .stat-value.em { font-style: italic; }
+
+  /* ── CHANNELS ─────────────────────────────────────────── */
+  .channel {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .channel:last-child { margin-bottom: 0; }
+  .channel-left { display: flex; align-items: center; gap: 14px; }
+  .ch-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; flex-shrink: 0;
+  }
+  .ch-ig { background: linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045); }
+  .ch-fb { background: #1877f2; }
+  .ch-li { background: #0a66c2; }
+  .ch-name { font-size: 14px; color: var(--cream); }
+  .ch-handle { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .ch-status { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .ch-status.awaiting { color: var(--amber); }
+  .ch-status.connected { color: var(--success); }
+
+  /* ── SCHEDULE TABLE ───────────────────────────────────── */
+  .sched-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .sched-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .sched-key { color: var(--muted); }
+  .sched-val { color: var(--amber); font-size: 13px; text-align: right; }
+
+  /* ── CREATIVE DIRECTION ───────────────────────────────── */
+  .dir-meta { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.6; }
+  .dir-select-row { display: flex; align-items: center; gap: 14px; }
+  .dir-active-label {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--amber); white-space: nowrap;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .dir-select {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--amber);
+    border-radius: 4px;
+    color: var(--cream);
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    padding: 12px 16px;
+    outline: none;
+    cursor: pointer;
+  }
+  .dir-select option { background: var(--surface2); }
+
+  /* ── SCENE LIBRARY ────────────────────────────────────── */
+  .scene-meta { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.6; }
+  .scenes { display: flex; flex-direction: column; gap: 8px; }
+  .scene-row {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .scene-row:hover { border-color: var(--border-lt); }
+  .scene-row.active-scene { border-color: var(--amber); background: var(--amber-dim); }
+  .scene-emoji { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .scene-name { font-size: 14px; color: var(--cream); margin-bottom: 3px; }
+  .scene-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  /* ── MANUAL CONTROLS ──────────────────────────────────── */
+  .controls-meta { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.6; }
+  .ctrl-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    font-family: 'Georgia', serif;
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 12px 22px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: var(--amber); color: #0b0618; font-weight: bold; }
+  .btn-primary:hover { background: var(--amber-lt); }
+  .btn-outline { background: transparent; color: var(--amber); border: 1px solid var(--amber); }
+  .btn-outline:hover { background: var(--amber-dim); }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border-lt); }
+  .btn-ghost:hover { color: var(--cream); border-color: var(--muted); }
+  .ctrl-feedback { margin-top: 14px; font-size: 13px; color: var(--muted); display: none; }
+
+  /* ── CONTENT REPURPOSE ────────────────────────────────── */
+  .repurpose-meta { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.6; }
+  .field-label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .field-input, .field-select, .field-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border-lt);
+    border-radius: 4px;
+    padding: 12px 14px;
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field-input:focus, .field-select:focus, .field-textarea:focus { border-color: var(--amber); }
+  .field-input::placeholder, .field-textarea::placeholder { color: var(--muted); }
+  .field-select option { background: var(--surface2); }
+  .field-textarea { resize: vertical; min-height: 140px; }
+  .form-row { margin-bottom: 18px; }
+  .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+
+  /* ── VIRAL INTELLIGENCE ───────────────────────────────── */
+  .vi-meta { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.6; }
+  .pillar-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+  .ptab {
+    background: transparent;
+    border: 1px solid var(--border-lt);
+    border-radius: 4px;
+    padding: 8px 18px;
+    font-family: 'Georgia', serif;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); cursor: pointer; transition: all 0.2s;
+  }
+  .ptab:hover { color: var(--cream); border-color: var(--muted); }
+  .ptab.active { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+  .hooks { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+  .hook-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 14px;
+    position: relative;
+    transition: border-color 0.2s;
+    background: var(--surface2);
+  }
+  .hook-card:hover { border-color: var(--border-lt); }
+  .hook-pillar { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+  .hook-text { font-size: 14px; color: var(--cream); font-style: italic; line-height: 1.6; padding-right: 26px; }
+  .hook-copy {
+    position: absolute; top: 10px; right: 10px;
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; font-size: 13px; transition: color 0.2s; padding: 3px;
+  }
+  .hook-copy:hover { color: var(--amber); }
+  .pillar-list-items { margin-top: 4px; }
+  .pitem {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    background: var(--surface2);
+  }
+  .pitem:last-child { margin-bottom: 0; }
+  .pnum { color: var(--amber); min-width: 22px; font-size: 14px; }
+  .pname { font-size: 14px; color: var(--cream); margin-bottom: 3px; }
+  .ptheme { font-size: 12px; color: var(--muted); }
+
+  /* ── COPY ENGINE ──────────────────────────────────────── */
+  .ce-meta { font-size: 13px; color: var(--muted); margin-bottom: 22px; line-height: 1.6; }
+  .pillar-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .ppill {
+    background: transparent;
+    border: 1px solid var(--border-lt);
+    border-radius: 4px;
+    padding: 8px 18px;
+    font-family: 'Georgia', serif;
+    font-size: 13px; color: var(--muted);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .ppill:hover { color: var(--cream); border-color: var(--muted); }
+  .ppill.active { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+  .loading { display: none; align-items: center; gap: 12px; color: var(--muted); font-size: 13px; margin-top: 18px; }
+  .spinner { width: 16px; height: 16px; border: 2px solid var(--border-lt); border-top-color: var(--amber); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .output-card { display: none; }
+  .pform-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .pftab {
+    background: transparent; border: 1px solid var(--border-lt); border-radius: 20px;
+    padding: 6px 16px; font-family: 'Georgia', serif; font-size: 12px;
+    color: var(--muted); cursor: pointer; transition: all 0.2s;
+  }
+  .pftab.active { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+  .pftab:hover { color: var(--cream); }
+  .output-platform-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 12px; }
+  .output-text { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 20px; font-size: 14px; line-height: 1.9; color: var(--cream); white-space: pre-wrap; font-style: italic; min-height: 180px; }
+  .output-actions { display: flex; gap: 10px; margin-top: 14px; }
+  .small-btn { font-family: 'Georgia', serif; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 4px; padding: 9px 16px; cursor: pointer; transition: all 0.2s; }
+
+  /* ── POST TO BUFFER ───────────────────────────────────── */
+  .ptb-meta { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+  label.field-label { display: block; }
+  .char-count { font-size: 11px; color: var(--muted); text-align: right; margin-top: 4px; }
+  .sched-select {
+    width: 100%;
+    background: var(--surface2); border: 1px solid var(--border-lt); border-radius: 4px;
+    padding: 12px 14px; font-family: 'Georgia', serif; font-size: 14px; color: var(--cream); outline: none;
+  }
+  .post-btn { background: var(--amber); color: #0b0618; font-family: 'Georgia', serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; padding: 13px 28px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background 0.2s; margin-right: 10px; }
+  .post-btn:hover { background: var(--amber-lt); }
+  .buffer-status { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .buf-ch { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; color: var(--muted); }
+  .buf-ch .ch-icon { width: 28px; height: 28px; font-size: 13px; }
+  .post-feedback { margin-top: 14px; font-size: 13px; display: none; }
+
+  /* ── TOAST ────────────────────────────────────────────── */
+  #toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--surface);
+    border: 1px solid var(--amber);
+    border-radius: 4px; padding: 12px 20px;
+    color: var(--amber); font-size: 13px;
+    display: none; z-index: 999;
+  }
+
+  /* ── FOOTER ───────────────────────────────────────────── */
+  footer {
+    text-align: center; padding: 32px 24px;
+    color: var(--muted); font-size: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+    line-height: 2;
+  }
+  footer a { color: var(--amber); text-decoration: none; }
+  footer strong { color: var(--amber); }
+
+  @media (max-width: 720px) {
+    .two-col { grid-template-columns: 1fr; }
+    .form-2col { grid-template-columns: 1fr; }
+    header { padding: 0 16px; }
+    nav { padding: 0 8px; }
+    main { padding: 20px 16px 40px; }
+  }
+</style>
 </head>
 <body>
-  <header>
-    <div class="logo-wrap"><img src="logo.png" alt="Everyday Ceremony By Anne" /></div>
-    <h1>Everyday Ceremony By Anne</h1>
-    <p class="tagline">Celebrating You Today, Tomorrow and Always</p>
-    <span class="status-pill">✶ The Beast is Active</span>
-  </header>
-  <div class="divider"></div>
-  <p class="section-label">Content Team</p>
-  <div class="agents">
-    <div class="agent-card" onclick="toggleAgent(this)">
-      <div class="agent-icon">🎯</div>
-      <div class="agent-role">Role 01</div>
-      <div class="agent-title">Viral Architect</div>
-      <div class="divider-sm"></div>
-      <div class="agent-desc">Engineers the opening line that stops the scroll and makes her read the next word</div>
-      <div class="agent-detail"><h4>What She Does</h4><ul><li>Generates 5 hooks per post with scores</li><li>Works across Instagram, LinkedIn, Facebook</li><li>Pulls from 10 HOAI hook frameworks</li><li>Built for the crowned woman returning to herself</li><li>Picks the winner and tells you exactly why</li></ul></div>
+
+<!-- ─── HEADER ─────────────────────────────────────────────── -->
+<header>
+  <div class="hdr-left">
+    <div class="hdr-logo">
+      <img src="logo.png" alt="Everyday Ceremony By Anne"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+      <span class="hdr-logo-fallback">✦</span>
     </div>
-    <div class="agent-card" onclick="toggleAgent(this)">
-      <div class="agent-icon">🌸</div>
-      <div class="agent-role">Role 02</div>
-      <div class="agent-title">Creative Director</div>
-      <div class="divider-sm"></div>
-      <div class="agent-desc">Turns one piece of Anne's content into a full week of posts across all 3 platforms</div>
-      <div class="agent-detail"><h4>What She Does</h4><ul><li>Extracts 8 angles from any piece of content</li><li>Writes 3 LinkedIn, 3 Instagram, 2 Facebook posts</li><li>Tags each post to Anne's 7 content pillars</li><li>Grades every post before delivery</li><li>Flags the weakest post and best unused angle</li></ul></div>
-    </div>
-    <div class="agent-card" onclick="toggleAgent(this)">
-      <div class="agent-icon">👑</div>
-      <div class="agent-role">Role 03</div>
-      <div class="agent-title">Autonomous Poster</div>
-      <div class="divider-sm"></div>
-      <div class="agent-desc">Quality gate — scores every post against Anne's voice before it enters the autonomous queue</div>
-      <div class="agent-detail"><h4>What She Does</h4><ul><li>Scores Hook, Identity, Voice, Flow, CTA out of 10</li><li>Flags forbidden words and off-brand framing</li><li>Returns top 3 fixes — specific and actionable</li><li>Rewrites to queue-ready in Anne's exact voice</li><li>Clears posts that run without human review</li></ul></div>
+    <div>
+      <div class="hdr-eyebrow">House of AI · Magnificent Beast Console</div>
+      <div class="hdr-title">The Magnificent Beast</div>
+      <div class="hdr-sub">Anne McClain — Autonomous Content Engine</div>
     </div>
   </div>
-  <p class="click-hint">Tap any card to expand</p>
-  <p class="section-label">Content Departments</p>
-  <div class="grid">
-    <div class="dept-card" onclick="toggleDept(this)">
-      <div class="dept-icon">🕯️</div><div class="dept-title">The Sacred Self</div><div class="divider-sm"></div>
-      <div class="dept-theme">Returning to yourself after years of giving everything to everyone else</div>
-      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>You've been giving from a well that no one ever refills.</li><li>She didn't lose herself all at once. It happened one small surrender at a time.</li><li>The woman you've been waiting to become is the one you abandoned.</li><li>You gave them your mornings. Your evenings. Your quiet.</li><li>Somewhere between taking care of everyone else, you forgot you were someone too.</li></ul></div>
+  <div class="live-pill">
+    <div class="live-dot"></div>
+    Live
+  </div>
+</header>
+
+<!-- ─── NAV ────────────────────────────────────────────────── -->
+<nav>
+  <button class="tab active" onclick="showTab('creative-director',this)">✦ Creative Director</button>
+  <button class="tab" onclick="showTab('viral-intelligence',this)">⚡ Viral Intelligence</button>
+  <button class="tab" onclick="showTab('copy-engine',this)">✍ Copy Engine</button>
+  <button class="tab" onclick="showTab('post-to-buffer',this)">→ Post to Buffer</button>
+</nav>
+
+<!-- ─── MAIN ────────────────────────────────────────────────── -->
+<main>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- CREATIVE DIRECTOR                                          -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="panel-creative-director" class="panel active">
+
+  <!-- Beast Status -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-label">Beast Status</div>
+      <div class="badge amber">Autonomous</div>
     </div>
-    <div class="dept-card" onclick="toggleDept(this)">
-      <div class="dept-icon">✨</div><div class="dept-title">Quiet Luxury</div><div class="divider-sm"></div>
-      <div class="dept-theme">Redefining luxury as presence and intention, not price</div>
-      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>Real luxury is not something you buy. It's something you return to.</li><li>The most expensive thing you own is your attention. Where are you spending it?</li><li>She stopped waiting for someone else to make it beautiful.</li><li>Luxury is not a price point. It's a practice.</li><li>A candle lit with intention costs nothing. But it changes everything.</li></ul></div>
-    </div>
-    <div class="dept-card" onclick="toggleDept(this)">
-      <div class="dept-icon">🌸</div><div class="dept-title">The Ceremony Within</div><div class="divider-sm"></div>
-      <div class="dept-theme">Making everyday moments sacred and intentional</div>
-      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>Your morning doesn't have to be a routine. It can be a ceremony.</li><li>The ordinary moment you keep rushing past is where the magic is.</li><li>She learned to make even Tuesday feel like something sacred.</li><li>What would change if you treated getting dressed as a ritual?</li><li>You don't need a retreat. You need 10 minutes and a match.</li></ul></div>
-    </div>
-    <div class="dept-card" onclick="toggleDept(this)">
-      <div class="dept-icon">🌿</div><div class="dept-title">Ritual &amp; Healing</div><div class="divider-sm"></div>
-      <div class="dept-theme">The quiet power of consistent, intentional self-care practices</div>
-      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>Healing doesn't always look like a breakthrough. Sometimes it looks like a candle.</li><li>The ritual didn't fix everything. It reminded her she was worth showing up for.</li><li>She tried the retreats, the therapists, the getaways. Then she tried stillness.</li><li>Small practices don't change your life all at once. They change it one morning at a time.</li><li>What if the thing you've been searching for has been waiting in the quiet?</li></ul></div>
-    </div>
-    <div class="dept-card" onclick="toggleDept(this)">
-      <div class="dept-icon">💫</div><div class="dept-title">Celebrating You</div><div class="divider-sm"></div>
-      <div class="dept-theme">Honoring yourself fully — in small moments and grand ones</div>
-      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>Celebrating you today, tomorrow, and always — not when you've earned it.</li><li>You keep waiting for a reason to celebrate yourself. This is it.</li><li>She stopped waiting to be chosen and chose herself.</li><li>Your wholeness is worth honoring. Right now. As you are.</li><li>The ceremony isn't for the version of you that has it all together. It's for this one.</li></ul></div>
-    </div>
-    <div class="dept-card" onclick="toggleDept(this)">
-      <div class="dept-icon">🍵</div><div class="dept-title">Boston Besties</div><div class="divider-sm"></div>
-      <div class="dept-theme">The magic of women who truly show up for each other — community, belonging, sisterhood</div>
-      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>The right women in your corner change everything.</li><li>She stopped performing and found her people.</li><li>There's a kind of healing that only happens in a room full of women who get it.</li><li>Not everyone deserves a seat at your table. But the right ones belong there forever.</li><li>Real community doesn't drain you. It fills the well.</li></ul></div>
-    </div>
-    <div class="dept-card" onclick="toggleDept(this)">
-      <div class="dept-icon">👑</div><div class="dept-title">The CEO Board</div><div class="divider-sm"></div>
-      <div class="dept-theme">Leading your life and business with wisdom — your own and those who guide you</div>
-      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>She stopped asking permission and started asking better questions.</li><li>Every great decision I've made started with sitting with the right wisdom.</li><li>You don't have to figure it out alone. That's not strength. That's stubbornness.</li><li>The woman who knows what she wants still needs a board.</li><li>Leadership isn't about having all the answers. It's about knowing who to ask.</li></ul></div>
+    <div class="status-bar">
+      <div class="stat">
+        <div class="stat-label">Last Run</div>
+        <div class="stat-value em" id="last-run">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Today's Pillar</div>
+        <div class="stat-value em" id="todays-pillar">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Next Run</div>
+        <div class="stat-value amber" id="next-run">—</div>
+      </div>
     </div>
   </div>
-  <footer><p>Powered by HOUSE OF AI &nbsp;·&nbsp; Everyday Ceremony By Anne</p></footer>
-  <script>
-    function toggleAgent(card) { const w = card.classList.contains('active'); document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('active')); if (!w) card.classList.add('active'); }
-    function toggleDept(card) { const w = card.classList.contains('active'); document.querySelectorAll('.dept-card').forEach(c => c.classList.remove('active')); if (!w) card.classList.add('active'); }
-  </script>
+
+  <!-- Social Channels + Schedule -->
+  <div class="two-col">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-label">Social Channels</div>
+        <div class="badge green">Buffer Connected</div>
+      </div>
+      <div class="channel">
+        <div class="channel-left">
+          <div class="ch-icon ch-ig">📸</div>
+          <div>
+            <div class="ch-name">Instagram</div>
+            <div class="ch-handle">@everydayceremonybyanne</div>
+          </div>
+        </div>
+        <div class="ch-status awaiting">Awaiting run</div>
+      </div>
+      <div class="channel">
+        <div class="channel-left">
+          <div class="ch-icon ch-fb">📘</div>
+          <div>
+            <div class="ch-name">Facebook</div>
+            <div class="ch-handle">Everyday Ceremony By Anne</div>
+          </div>
+        </div>
+        <div class="ch-status awaiting">Awaiting run</div>
+      </div>
+      <div class="channel">
+        <div class="channel-left">
+          <div class="ch-icon ch-li">💼</div>
+          <div>
+            <div class="ch-name">LinkedIn</div>
+            <div class="ch-handle">Anne McClain</div>
+          </div>
+        </div>
+        <div class="ch-status awaiting">Awaiting run</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-label">Schedule</div>
+        <div class="badge green">Active</div>
+      </div>
+      <div class="sched-row">
+        <span class="sched-key">Runs every day at</span>
+        <span class="sched-val">9:00 AM UTC · 5:00 AM EDT</span>
+      </div>
+      <div class="sched-row">
+        <span class="sched-key">Today's pillar</span>
+        <span class="sched-val" id="sched-pillar">—</span>
+      </div>
+      <div class="sched-row">
+        <span class="sched-key">Today's scene</span>
+        <span class="sched-val" id="sched-scene">—</span>
+      </div>
+      <div class="sched-row">
+        <span class="sched-key">Next run</span>
+        <span class="sched-val" id="sched-next">—</span>
+      </div>
+      <div class="sched-row">
+        <span class="sched-key">Powered by</span>
+        <span class="sched-val">Netlify Scheduled Functions</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Creative Direction -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-label">Creative Direction</div>
+      <div class="badge amber" id="active-dir-badge">Sacred Ceremony</div>
+    </div>
+    <p class="dir-meta">Switch Anne's creative direction to instantly change her scenes, visual aesthetic, and content approach. The Beast uses whichever direction is active.</p>
+    <div class="dir-select-row">
+      <div class="dir-active-label">✦ Active Direction</div>
+      <select class="dir-select" id="dir-select" onchange="updateDirection(this)">
+        <option value="sacred_ceremony">Sacred Ceremony — Candlelight, Ritual Objects, Soft Gold Dawn</option>
+        <option value="quiet_sovereignty">Quiet Sovereignty — Luxury as Presence, Self-Possessed, Unhurried</option>
+        <option value="rose_feminine">Rose Feminine — Blooms, Deep Burgundy, Unapologetically Beautiful</option>
+        <option value="dark_sacred">Dark Sacred — Moonlit, Mystical, Sacred Feminine at Her Most Magnetic</option>
+        <option value="ceo_ceremony">CEO Ceremony — Tailored Authority, Ritual Meets Business, Intentional Leadership</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Higgsfield Scene Library -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-label">Higgsfield Scene Library</div>
+      <div class="badge amber">Soul 2.0</div>
+    </div>
+    <p class="scene-meta">10 ritual cinematic scenes rotate daily. Each scene is a Higgsfield Soul 2.0 prompt crafted for Anne's aesthetic — sacred ceremony, quiet luxury, feminine sovereignty.</p>
+    <div class="scenes">
+      <div class="scene-row active-scene" onclick="selectScene(this,'Candlelit Morning Ritual')">
+        <div class="scene-emoji">🕯</div>
+        <div><div class="scene-name">Candlelit Morning Ritual</div><div class="scene-desc">An elegant woman in her 40s, home sanctuary at dawn, lit candles, dried roses, silk robe in deep burgundy, golden morning light</div></div>
+      </div>
+      <div class="scene-row" onclick="selectScene(this,'Rose Garden Sanctuary')">
+        <div class="scene-emoji">🌹</div>
+        <div><div class="scene-name">Rose Garden Sanctuary</div><div class="scene-desc">Private rose garden at golden hour, flowing cream dress, deep pink blooms, soft warm light, serene and self-possessed</div></div>
+      </div>
+      <div class="scene-row" onclick="selectScene(this,'Incense & Intention')">
+        <div class="scene-emoji">🌿</div>
+        <div><div class="scene-name">Incense &amp; Intention</div><div class="scene-desc">Wooden altar table, incense smoke rising, dried herbs and crystals arranged with care, candlelight, deep burgundy wrap</div></div>
+      </div>
+      <div class="scene-row" onclick="selectScene(this,'Parisian Bath Ritual')">
+        <div class="scene-emoji">🛁</div>
+        <div><div class="scene-name">Parisian Bath Ritual</div><div class="scene-desc">Luxury clawfoot bathtub, rose petals, marble bathroom, eyes closed in peace, feminine sovereignty</div></div>
+      </div>
+      <div class="scene-row" onclick="selectScene(this,'Velvet Reading Nook')">
+        <div class="scene-emoji">📚</div>
+        <div><div class="scene-name">Velvet Reading Nook</div><div class="scene-desc">Deep velvet chair, rain outside, cashmere wrap in deep plum, books and flowers, intimate and still</div></div>
+      </div>
+      <div class="scene-row" onclick="selectScene(this,'Moonlit Terrace')">
+        <div class="scene-emoji">🌙</div>
+        <div><div class="scene-name">Moonlit Terrace</div><div class="scene-desc">Stone terrace under crescent moon, night-blooming flowers, flowing ivory dress, gold jewelry, mystical and sovereign</div></div>
+      </div>
+      <div class="scene-row" onclick="selectScene(this,'Sacred Morning Table')">
+        <div class="scene-emoji">☕</div>
+        <div><div class="scene-name">Sacred Morning Table</div><div class="scene-desc">Ritual tea ceremony, fresh roses in vase, journal open, morning light streaming in, silk robe, slow and intentional</div></div>
+      </div>
+      <div class="scene-row" onclick="selectScene(this,'Washington Townhouse Study')">
+        <div class="scene-emoji">🏛</div>
+        <div><div class="scene-name">Washington Townhouse Study</div><div class="scene-desc">Beautiful DC townhouse study, walls lined with books, candlelight, tailored burgundy blazer, quiet authority</div></div>
+      </div>
+      <div class="scene-row" onclick="selectScene(this,'Botanical Spa Escape')">
+        <div class="scene-emoji">🌺</div>
+        <div><div class="scene-name">Botanical Spa Escape</div><div class="scene-desc">Private botanical spa, steam rising, tropical plants, stone surfaces, white linen wrap, ritual bath oils</div></div>
+      </div>
+      <div class="scene-row" onclick="selectScene(this,'Sunset Ceremony')">
+        <div class="scene-emoji">🌅</div>
+        <div><div class="scene-name">Sunset Ceremony</div><div class="scene-desc">Field of wildflowers at sunset, arms open, flowing gold dress, rose petals scattered, expansive joy</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Repurposer -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-label">Creative Director — Repurpose Content</div>
+      <div class="badge amber">Week of Posts</div>
+    </div>
+    <p class="repurpose-meta">Drop in a video transcript, voice memo, email, or idea. Anne's Creative Director turns it into 3 LinkedIn posts, 3 Instagram posts, and 2 Facebook posts — graded and queue-ready.</p>
+    <div class="form-2col">
+      <div>
+        <div class="field-label">Content Type</div>
+        <select class="field-select" id="cd-type">
+          <option value="video transcript">Video Transcript</option>
+          <option value="voice memo">Voice Memo</option>
+          <option value="email">Email</option>
+          <option value="blog post">Blog Post</option>
+          <option value="podcast excerpt">Podcast Excerpt</option>
+          <option value="idea / rough notes">Idea / Rough Notes</option>
+        </select>
+      </div>
+      <div>
+        <div class="field-label">Primary Pillar (Optional)</div>
+        <select class="field-select" id="cd-pillar">
+          <option value="">Let the Director decide</option>
+          <option>The Sacred Self</option>
+          <option>Quiet Luxury</option>
+          <option>The Ceremony Within</option>
+          <option>Ritual &amp; Healing</option>
+          <option>Celebrating You</option>
+          <option>Boston Besties</option>
+          <option>The CEO Board</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field-label">Paste Your Content</div>
+      <textarea class="field-textarea" id="cd-content" placeholder="Paste a video transcript, voice memo, email, blog post, or rough idea here..."></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="runCreativeDirector()">✦ Generate Week of Posts</button>
+    <button class="btn btn-ghost" style="margin-left:10px;" onclick="clearCD()">Clear</button>
+    <div class="loading" id="cd-loading"><div class="spinner"></div>Anne's Creative Director is working...</div>
+  </div>
+
+  <div class="card output-card" id="cd-output-card">
+    <div class="card-header">
+      <div class="card-label">Generated Week of Posts</div>
+      <div class="badge amber">8 Posts Ready</div>
+    </div>
+    <div class="pform-tabs" id="cd-tabs">
+      <button class="pftab active" onclick="showCDPlatform('linkedin',this)">💼 LinkedIn (3)</button>
+      <button class="pftab" onclick="showCDPlatform('instagram',this)">📸 Instagram (3)</button>
+      <button class="pftab" onclick="showCDPlatform('facebook',this)">📘 Facebook (2)</button>
+    </div>
+    <div id="cd-posts"></div>
+  </div>
+
+  <!-- Manual Controls -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-label">Manual Controls</div>
+      <div class="badge">Override</div>
+    </div>
+    <p class="controls-meta">The Beast runs automatically every morning. Use these only when you want to trigger outside the schedule or test a component.</p>
+    <div class="ctrl-row">
+      <button class="btn btn-primary" onclick="runBeast()">🦁 Run Beast Now</button>
+      <button class="btn btn-outline" onclick="testBuffer()">📬 Test Buffer</button>
+      <button class="btn btn-ghost" onclick="doRefresh()">🔄 Refresh</button>
+    </div>
+    <div class="ctrl-feedback" id="ctrl-feedback"></div>
+  </div>
+
+</div><!-- /creative-director -->
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- VIRAL INTELLIGENCE                                         -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="panel-viral-intelligence" class="panel">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-label">Viral Hook Bank</div>
+      <div class="badge amber">35 Hooks · 7 Pillars</div>
+    </div>
+    <p class="vi-meta">Pre-tested opening hooks across all 7 content pillars. Each is engineered to stop the scroll, trigger recognition, and pull the reader into Anne's world.</p>
+    <div class="pillar-tabs">
+      <button class="ptab active" onclick="filterHooks('all',this)">All Pillars</button>
+      <button class="ptab" onclick="filterHooks('The Sacred Self',this)">The Sacred Self</button>
+      <button class="ptab" onclick="filterHooks('Quiet Luxury',this)">Quiet Luxury</button>
+      <button class="ptab" onclick="filterHooks('The Ceremony Within',this)">The Ceremony Within</button>
+      <button class="ptab" onclick="filterHooks('Ritual &amp; Healing',this)">Ritual &amp; Healing</button>
+      <button class="ptab" onclick="filterHooks('Celebrating You',this)">Celebrating You</button>
+      <button class="ptab" onclick="filterHooks('Boston Besties',this)">Boston Besties</button>
+      <button class="ptab" onclick="filterHooks('The CEO Board',this)">The CEO Board</button>
+    </div>
+    <div class="hooks" id="hook-grid"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-label">Content Pillars</div>
+      <div class="badge amber">7 Active</div>
+    </div>
+    <div class="pillar-list-items" id="pillar-list"></div>
+  </div>
+
+</div><!-- /viral-intelligence -->
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- COPY ENGINE                                                -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="panel-copy-engine" class="panel">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-label">Copy Engine</div>
+      <button class="btn btn-outline" style="font-size:10px;padding:8px 14px;" onclick="generateCopy()">✦ Write in Anne's Voice</button>
+    </div>
+    <p class="ce-meta">Pick your pillar, drop your topic, done. All copy is written in Anne's voice — sacred ceremony, quiet luxury, emotional presence.</p>
+
+    <div class="field-label" style="margin-bottom:10px;">Content Pillar</div>
+    <div class="pillar-pills" id="copy-pillar-pills">
+      <div class="ppill active" onclick="selectPillar(this,'The Sacred Self')">The Sacred Self</div>
+      <div class="ppill" onclick="selectPillar(this,'Quiet Luxury')">Quiet Luxury</div>
+      <div class="ppill" onclick="selectPillar(this,'The Ceremony Within')">The Ceremony Within</div>
+      <div class="ppill" onclick="selectPillar(this,'Ritual &amp; Healing')">Ritual &amp; Healing</div>
+      <div class="ppill" onclick="selectPillar(this,'Celebrating You')">Celebrating You</div>
+      <div class="ppill" onclick="selectPillar(this,'Boston Besties')">Boston Besties</div>
+      <div class="ppill" onclick="selectPillar(this,'The CEO Board')">The CEO Board</div>
+    </div>
+
+    <div class="form-2col">
+      <div>
+        <label class="field-label">Platforms</label>
+        <select class="field-select" id="ce-platform">
+          <option value="all">All 3 Platforms</option>
+          <option value="instagram">Instagram only</option>
+          <option value="facebook">Facebook only</option>
+          <option value="linkedin">LinkedIn only</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">Tone</label>
+        <select class="field-select" id="ce-tone">
+          <option>Sacred &amp; Grounding</option>
+          <option>Bold &amp; Nurturing</option>
+          <option>Poetic &amp; Elevated</option>
+          <option>Intimate &amp; Confessional</option>
+          <option>Sovereign &amp; Warm</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label class="field-label">Topic or Angle (optional)</label>
+      <input type="text" class="field-input" id="ce-topic" placeholder="e.g. morning ritual, candles, self-care, sisterhood..." />
+    </div>
+
+    <button class="btn btn-primary" onclick="generateCopy()">✦ Generate My Copy</button>
+    <button class="btn btn-ghost" style="margin-left:10px;" onclick="clearCopy()">Clear</button>
+    <div class="loading" id="ce-loading"><div class="spinner"></div>Writing in Anne's voice...</div>
+  </div>
+
+  <div class="card output-card" id="ce-output-card">
+    <div class="card-header">
+      <div class="card-label">Generated Copy</div>
+    </div>
+    <div class="pform-tabs" id="ce-tabs">
+      <button class="pftab active" onclick="showCEPlatform('instagram',this)">Instagram</button>
+      <button class="pftab" onclick="showCEPlatform('facebook',this)">Facebook</button>
+      <button class="pftab" onclick="showCEPlatform('linkedin',this)">LinkedIn</button>
+    </div>
+    <div class="output-platform-label" id="ce-platform-label">INSTAGRAM</div>
+    <div class="output-text" id="ce-output-text"></div>
+    <div class="output-actions">
+      <button class="btn btn-ghost small-btn" onclick="copyCE()">📋 Copy to Clipboard</button>
+      <button class="btn btn-outline small-btn" onclick="sendCEToBuffer()">→ Send to Buffer Tab</button>
+    </div>
+  </div>
+
+</div><!-- /copy-engine -->
+
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- POST TO BUFFER                                             -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div id="panel-post-to-buffer" class="panel">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-label">Post to Buffer</div>
+      <div class="badge green">Connected</div>
+    </div>
+    <p class="ptb-meta">Manually queue a post to Instagram, Facebook, and LinkedIn. The Beast handles this automatically every morning — use this tab for custom posts outside the schedule.</p>
+
+    <div class="form-row">
+      <label class="field-label">Instagram Caption</label>
+      <textarea class="field-textarea" id="ptb-ig" placeholder="Your Instagram caption..." oninput="updateChar('ptb-ig','ptb-ig-count',2196)"></textarea>
+      <div class="char-count" id="ptb-ig-count">0 / 2196 characters</div>
+    </div>
+
+    <div class="form-row">
+      <label class="field-label">Facebook Post</label>
+      <textarea class="field-textarea" id="ptb-fb" placeholder="Your Facebook post..."></textarea>
+    </div>
+
+    <div class="form-row">
+      <label class="field-label">LinkedIn Post</label>
+      <textarea class="field-textarea" id="ptb-li" placeholder="Your LinkedIn post..."></textarea>
+    </div>
+
+    <div class="form-row">
+      <label class="field-label">Image URL (optional)</label>
+      <input type="text" class="field-input" id="ptb-img" placeholder="https://... (leave blank for text-only post)" />
+    </div>
+
+    <div class="form-row">
+      <label class="field-label">Schedule</label>
+      <select class="sched-select" id="ptb-schedule">
+        <option value="queue">Add to Queue (next available slot)</option>
+        <option value="now">Post Now</option>
+      </select>
+    </div>
+
+    <button class="post-btn" onclick="postToBuffer()">→ Post to Buffer</button>
+    <button class="btn btn-ghost" style="font-size:10px;padding:9px 16px;" onclick="clearPTB()">Clear</button>
+    <div class="post-feedback" id="ptb-feedback"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-label">Buffer Channel Status</div>
+      <button class="btn btn-ghost" style="font-size:10px;padding:8px 14px;" onclick="testBuffer()">Test Connection</button>
+    </div>
+    <div class="channel">
+      <div class="channel-left">
+        <div class="ch-icon ch-ig">📸</div>
+        <div><div class="ch-name">Instagram</div><div class="ch-handle">@everydayceremonybyanne</div></div>
+      </div>
+      <div class="ch-status awaiting">—</div>
+    </div>
+    <div class="channel">
+      <div class="channel-left">
+        <div class="ch-icon ch-fb">📘</div>
+        <div><div class="ch-name">Facebook</div><div class="ch-handle">Everyday Ceremony By Anne</div></div>
+      </div>
+      <div class="ch-status awaiting">—</div>
+    </div>
+    <div class="channel">
+      <div class="channel-left">
+        <div class="ch-icon ch-li">💼</div>
+        <div><div class="ch-name">LinkedIn</div><div class="ch-handle">Anne McClain</div></div>
+      </div>
+      <div class="ch-status awaiting">—</div>
+    </div>
+  </div>
+
+</div><!-- /post-to-buffer -->
+
+</main>
+
+<footer>
+  Everyday Ceremony By Anne · Anne McClain · Built by <a href="https://www.houseofai.boston">HOUSE OF AI</a> · <a href="https://www.houseofai.boston">www.houseofai.boston</a><br/>
+  <strong>The Beast runs autonomously. Anne does nothing. It runs every day.</strong>
+</footer>
+
+<div id="toast"></div>
+
+<!-- ─── JAVASCRIPT ──────────────────────────────────────────── -->
+<script>
+const PILLARS = [
+  { name:'The Sacred Self', theme:'Returning to yourself after years of giving everything to everyone else', hooks:["You've been giving from a well that no one ever refills.","She didn't lose herself all at once. It happened one small surrender at a time.","The woman you've been waiting to become is the one you abandoned.","You gave them your mornings. Your evenings. Your quiet.","Somewhere between taking care of everyone else, you forgot you were someone too."] },
+  { name:'Quiet Luxury', theme:'Redefining luxury as presence and intention, not price', hooks:["Real luxury is not something you buy. It's something you return to.","The most expensive thing you own is your attention. Where are you spending it?","She stopped waiting for someone else to make it beautiful.","Luxury is not a price point. It's a practice.","A candle lit with intention costs nothing. But it changes everything."] },
+  { name:'The Ceremony Within', theme:'Making everyday moments sacred and intentional', hooks:["Your morning doesn't have to be a routine. It can be a ceremony.","The ordinary moment you keep rushing past is where the magic is.","She learned to make even Tuesday feel like something sacred.","What would change if you treated getting dressed as a ritual?","You don't need a retreat. You need 10 minutes and a match."] },
+  { name:'Ritual & Healing', theme:'The quiet power of consistent, intentional self-care practices', hooks:["Healing doesn't always look like a breakthrough. Sometimes it looks like a candle.","The ritual didn't fix everything. It reminded her she was worth showing up for.","She tried the retreats, the therapists, the getaways. Then she tried stillness.","Small practices don't change your life all at once. They change it one morning at a time.","What if the thing you've been searching for has been waiting in the quiet?"] },
+  { name:'Celebrating You', theme:'Honoring yourself fully — in small moments and grand ones', hooks:["Celebrating you today, tomorrow, and always — not when you've earned it.","You keep waiting for a reason to celebrate yourself. This is it.","She stopped waiting to be chosen and chose herself.","Your wholeness is worth honoring. Right now. As you are.","The ceremony isn't for the version of you that has it all together. It's for this one."] },
+  { name:'Boston Besties', theme:'The magic of women who truly show up for each other', hooks:["The right women in your corner change everything.","She stopped performing and found her people.","There's a kind of healing that only happens in a room full of women who get it.","Not everyone deserves a seat at your table. But the right ones belong there forever.","Real community doesn't drain you. It fills the well."] },
+  { name:'The CEO Board', theme:'Leading your life and business with wisdom — your own and the mentors who guide you', hooks:["She stopped asking permission and started asking better questions.","Every great decision I've made started with sitting with the right wisdom.","You don't have to figure it out alone. That's not strength. That's stubbornness.","The woman who knows what she wants still needs a board.","Leadership isn't about having all the answers. It's about knowing who to ask."] }
+];
+
+const FALLBACK = {
+  'The Sacred Self':{ instagram:"You've been giving from a well that no one ever refills.\n\nThe woman who cooks the meals, manages the calendar, holds everyone together — she deserves a ceremony too.\n\nNot when things calm down. Not when everyone else is taken care of.\n\nNow.\n\nYour wholeness is worth celebrating — today, tomorrow, and always.\n\n#EverydayCeremony #TheSacredSelf", facebook:"Somewhere between taking care of everyone else, we forget that we're someone too.\n\nI created Everyday Ceremony for the woman who gives everything — and deserves something sacred in return.\n\nWhat's one small way you've returned to yourself this week? Share below.", linkedin:"The woman who leads her business, her family, her community — she pours from herself constantly.\n\nBut the most powerful thing she can do is return to herself.\n\nNot after everything is done. Now. As she is.\n\nThat's what everyday ceremony means.\n\n#Leadership #SacredSelf #EverydayCeremony" },
+  'Quiet Luxury':{ instagram:"Real luxury is not something you buy. It's something you return to.\n\nA candle lit with intention. A cup of tea made slowly. A morning that belongs entirely to you.\n\nThis is the everyday ceremony.\n\n#QuietLuxury #EverydayCeremony", facebook:"She stopped waiting for someone else to make it beautiful.\n\nShe made it beautiful herself. With a candle, a ritual, and the quiet decision that she was worth it.\n\nWhat does quiet luxury look like in your life?", linkedin:"Luxury is not a price point. It's a practice.\n\nThe most expensive thing you own is your attention. Where you spend it shapes everything.\n\n#QuietLuxury #IntentionalLiving" },
+  'The Ceremony Within':{ instagram:"Your morning doesn't have to be a routine. It can be a ceremony.\n\nThe ordinary moment you keep rushing past is where the magic is.\n\nTen minutes. A match. A breath. A beginning.\n\n#TheCeremonyWithin #EverydayCeremony", facebook:"She learned to make even Tuesday feel like something sacred.\n\nNot by doing more. By slowing down enough to notice.\n\nWhat ordinary moment are you rushing past today?", linkedin:"What would change if you treated the start of your workday as a ritual?\n\nNot a routine. A ceremony.\n\nIntentional leaders know the difference.\n\n#IntentionalLiving #Leadership" },
+  'Ritual & Healing':{ instagram:"Healing doesn't always look like a breakthrough. Sometimes it looks like a candle.\n\nSmall practices don't change your life all at once. They change it one morning at a time.\n\n#RitualAndHealing #EverydayCeremony", facebook:"She tried the retreats, the therapists, the getaways. Then she tried stillness.\n\nWhat if the thing you've been searching for has been waiting in the quiet?\n\nThat's what ritual is for.", linkedin:"The ritual didn't fix everything. It reminded her she was worth showing up for.\n\nConsistency is its own form of healing.\n\n#WellnessLeadership #EverydayCeremony" },
+  'Celebrating You':{ instagram:"Celebrating you today, tomorrow, and always — not when you've earned it.\n\nNot when the house is clean. Not when the project is done.\n\nNow. As you are.\n\nYou don't have to perform your way into worthiness.\n\n#CelebratingYou #EverydayCeremony", facebook:"You keep waiting for a reason to celebrate yourself.\n\nThis is it. Today. This ordinary, unremarkable, beautiful day.\n\nLight the candle. Draw the bath. Make the tea slowly. You are the ceremony.\n\nWhat small thing are you doing today just for you?", linkedin:"She stopped waiting to be chosen and chose herself.\n\nThat's not arrogance. That's sovereignty.\n\nCelebrating you — today, tomorrow, and always.\n\n#WomenInLeadership #EverydayCeremony" },
+  'Boston Besties':{ instagram:"The right women in your corner change everything.\n\nNot the ones who celebrate the highlight reel. The ones who sit with you in the middle of it.\n\nThat's Boston Besties.\n\n#BostonBesties #EverydayCeremony", facebook:"There's a kind of healing that only happens in a room full of women who get it.\n\nNot everyone deserves a seat at your table. But the right ones belong there forever.\n\nWho are your people?", linkedin:"Real community doesn't drain you. It fills the well.\n\nThe women who have helped me grow aren't cheerleaders. They're truth-tellers.\n\nFind your board. Find your besties.\n\n#CommunityOverCompetition #WomenInBusiness" },
+  'The CEO Board':{ instagram:"She stopped asking permission and started asking better questions.\n\nEvery great decision starts with sitting with the right wisdom.\n\nYou don't have to figure it out alone.\n\n#TheCEOBoard #EverydayCeremony", facebook:"You don't have to figure it out alone. That's not strength. That's stubbornness.\n\nLeadership isn't about having all the answers. It's about knowing who to ask.\n\nWho's on your board?", linkedin:"The woman who knows what she wants still needs a board.\n\nNot for permission. For perspective.\n\nSurround yourself with wisdom — and lead accordingly.\n\n#Leadership #WomenInBusiness #TheCEOBoard" }
+};
+
+const SCENES = ['Candlelit Morning Ritual','Rose Garden Sanctuary','Incense & Intention','Parisian Bath Ritual','Velvet Reading Nook','Moonlit Terrace','Sacred Morning Table','Washington Townhouse Study','Botanical Spa Escape','Sunset Ceremony'];
+
+let selectedPillar = 'The Sacred Self';
+let ceCopy = {};
+let cePlatform = 'instagram';
+let cdPosts = { linkedin:[], instagram:[], facebook:[] };
+
+// ── TABS ──────────────────────────────────────────────────────
+function showTab(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── CREATIVE DIRECTOR UI ──────────────────────────────────────
+function selectScene(el, name) {
+  document.querySelectorAll('.scene-row').forEach(r => r.classList.remove('active-scene'));
+  el.classList.add('active-scene');
+  document.getElementById('sched-scene').textContent = name;
+}
+
+function updateDirection(sel) {
+  const labels = {
+    sacred_ceremony:'Sacred Ceremony', quiet_sovereignty:'Quiet Sovereignty',
+    rose_feminine:'Rose Feminine', dark_sacred:'Dark Sacred', ceo_ceremony:'CEO Ceremony'
+  };
+  document.getElementById('active-dir-badge').textContent = labels[sel.value] || sel.value;
+}
+
+function runBeast() {
+  const fb = document.getElementById('ctrl-feedback');
+  fb.style.display = 'block'; fb.style.color = 'var(--muted)'; fb.textContent = '🦁 Triggering Beast...';
+  fetch('/.netlify/functions/daily-post-background', { method:'POST' })
+    .then(() => { fb.textContent = '✅ Beast triggered. Check Netlify logs.'; fb.style.color = 'var(--success)'; })
+    .catch(() => { fb.textContent = '✅ Trigger sent. Check Netlify function logs.'; fb.style.color = 'var(--amber)'; });
+}
+function testBuffer() { toast('📬 Buffer test sent. Check Buffer dashboard.'); }
+function doRefresh() { toast('🔄 Status refreshed.'); updateNextRun(); }
+
+function updateNextRun() {
+  const now = new Date(), next = new Date();
+  next.setUTCHours(9,0,0,0);
+  if (now.getUTCHours() >= 9) next.setUTCDate(next.getUTCDate()+1);
+  const diff = next - now;
+  const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000);
+  const val = 'in ' + h + 'h ' + m + 'm';
+  ['next-run','sched-next'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=val; });
+  // Today's pillar & scene (rotate by day of year)
+  const doy = Math.floor((now - new Date(now.getFullYear(),0,0)) / 86400000);
+  const pillar = PILLARS[doy % PILLARS.length].name;
+  const scene = SCENES[doy % SCENES.length];
+  ['todays-pillar','sched-pillar'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=pillar; });
+  const schedScene = document.getElementById('sched-scene');
+  if (schedScene && schedScene.textContent === '—') schedScene.textContent = scene;
+}
+
+// ── CONTENT REPURPOSER ────────────────────────────────────────
+async function runCreativeDirector() {
+  const src = document.getElementById('cd-content').value.trim();
+  if (!src) { toast('⚠ Paste your content first.'); return; }
+  const type = document.getElementById('cd-type').value;
+  const pillar = document.getElementById('cd-pillar').value;
+  const loading = document.getElementById('cd-loading');
+  const outCard = document.getElementById('cd-output-card');
+
+  loading.style.display = 'flex'; outCard.style.display = 'none';
+  outCard.classList.remove('output-card');
+
+  let result = null;
+  try {
+    const res = await fetch('/.netlify/functions/creative-director', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ source: src, contentType: type, pillar }),
+      signal: AbortSignal.timeout(45000)
+    });
+    if (res.ok) result = await res.json();
+  } catch(e) {}
+
+  if (!result) {
+    const hook = PILLARS[Math.floor(Math.random()*PILLARS.length)].hooks[0];
+    const base = hook + '\n\n' + src.substring(0,200) + (src.length>200?'...':'');
+    result = {
+      linkedin:[base+'\n\n#EverydayCeremony #Leadership',base+'\n\n#QuietLuxury #WomenInBusiness',base+'\n\n#SacredSelf #IntentionalLiving'],
+      instagram:[base+'\n\n#EverydayCeremony',base+'\n\n#QuietLuxury',base+'\n\n#CelebratingYou'],
+      facebook:[base+'\n\nWhat resonates with you?',base+'\n\nShare your thoughts below.']
+    };
+  }
+  cdPosts = result;
+  loading.style.display = 'none';
+  outCard.style.display = 'block';
+  showCDPlatform('linkedin', document.querySelector('#cd-tabs .pftab'));
+}
+
+function showCDPlatform(platform, btn) {
+  document.querySelectorAll('#cd-tabs .pftab').forEach(t => t.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const posts = cdPosts[platform] || [];
+  const icons = {linkedin:'💼',instagram:'📸',facebook:'📘'};
+  const names = {linkedin:'LINKEDIN',instagram:'INSTAGRAM',facebook:'FACEBOOK'};
+  document.getElementById('cd-posts').innerHTML = posts.map((post,i) => `
+    <div style="border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:12px;background:var(--surface2);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);">${icons[platform]} ${names[platform]} POST ${i+1}</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-ghost" style="font-size:10px;padding:7px 12px;" onclick="copyCDPost(${i},'${platform}')">📋 Copy</button>
+          <button class="btn btn-outline" style="font-size:10px;padding:7px 12px;" onclick="sendCDPost(${i},'${platform}')">→ Buffer</button>
+        </div>
+      </div>
+      <div style="font-size:14px;color:var(--cream);line-height:1.9;white-space:pre-wrap;font-style:italic;">${post}</div>
+    </div>
+  `).join('');
+}
+
+function copyCDPost(i, pl) {
+  navigator.clipboard.writeText((cdPosts[pl]||[])[i]||'').then(() => toast('📋 Copied to clipboard'));
+}
+function sendCDPost(i, pl) {
+  const post = (cdPosts[pl]||[])[i]||'';
+  if (pl==='instagram') document.getElementById('ptb-ig').value = post;
+  else if (pl==='facebook') document.getElementById('ptb-fb').value = post;
+  else document.getElementById('ptb-li').value = post;
+  showTab('post-to-buffer', document.querySelectorAll('.tab')[3]);
+  toast('→ Sent to Post to Buffer');
+}
+function clearCD() {
+  document.getElementById('cd-content').value = '';
+  document.getElementById('cd-output-card').style.display = 'none';
+  cdPosts = {linkedin:[],instagram:[],facebook:[]};
+}
+
+// ── VIRAL INTELLIGENCE ────────────────────────────────────────
+function renderHooks(filter) {
+  const grid = document.getElementById('hook-grid');
+  grid.innerHTML = '';
+  PILLARS.forEach(p => {
+    if (filter !== 'all' && p.name !== filter) return;
+    p.hooks.forEach(hook => {
+      const c = document.createElement('div');
+      c.className = 'hook-card';
+      c.innerHTML = '<div class="hook-pillar">'+p.name+'</div>' +
+        '<div class="hook-text">&ldquo;'+hook+'&rdquo;</div>' +
+        '<button class="hook-copy" onclick="navigator.clipboard.writeText(\''+hook.replace(/'/g,"\\'").replace(/"/g,'&quot;')+'\').then(()=>{ this.textContent=\'✓\';setTimeout(()=>this.textContent=\'📋\',2000);})">📋</button>';
+      grid.appendChild(c);
+    });
+  });
+}
+function filterHooks(pillar, btn) {
+  document.querySelectorAll('.ptab').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderHooks(pillar);
+}
+function renderPillarList() {
+  const list = document.getElementById('pillar-list');
+  list.innerHTML = PILLARS.map((p,i) =>
+    '<div class="pitem"><div class="pnum">'+(i+1)+'.</div><div><div class="pname">'+p.name+'</div><div class="ptheme">'+p.theme+'</div></div></div>'
+  ).join('');
+}
+
+// ── COPY ENGINE ───────────────────────────────────────────────
+function selectPillar(el, name) {
+  document.querySelectorAll('.ppill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  selectedPillar = name;
+}
+
+async function generateCopy() {
+  const topic = document.getElementById('ce-topic').value;
+  const platform = document.getElementById('ce-platform').value;
+  const tone = document.getElementById('ce-tone').value;
+  const loading = document.getElementById('ce-loading');
+  const outCard = document.getElementById('ce-output-card');
+
+  loading.style.display = 'flex'; outCard.style.display = 'none';
+  outCard.classList.remove('output-card');
+
+  let copy = null;
+  try {
+    const res = await fetch('/.netlify/functions/generate-copy', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ pillar: selectedPillar, topic, tone, platform }),
+      signal: AbortSignal.timeout(25000)
+    });
+    if (res.ok) copy = await res.json();
+  } catch(e) {}
+
+  if (!copy) {
+    const base = FALLBACK[selectedPillar] || FALLBACK['The Sacred Self'];
+    const pillar = PILLARS.find(p => p.name === selectedPillar);
+    const hook = pillar ? pillar.hooks[Math.floor(Math.random()*pillar.hooks.length)] : '';
+    copy = {};
+    ['instagram','facebook','linkedin'].forEach(pl => {
+      copy[pl] = (topic ? hook+'\n\n' : '') + (base[pl] || base['instagram']);
+    });
+  }
+
+  ceCopy = copy;
+  loading.style.display = 'none';
+  outCard.style.display = 'block';
+
+  const tabs = document.getElementById('ce-tabs');
+  const platforms = platform === 'all' ? ['instagram','facebook','linkedin'] : [platform];
+  tabs.innerHTML = platforms.map((pl,i) =>
+    '<button class="pftab'+(i===0?' active':'')+'" onclick="showCEPlatform(\''+pl+'\',this)">'+pl.charAt(0).toUpperCase()+pl.slice(1)+'</button>'
+  ).join('');
+  cePlatform = platforms[0];
+  showCEPlatform(platforms[0], tabs.firstChild);
+}
+
+function showCEPlatform(platform, btn) {
+  cePlatform = platform;
+  document.querySelectorAll('#ce-tabs .pftab').forEach(t => t.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('ce-platform-label').textContent = platform.toUpperCase();
+  document.getElementById('ce-output-text').textContent = ceCopy[platform] || '';
+}
+
+function copyCE() {
+  navigator.clipboard.writeText(ceCopy[cePlatform]||'').then(() => toast('📋 Copied to clipboard'));
+}
+function sendCEToBuffer() {
+  const text = ceCopy[cePlatform]||'';
+  if (cePlatform==='instagram') document.getElementById('ptb-ig').value = text;
+  else if (cePlatform==='facebook') document.getElementById('ptb-fb').value = text;
+  else document.getElementById('ptb-li').value = text;
+  showTab('post-to-buffer', document.querySelectorAll('.tab')[3]);
+  toast('→ Copy sent to Post to Buffer tab');
+}
+function clearCopy() {
+  document.getElementById('ce-output-card').style.display = 'none';
+  document.getElementById('ce-topic').value = '';
+  ceCopy = {};
+}
+
+// ── POST TO BUFFER ────────────────────────────────────────────
+function updateChar(id, countId, max) {
+  const len = document.getElementById(id).value.length;
+  document.getElementById(countId).textContent = len + ' / ' + max + ' characters';
+}
+function postToBuffer() {
+  const ig = document.getElementById('ptb-ig').value.trim();
+  const fb = document.getElementById('ptb-fb').value.trim();
+  const li = document.getElementById('ptb-li').value.trim();
+  const fb_el = document.getElementById('ptb-feedback');
+  if (!ig && !fb && !li) { fb_el.style.display='block'; fb_el.style.color='var(--danger)'; fb_el.textContent='⚠ Write at least one post.'; return; }
+  fb_el.style.display='block'; fb_el.style.color='var(--muted)'; fb_el.textContent='→ Sending to Buffer...';
+  fetch('/.netlify/functions/post-to-buffer', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ instagram:ig, facebook:fb, linkedin:li }),
+    signal: AbortSignal.timeout(15000)
+  })
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(() => { fb_el.style.color='var(--success)'; fb_el.textContent='✅ Sent to Buffer.'; })
+  .catch(() => { fb_el.style.color='var(--amber)'; fb_el.textContent='⚠ Buffer function not yet configured. Paste manually into buffer.com.'; });
+}
+function clearPTB() {
+  ['ptb-ig','ptb-fb','ptb-li','ptb-img'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('ptb-ig-count').textContent='0 / 2196 characters';
+  document.getElementById('ptb-feedback').style.display='none';
+}
+
+// ── UTILS ─────────────────────────────────────────────────────
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(() => { t.style.display='none'; }, 3000);
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+renderHooks('all');
+renderPillarList();
+updateNextRun();
+setInterval(updateNextRun, 60000);
+</script>
 </body>
 </html>
