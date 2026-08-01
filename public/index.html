@@ -7,16 +7,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     :root {
-      --bg:       #1a0f0a;
-      --surface:  #2a1810;
-      --surface2: #3a2218;
-      --border:   #6b3d2a;
-      --gold:     #c9a46e;
-      --gold-lt:  #e8cfa0;
-      --cream:    #f5ede0;
-      --muted:    #a07858;
+      --bg:       #0a0616;
+      --surface:  #150d25;
+      --surface2: #1e1435;
+      --border:   #4a2a7a;
+      --amber:    #e88c1a;
+      --amber-lt: #f5b030;
+      --cream:    #f0e8ff;
+      --muted:    #9b72bc;
+      --purple:   #6b3fa0;
     }
+
     body {
       background: var(--bg);
       color: var(--cream);
@@ -25,264 +28,125 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px 24px 80px;
+      padding: 56px 24px 80px;
     }
-    header { text-align: center; margin-bottom: 56px; }
-    .rose-icon { font-size: 2rem; margin-bottom: 16px; }
-    h1 {
-      font-size: clamp(1.6rem, 4vw, 2.6rem);
-      font-weight: 300;
-      color: var(--gold-lt);
-      letter-spacing: 0.08em;
-      margin-bottom: 10px;
-    }
+
+    header { text-align: center; margin-bottom: 52px; }
+    .logo-wrap { margin-bottom: 20px; }
+    .logo-wrap img { width: 120px; height: 120px; object-fit: contain; filter: drop-shadow(0 0 18px rgba(232,140,26,0.35)); }
+    h1 { font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 300; color: var(--amber-lt); letter-spacing: 0.08em; margin-bottom: 10px; }
     .tagline { font-size: 1rem; font-style: italic; color: var(--muted); letter-spacing: 0.05em; }
-    .status-pill {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 6px 20px;
-      border: 1px solid var(--gold);
-      border-radius: 40px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      color: var(--gold);
-      text-transform: uppercase;
-    }
-    .divider { width: 60px; height: 1px; background: var(--border); margin: 48px auto; }
-    .divider-sm { width: 30px; height: 1px; background: var(--border); margin: 12px auto; }
-    .section-label {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-align: center;
-      margin-bottom: 32px;
-    }
-    .agents {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      width: 100%;
-      max-width: 900px;
-      margin-bottom: 8px;
-    }
-    .agent-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 32px 28px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.3s, background 0.3s;
-    }
-    .agent-card:hover { border-color: var(--gold); background: var(--surface2); }
-    .agent-card.active { border-color: var(--gold); background: var(--surface2); }
-    .agent-icon { font-size: 1.6rem; margin-bottom: 14px; }
-    .agent-role {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 10px;
-    }
-    .agent-title { font-size: 1.2rem; font-weight: 400; color: var(--gold-lt); letter-spacing: 0.04em; margin-bottom: 8px; }
-    .agent-desc { font-size: 0.85rem; font-style: italic; color: var(--muted); line-height: 1.6; }
-    .agent-detail {
-      display: none;
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-      text-align: left;
-    }
+    .status-pill { display: inline-block; margin-top: 20px; padding: 6px 20px; border: 1px solid var(--amber); border-radius: 40px; font-family: 'Montserrat', sans-serif; font-size: 0.68rem; letter-spacing: 0.15em; color: var(--amber); text-transform: uppercase; }
+    .divider { width: 60px; height: 1px; background: var(--border); margin: 44px auto; }
+    .divider-sm { width: 28px; height: 1px; background: var(--border); margin: 10px auto; }
+    .section-label { font-family: 'Montserrat', sans-serif; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); text-align: center; margin-bottom: 28px; }
+    .agents { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; width: 100%; max-width: 880px; margin-bottom: 8px; }
+    .agent-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 28px 24px; text-align: center; cursor: pointer; transition: border-color 0.25s, background 0.25s; }
+    .agent-card:hover, .agent-card.active { border-color: var(--amber); background: var(--surface2); }
+    .agent-icon { font-size: 1.5rem; margin-bottom: 12px; }
+    .agent-role { font-family: 'Montserrat', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+    .agent-title { font-size: 1.15rem; font-weight: 400; color: var(--amber-lt); letter-spacing: 0.04em; margin-bottom: 8px; }
+    .agent-desc { font-size: 0.83rem; font-style: italic; color: var(--muted); line-height: 1.6; }
+    .agent-detail { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); text-align: left; }
     .agent-card.active .agent-detail { display: block; }
-    .agent-detail h4 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.58rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 10px;
-    }
+    .agent-detail h4 { font-family: 'Montserrat', sans-serif; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; }
     .agent-detail ul { list-style: none; }
-    .agent-detail ul li {
-      font-size: 0.8rem;
-      color: var(--cream);
-      font-style: italic;
-      padding: 5px 0;
-      border-bottom: 1px solid rgba(107,61,42,0.3);
-      line-height: 1.5;
-    }
+    .agent-detail ul li { font-size: 0.8rem; color: var(--cream); font-style: italic; padding: 4px 0; border-bottom: 1px solid rgba(74,42,122,0.4); line-height: 1.5; }
     .agent-detail ul li:last-child { border-bottom: none; }
-    .click-hint {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.58rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--border);
-      text-align: center;
-      margin-bottom: 48px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      width: 100%;
-      max-width: 900px;
-    }
-    .card {
-      background: var(--surface);
-      border: 1px solid rgba(107,61,42,0.5);
-      border-radius: 2px;
-      padding: 22px 20px;
-      text-align: center;
-      transition: border-color 0.3s;
-    }
-    .card:hover { border-color: var(--gold); }
-    .card-icon { font-size: 1.2rem; margin-bottom: 10px; }
-    .card-title { font-size: 0.95rem; font-weight: 400; color: var(--gold-lt); letter-spacing: 0.04em; margin-bottom: 6px; }
-    .card-desc { font-size: 0.78rem; font-style: italic; color: var(--muted); line-height: 1.55; }
-    footer {
-      margin-top: 64px;
-      text-align: center;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      color: var(--border);
-      text-transform: uppercase;
-    }
+    .click-hint { font-family: 'Montserrat', sans-serif; font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--border); text-align: center; margin-bottom: 44px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; width: 100%; max-width: 880px; }
+    .dept-card { background: var(--surface); border: 1px solid rgba(74,42,122,0.5); border-radius: 2px; padding: 22px 18px; text-align: center; cursor: pointer; transition: border-color 0.25s, background 0.25s; }
+    .dept-card:hover, .dept-card.active { border-color: var(--amber); background: var(--surface2); }
+    .dept-icon { font-size: 1.2rem; margin-bottom: 10px; }
+    .dept-title { font-size: 0.95rem; font-weight: 400; color: var(--amber-lt); letter-spacing: 0.04em; margin-bottom: 6px; }
+    .dept-theme { font-size: 0.76rem; font-style: italic; color: var(--muted); line-height: 1.55; }
+    .dept-hooks { display: none; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); text-align: left; }
+    .dept-card.active .dept-hooks { display: block; }
+    .dept-hooks h4 { font-family: 'Montserrat', sans-serif; font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; }
+    .dept-hooks ul { list-style: none; }
+    .dept-hooks ul li { font-size: 0.8rem; font-style: italic; color: var(--cream); padding: 5px 0; border-bottom: 1px solid rgba(74,42,122,0.35); line-height: 1.5; }
+    .dept-hooks ul li:last-child { border-bottom: none; }
+    footer { margin-top: 60px; text-align: center; font-family: 'Montserrat', sans-serif; font-size: 0.58rem; letter-spacing: 0.15em; color: var(--border); text-transform: uppercase; }
   </style>
 </head>
 <body>
   <header>
-    <div class="rose-icon">🌹</div>
+    <div class="logo-wrap"><img src="logo.png" alt="Everyday Ceremony By Anne" /></div>
     <h1>Everyday Ceremony By Anne</h1>
     <p class="tagline">Celebrating You Today, Tomorrow and Always</p>
     <span class="status-pill">✶ The Beast is Active</span>
   </header>
-
   <div class="divider"></div>
   <p class="section-label">Content Team</p>
-
   <div class="agents">
-
-    <div class="agent-card" onclick="toggle(this)">
+    <div class="agent-card" onclick="toggleAgent(this)">
       <div class="agent-icon">🎯</div>
       <div class="agent-role">Role 01</div>
       <div class="agent-title">Viral Architect</div>
       <div class="divider-sm"></div>
       <div class="agent-desc">Engineers the opening line that stops the scroll and makes her read the next word</div>
-      <div class="agent-detail">
-        <h4>What She Does</h4>
-        <ul>
-          <li>Generates 5 hooks per post with scores</li>
-          <li>Works across Instagram, LinkedIn, Facebook</li>
-          <li>Pulls from 10 HOAI hook frameworks</li>
-          <li>Built for the crowned woman returning to herself</li>
-          <li>Picks the winner and tells you exactly why</li>
-        </ul>
-      </div>
+      <div class="agent-detail"><h4>What She Does</h4><ul><li>Generates 5 hooks per post with scores</li><li>Works across Instagram, LinkedIn, Facebook</li><li>Pulls from 10 HOAI hook frameworks</li><li>Built for the crowned woman returning to herself</li><li>Picks the winner and tells you exactly why</li></ul></div>
     </div>
-
-    <div class="agent-card" onclick="toggle(this)">
+    <div class="agent-card" onclick="toggleAgent(this)">
       <div class="agent-icon">🌸</div>
       <div class="agent-role">Role 02</div>
       <div class="agent-title">Creative Director</div>
       <div class="divider-sm"></div>
       <div class="agent-desc">Turns one piece of Anne's content into a full week of posts across all 3 platforms</div>
-      <div class="agent-detail">
-        <h4>What She Does</h4>
-        <ul>
-          <li>Extracts 8 angles from any piece of content</li>
-          <li>Writes 3 LinkedIn, 3 Instagram, 2 Facebook posts</li>
-          <li>Tags each post to Anne's 7 content pillars</li>
-          <li>Grades every post before delivery</li>
-          <li>Flags the weakest post and the best unused angle</li>
-        </ul>
-      </div>
+      <div class="agent-detail"><h4>What She Does</h4><ul><li>Extracts 8 angles from any piece of content</li><li>Writes 3 LinkedIn, 3 Instagram, 2 Facebook posts</li><li>Tags each post to Anne's 7 content pillars</li><li>Grades every post before delivery</li><li>Flags the weakest post and best unused angle</li></ul></div>
     </div>
-
-    <div class="agent-card" onclick="toggle(this)">
+    <div class="agent-card" onclick="toggleAgent(this)">
       <div class="agent-icon">👑</div>
       <div class="agent-role">Role 03</div>
       <div class="agent-title">Autonomous Poster</div>
       <div class="divider-sm"></div>
-      <div class="agent-desc">The quality gate — scores every post against Anne's voice before it enters the autonomous queue</div>
-      <div class="agent-detail">
-        <h4>What She Does</h4>
-        <ul>
-          <li>Scores Hook, Identity, Voice, Flow, CTA out of 10</li>
-          <li>Flags forbidden words and off-brand framing</li>
-          <li>Returns top 3 fixes — specific and actionable</li>
-          <li>Rewrites to queue-ready in Anne's exact voice</li>
-          <li>Clears posts that run without human review</li>
-        </ul>
-      </div>
+      <div class="agent-desc">Quality gate — scores every post against Anne's voice before it enters the autonomous queue</div>
+      <div class="agent-detail"><h4>What She Does</h4><ul><li>Scores Hook, Identity, Voice, Flow, CTA out of 10</li><li>Flags forbidden words and off-brand framing</li><li>Returns top 3 fixes — specific and actionable</li><li>Rewrites to queue-ready in Anne's exact voice</li><li>Clears posts that run without human review</li></ul></div>
     </div>
-
   </div>
-
   <p class="click-hint">Tap any card to expand</p>
-
   <p class="section-label">Content Departments</p>
-
   <div class="grid">
-    <div class="card">
-      <div class="card-icon">🕯️</div>
-      <div class="card-title">The Sacred Self</div>
-      <div class="divider-sm"></div>
-      <div class="card-desc">Returning to yourself — one quiet moment at a time</div>
+    <div class="dept-card" onclick="toggleDept(this)">
+      <div class="dept-icon">🕯️</div><div class="dept-title">The Sacred Self</div><div class="divider-sm"></div>
+      <div class="dept-theme">Returning to yourself after years of giving everything to everyone else</div>
+      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>You've been giving from a well that no one ever refills.</li><li>She didn't lose herself all at once. It happened one small surrender at a time.</li><li>The woman you've been waiting to become is the one you abandoned.</li><li>You gave them your mornings. Your evenings. Your quiet.</li><li>Somewhere between taking care of everyone else, you forgot you were someone too.</li></ul></div>
     </div>
-    <div class="card">
-      <div class="card-icon">✨</div>
-      <div class="card-title">Quiet Luxury</div>
-      <div class="divider-sm"></div>
-      <div class="card-desc">Presence over price. Beauty in the everyday</div>
+    <div class="dept-card" onclick="toggleDept(this)">
+      <div class="dept-icon">✨</div><div class="dept-title">Quiet Luxury</div><div class="divider-sm"></div>
+      <div class="dept-theme">Redefining luxury as presence and intention, not price</div>
+      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>Real luxury is not something you buy. It's something you return to.</li><li>The most expensive thing you own is your attention. Where are you spending it?</li><li>She stopped waiting for someone else to make it beautiful.</li><li>Luxury is not a price point. It's a practice.</li><li>A candle lit with intention costs nothing. But it changes everything.</li></ul></div>
     </div>
-    <div class="card">
-      <div class="card-icon">🌸</div>
-      <div class="card-title">The Ceremony Within</div>
-      <div class="divider-sm"></div>
-      <div class="card-desc">Daily rituals that say: this moment is mine</div>
+    <div class="dept-card" onclick="toggleDept(this)">
+      <div class="dept-icon">🌸</div><div class="dept-title">The Ceremony Within</div><div class="divider-sm"></div>
+      <div class="dept-theme">Making everyday moments sacred and intentional</div>
+      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>Your morning doesn't have to be a routine. It can be a ceremony.</li><li>The ordinary moment you keep rushing past is where the magic is.</li><li>She learned to make even Tuesday feel like something sacred.</li><li>What would change if you treated getting dressed as a ritual?</li><li>You don't need a retreat. You need 10 minutes and a match.</li></ul></div>
     </div>
-    <div class="card">
-      <div class="card-icon">🌿</div>
-      <div class="card-title">Ritual &amp; Healing</div>
-      <div class="divider-sm"></div>
-      <div class="card-desc">Sacred practices that ground and restore</div>
+    <div class="dept-card" onclick="toggleDept(this)">
+      <div class="dept-icon">🌿</div><div class="dept-title">Ritual &amp; Healing</div><div class="divider-sm"></div>
+      <div class="dept-theme">The quiet power of consistent, intentional self-care practices</div>
+      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>Healing doesn't always look like a breakthrough. Sometimes it looks like a candle.</li><li>The ritual didn't fix everything. It reminded her she was worth showing up for.</li><li>She tried the retreats, the therapists, the getaways. Then she tried stillness.</li><li>Small practices don't change your life all at once. They change it one morning at a time.</li><li>What if the thing you've been searching for has been waiting in the quiet?</li></ul></div>
     </div>
-    <div class="card">
-      <div class="card-icon">💫</div>
-      <div class="card-title">Celebrating You</div>
-      <div class="divider-sm"></div>
-      <div class="card-desc">You deserve to be honored — every single day</div>
+    <div class="dept-card" onclick="toggleDept(this)">
+      <div class="dept-icon">💫</div><div class="dept-title">Celebrating You</div><div class="divider-sm"></div>
+      <div class="dept-theme">Honoring yourself fully — in small moments and grand ones</div>
+      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>Celebrating you today, tomorrow, and always — not when you've earned it.</li><li>You keep waiting for a reason to celebrate yourself. This is it.</li><li>She stopped waiting to be chosen and chose herself.</li><li>Your wholeness is worth honoring. Right now. As you are.</li><li>The ceremony isn't for the version of you that has it all together. It's for this one.</li></ul></div>
     </div>
-    <div class="card">
-      <div class="card-icon">🍵</div>
-      <div class="card-title">Boston Besties</div>
-      <div class="divider-sm"></div>
-      <div class="card-desc">Community, connection, and women who see each other</div>
+    <div class="dept-card" onclick="toggleDept(this)">
+      <div class="dept-icon">🍵</div><div class="dept-title">Boston Besties</div><div class="divider-sm"></div>
+      <div class="dept-theme">The magic of women who truly show up for each other — community, belonging, sisterhood</div>
+      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>The right women in your corner change everything.</li><li>She stopped performing and found her people.</li><li>There's a kind of healing that only happens in a room full of women who get it.</li><li>Not everyone deserves a seat at your table. But the right ones belong there forever.</li><li>Real community doesn't drain you. It fills the well.</li></ul></div>
     </div>
-    <div class="card">
-      <div class="card-icon">👑</div>
-      <div class="card-title">The CEO Board</div>
-      <div class="divider-sm"></div>
-      <div class="card-desc">Leading with wisdom, ceremony, and intention</div>
+    <div class="dept-card" onclick="toggleDept(this)">
+      <div class="dept-icon">👑</div><div class="dept-title">The CEO Board</div><div class="divider-sm"></div>
+      <div class="dept-theme">Leading your life and business with wisdom — your own and those who guide you</div>
+      <div class="dept-hooks"><h4>Live Hooks</h4><ul><li>She stopped asking permission and started asking better questions.</li><li>Every great decision I've made started with sitting with the right wisdom.</li><li>You don't have to figure it out alone. That's not strength. That's stubbornness.</li><li>The woman who knows what she wants still needs a board.</li><li>Leadership isn't about having all the answers. It's about knowing who to ask.</li></ul></div>
     </div>
   </div>
-
-  <footer>
-    <p>Powered by HOUSE OF AI &nbsp;·&nbsp; Everyday Ceremony By Anne</p>
-  </footer>
-
+  <footer><p>Powered by HOUSE OF AI &nbsp;·&nbsp; Everyday Ceremony By Anne</p></footer>
   <script>
-    function toggle(card) {
-      const wasActive = card.classList.contains('active');
-      document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('active'));
-      if (!wasActive) card.classList.add('active');
-    }
+    function toggleAgent(card) { const w = card.classList.contains('active'); document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('active')); if (!w) card.classList.add('active'); }
+    function toggleDept(card) { const w = card.classList.contains('active'); document.querySelectorAll('.dept-card').forEach(c => c.classList.remove('active')); if (!w) card.classList.add('active'); }
   </script>
 </body>
 </html>
