@@ -1,20 +1,149 @@
 <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Everyday Ceremony By Anne — Beast Active</title>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Everyday Ceremony By Anne — Beast Active</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet" />
   <style>
-    body { font-family: Georgia, serif; background: #3d0c1a; color: #c9a84c; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .card { text-align: center; padding: 40px; }
-    h1 { font-size: 2rem; margin-bottom: 8px; }
-    p { color: #e8d5a3; font-style: italic; }
-        </style>
-      </head>
-      <body>
-        <div class="card">
-          <h1>🌹 The Beast is Active</h1>
-          <p>Everyday Ceremony By Anne</p>
-          <p>Celebrating you today, tomorrow, and always.</p>
-        </div>
-      </body>
-      </html>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg:       #1a0f0a;
+      --surface:  #2a1810;
+      --border:   #6b3d2a;
+      --gold:     #c9a46e;
+      --gold-lt:  #e8cfa0;
+      --cream:    #f5ede0;
+      --muted:    #a07858;
+    }
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 24px 80px;
+    }
+    header { text-align: center; margin-bottom: 56px; }
+    .rose { font-size: 2rem; margin-bottom: 16px; }
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      font-weight: 300;
+      color: var(--gold-lt);
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .tagline { font-size: 1rem; font-style: italic; color: var(--muted); letter-spacing: 0.05em; }
+    .status-pill {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 6px 20px;
+      border: 1px solid var(--gold);
+      border-radius: 40px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .divider { width: 60px; height: 1px; background: var(--border); margin: 48px auto; }
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+    .card:hover { border-color: var(--gold); }
+    .card-icon { font-size: 1.4rem; margin-bottom: 12px; }
+    .card-title { font-size: 1.05rem; font-weight: 400; color: var(--gold-lt); letter-spacing: 0.04em; margin-bottom: 8px; }
+    .divider-sm { width: 30px; height: 1px; background: var(--border); margin: 12px auto; }
+    .card-desc { font-size: 0.82rem; font-style: italic; color: var(--muted); line-height: 1.6; }
+    footer {
+      margin-top: 64px;
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--border);
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="rose">🌹</div>
+    <h1>Everyday Ceremony By Anne</h1>
+    <p class="tagline">Celebrating You Today, Tomorrow and Always</p>
+    <span class="status-pill">✶ The Beast is Active</span>
+  </header>
+  <div class="divider"></div>
+  <p class="section-label">Content Departments</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-icon">🕯️</div>
+      <div class="card-title">The Sacred Self</div>
+      <div class="divider-sm"></div>
+      <div class="card-desc">Returning to yourself — one quiet moment at a time</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">✨</div>
+      <div class="card-title">Quiet Luxury</div>
+      <div class="divider-sm"></div>
+      <div class="card-desc">Presence over price. Beauty in the everyday</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌸</div>
+      <div class="card-title">The Ceremony Within</div>
+      <div class="divider-sm"></div>
+      <div class="card-desc">Daily rituals that say: this moment is mine</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌿</div>
+      <div class="card-title">Ritual &amp; Healing</div>
+      <div class="divider-sm"></div>
+      <div class="card-desc">Sacred practices that ground and restore</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💫</div>
+      <div class="card-title">Celebrating You</div>
+      <div class="divider-sm"></div>
+      <div class="card-desc">You deserve to be honored — every single day</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🍵</div>
+      <div class="card-title">Boston Besties</div>
+      <div class="divider-sm"></div>
+      <div class="card-desc">Community, connection, and women who see each other</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">👑</div>
+      <div class="card-title">The CEO Board</div>
+      <div class="divider-sm"></div>
+      <div class="card-desc">Leading with wisdom, ceremony, and intention</div>
+    </div>
+  </div>
+  <footer>
+    <p>Powered by HOUSE OF AI · Everyday Ceremony By Anne</p>
+  </footer>
+</body>
+</html>
