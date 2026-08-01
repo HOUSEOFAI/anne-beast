@@ -4,12 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Everyday Ceremony By Anne — Beast Active</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --bg:       #1a0f0a;
       --surface:  #2a1810;
+      --surface2: #3a2218;
       --border:   #6b3d2a;
       --gold:     #c9a46e;
       --gold-lt:  #e8cfa0;
@@ -27,7 +28,7 @@
       padding: 60px 24px 80px;
     }
     header { text-align: center; margin-bottom: 56px; }
-    .rose { font-size: 2rem; margin-bottom: 16px; }
+    .rose-icon { font-size: 2rem; margin-bottom: 16px; }
     h1 {
       font-size: clamp(1.6rem, 4vw, 2.6rem);
       font-weight: 300;
@@ -49,6 +50,7 @@
       text-transform: uppercase;
     }
     .divider { width: 60px; height: 1px; background: var(--border); margin: 48px auto; }
+    .divider-sm { width: 30px; height: 1px; background: var(--border); margin: 12px auto; }
     .section-label {
       font-family: 'Montserrat', sans-serif;
       font-size: 0.65rem;
@@ -58,26 +60,90 @@
       text-align: center;
       margin-bottom: 32px;
     }
+    .agents {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 8px;
+    }
+    .agent-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 32px 28px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .agent-card:hover { border-color: var(--gold); background: var(--surface2); }
+    .agent-card.active { border-color: var(--gold); background: var(--surface2); }
+    .agent-icon { font-size: 1.6rem; margin-bottom: 14px; }
+    .agent-role {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .agent-title { font-size: 1.2rem; font-weight: 400; color: var(--gold-lt); letter-spacing: 0.04em; margin-bottom: 8px; }
+    .agent-desc { font-size: 0.85rem; font-style: italic; color: var(--muted); line-height: 1.6; }
+    .agent-detail {
+      display: none;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      text-align: left;
+    }
+    .agent-card.active .agent-detail { display: block; }
+    .agent-detail h4 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .agent-detail ul { list-style: none; }
+    .agent-detail ul li {
+      font-size: 0.8rem;
+      color: var(--cream);
+      font-style: italic;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(107,61,42,0.3);
+      line-height: 1.5;
+    }
+    .agent-detail ul li:last-child { border-bottom: none; }
+    .click-hint {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--border);
+      text-align: center;
+      margin-bottom: 48px;
+    }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
       width: 100%;
       max-width: 900px;
     }
     .card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(107,61,42,0.5);
       border-radius: 2px;
-      padding: 28px 24px;
+      padding: 22px 20px;
       text-align: center;
       transition: border-color 0.3s;
     }
     .card:hover { border-color: var(--gold); }
-    .card-icon { font-size: 1.4rem; margin-bottom: 12px; }
-    .card-title { font-size: 1.05rem; font-weight: 400; color: var(--gold-lt); letter-spacing: 0.04em; margin-bottom: 8px; }
-    .divider-sm { width: 30px; height: 1px; background: var(--border); margin: 12px auto; }
-    .card-desc { font-size: 0.82rem; font-style: italic; color: var(--muted); line-height: 1.6; }
+    .card-icon { font-size: 1.2rem; margin-bottom: 10px; }
+    .card-title { font-size: 0.95rem; font-weight: 400; color: var(--gold-lt); letter-spacing: 0.04em; margin-bottom: 6px; }
+    .card-desc { font-size: 0.78rem; font-style: italic; color: var(--muted); line-height: 1.55; }
     footer {
       margin-top: 64px;
       text-align: center;
@@ -91,13 +157,77 @@
 </head>
 <body>
   <header>
-    <div class="rose">🌹</div>
+    <div class="rose-icon">🌹</div>
     <h1>Everyday Ceremony By Anne</h1>
     <p class="tagline">Celebrating You Today, Tomorrow and Always</p>
     <span class="status-pill">✶ The Beast is Active</span>
   </header>
+
   <div class="divider"></div>
+  <p class="section-label">Content Team</p>
+
+  <div class="agents">
+
+    <div class="agent-card" onclick="toggle(this)">
+      <div class="agent-icon">🎯</div>
+      <div class="agent-role">Role 01</div>
+      <div class="agent-title">Viral Architect</div>
+      <div class="divider-sm"></div>
+      <div class="agent-desc">Engineers the opening line that stops the scroll and makes her read the next word</div>
+      <div class="agent-detail">
+        <h4>What She Does</h4>
+        <ul>
+          <li>Generates 5 hooks per post with scores</li>
+          <li>Works across Instagram, LinkedIn, Facebook</li>
+          <li>Pulls from 10 HOAI hook frameworks</li>
+          <li>Built for the crowned woman returning to herself</li>
+          <li>Picks the winner and tells you exactly why</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="agent-card" onclick="toggle(this)">
+      <div class="agent-icon">🌸</div>
+      <div class="agent-role">Role 02</div>
+      <div class="agent-title">Creative Director</div>
+      <div class="divider-sm"></div>
+      <div class="agent-desc">Turns one piece of Anne's content into a full week of posts across all 3 platforms</div>
+      <div class="agent-detail">
+        <h4>What She Does</h4>
+        <ul>
+          <li>Extracts 8 angles from any piece of content</li>
+          <li>Writes 3 LinkedIn, 3 Instagram, 2 Facebook posts</li>
+          <li>Tags each post to Anne's 7 content pillars</li>
+          <li>Grades every post before delivery</li>
+          <li>Flags the weakest post and the best unused angle</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="agent-card" onclick="toggle(this)">
+      <div class="agent-icon">👑</div>
+      <div class="agent-role">Role 03</div>
+      <div class="agent-title">Autonomous Poster</div>
+      <div class="divider-sm"></div>
+      <div class="agent-desc">The quality gate — scores every post against Anne's voice before it enters the autonomous queue</div>
+      <div class="agent-detail">
+        <h4>What She Does</h4>
+        <ul>
+          <li>Scores Hook, Identity, Voice, Flow, CTA out of 10</li>
+          <li>Flags forbidden words and off-brand framing</li>
+          <li>Returns top 3 fixes — specific and actionable</li>
+          <li>Rewrites to queue-ready in Anne's exact voice</li>
+          <li>Clears posts that run without human review</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="click-hint">Tap any card to expand</p>
+
   <p class="section-label">Content Departments</p>
+
   <div class="grid">
     <div class="card">
       <div class="card-icon">🕯️</div>
@@ -142,8 +272,17 @@
       <div class="card-desc">Leading with wisdom, ceremony, and intention</div>
     </div>
   </div>
+
   <footer>
-    <p>Powered by HOUSE OF AI · Everyday Ceremony By Anne</p>
+    <p>Powered by HOUSE OF AI &nbsp;·&nbsp; Everyday Ceremony By Anne</p>
   </footer>
+
+  <script>
+    function toggle(card) {
+      const wasActive = card.classList.contains('active');
+      document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('active'));
+      if (!wasActive) card.classList.add('active');
+    }
+  </script>
 </body>
 </html>
