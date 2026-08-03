@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Reclaim — Buying Event Command Center | Everyday Ceremony By Anne</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b0618;--surface:#130d22;--surface2:#1a1230;
+  --border:#2d1a56;--border-lt:#3d2570;
+  --amber:#c9a227;--amber-lt:#e8bb38;--amber-dim:rgba(201,162,39,0.12);
+  --cream:#f0e8d8;--muted:#7a6090;
+  /* aliases for template compatibility */
+  --pine:var(--bg);--gold:var(--amber);--ivory:var(--surface2);--slate:var(--cream);--mist:var(--border)
+}
+body{font-family:Georgia,serif;background:var(--bg);color:var(--cream);min-height:100vh}
+.hdr{background:var(--bg);border-bottom:1px solid rgba(201,162,39,.2);padding:1.5rem 2rem}
+.hdr-eyebrow{color:var(--amber);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem}
+.hdr-title{color:var(--cream);font-size:2rem;font-style:italic}
+.hdr-sub{color:var(--muted);font-size:.85rem;margin-top:.25rem}
+nav{background:var(--bg);border-bottom:1px solid rgba(201,162,39,.15);display:flex;padding:0 2rem;overflow-x:auto}
+.tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:Georgia,serif;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:.85rem 1.1rem;cursor:pointer;white-space:nowrap;transition:all .2s}
+.tab:hover{color:var(--cream)}
+.tab.active{color:var(--amber);border-bottom-color:var(--amber)}
+main{max-width:900px;margin:0 auto;padding:2rem}
+.panel{display:none}
+.panel.active{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.75rem;margin-bottom:1.25rem}
+.section-label{color:var(--amber);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;margin-top:1.5rem;display:flex;align-items:center;gap:.75rem}
+.section-label:first-child{margin-top:0}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.offer-position{font-size:1.15rem;color:var(--cream);line-height:1.6;font-style:italic;padding:1rem 0}
+.deliverable{display:flex;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--border)}
+.deliverable:last-child{border-bottom:none}
+.del-num{color:var(--amber);font-size:.82rem;font-weight:bold;min-width:1.5rem;padding-top:.1rem}
+.del-title{color:var(--cream);font-weight:bold;font-size:.9rem;margin-bottom:.2rem}
+.del-desc{color:var(--muted);font-size:.85rem;line-height:1.5}
+.profile-quote{background:var(--amber-dim);border-left:3px solid var(--amber);padding:1rem 1.25rem;font-style:italic;color:var(--cream);font-size:.9rem;line-height:1.65;border-radius:0 6px 6px 0;margin:.5rem 0}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.pain-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:1rem}
+.pain-label{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.45rem}
+.pain-text{color:var(--muted);font-size:.85rem;line-height:1.5}
+.result-item{background:var(--amber-dim);border-left:3px solid var(--amber);padding:1rem 1.25rem;border-radius:0 6px 6px 0;margin-bottom:.75rem}
+.result-label{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.35rem}
+.result-text{color:var(--cream);font-size:.88rem;line-height:1.55}
+.week-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem}
+.week-title{color:var(--cream);font-size:1rem;font-weight:bold;margin-bottom:.25rem}
+.week-sub{color:var(--amber);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.85rem}
+.week-text{color:var(--muted);font-size:.87rem;line-height:1.6;margin-bottom:.75rem}
+.hook-list{list-style:none;margin-top:.5rem}
+.hook-list li{padding:.4rem 0;border-bottom:1px solid var(--border);color:var(--cream);font-size:.87rem;line-height:1.5;font-style:italic}
+.hook-list li:last-child{border-bottom:none}
+.hook-list li::before{content:'\201C';color:var(--amber)}
+.hook-list li::after{content:'\201D';color:var(--amber)}
+.hr-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem}
+.hr-type{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.6rem}
+.hr-body{color:var(--cream);font-size:.88rem;line-height:1.7;white-space:pre-line}
+.day-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem}
+.day-label{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.4rem}
+.day-hook{color:var(--cream);font-size:1rem;font-style:italic;margin-bottom:.65rem;line-height:1.4}
+.day-body{color:var(--muted);font-size:.87rem;line-height:1.65;margin-bottom:.75rem;white-space:pre-line}
+.day-meta{display:flex;gap:1.5rem;flex-wrap:wrap;padding-top:.5rem;border-top:1px solid var(--border)}
+.meta-label{color:var(--amber);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;font-weight:bold}
+.meta-val{color:var(--cream);font-size:.83rem}
+.gen-row{margin-bottom:1rem}
+.gen-label{color:var(--cream);font-size:.85rem;font-weight:bold;margin-bottom:.35rem;display:block}
+select,textarea,input[type=text]{width:100%;font-family:Georgia,serif;font-size:.88rem;border:1px solid var(--border);border-radius:6px;padding:.65rem .85rem;color:var(--cream);background:var(--surface2)}
+textarea{min-height:120px;resize:vertical}
+.gen-btn{background:var(--amber);color:#0b0618;border:none;border-radius:6px;font-family:Georgia,serif;font-size:.88rem;font-weight:bold;letter-spacing:.06em;padding:.75rem 1.75rem;cursor:pointer;margin-top:.5rem}
+.gen-btn:hover{background:var(--amber-lt)}
+#gen-output{background:var(--amber-dim);border:1px solid var(--border);border-radius:6px;padding:1rem;min-height:100px;color:var(--cream);font-size:.88rem;line-height:1.65;white-space:pre-wrap;margin-top:1rem}
+.kw-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.kw-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem;color:var(--cream);font-size:.86rem;line-height:1.4}
+.kw-type{color:var(--amber);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.3rem}
+.algo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-top:.5rem}
+.algo-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.75rem;text-align:center;font-size:.83rem;color:var(--muted)}
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.76rem;border-top:1px solid rgba(201,162,39,.1);margin-top:2rem}
+@media(max-width:640px){.pain-grid{grid-template-columns:1fr}.kw-grid{grid-template-columns:1fr}.algo-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-eyebrow">House of AI™ · Buying Event Command Center</div>
+  <div class="hdr-title">Reclaim</div>
+  <div class="hdr-sub">Everyday Ceremony By Anne · Anne McClain</div>
+</header>
+
+<nav>
+  <button class="tab active" onclick="showTab('offer',this)">The Offer</button>
+  <button class="tab" onclick="showTab('launch',this)">4-Week Launch</button>
+  <button class="tab" onclick="showTab('handraisers',this)">Hand Raisers</button>
+  <button class="tab" onclick="showTab('event',this)">7-Day Event</button>
+  <button class="tab" onclick="showTab('copygen',this)">Copy Generator</button>
+  <button class="tab" onclick="showTab('seo',this)">SEO &amp; AEO</button>
+</nav>
+
+<main>
+
+<!-- ── TAB 1: THE OFFER ─────────────────────────────────── -->
+<div id="panel-offer" class="panel active">
+  <div class="card">
+    <div class="section-label">Offer Positioning</div>
+    <div class="offer-position">The woman who has given everything is allowed to want something back. Reclaim is the first ceremony she holds for herself — not when everything calms down, not when everyone else is taken care of. Now.</div>
+
+    <div class="section-label">What She Gets</div>
+    <div class="deliverable"><div class="del-num">01</div><div><div class="del-title">The Reclaim Candle</div><div class="del-desc">Hand-poured in cedar and bergamot. Lit at the start of her morning ceremony. Made by Anne in small batches — not a mass product, but a ritual object.</div></div></div>
+    <div class="deliverable"><div class="del-num">02</div><div><div class="del-title">Sacred Morning Incense Bundle</div><div class="del-desc">Palo santo and lavender blend. Used to clear the space and center herself before the journal. Fifteen minutes of smoke and silence before the world begins.</div></div></div>
+    <div class="deliverable"><div class="del-num">03</div><div><div class="del-title">The Reclaim Journal</div><div class="del-desc">28 guided prompts — one per day — for returning to herself. Not therapy. Not productivity. A daily conversation with the woman she has been waiting to meet again.</div></div></div>
+    <div class="deliverable"><div class="del-num">04</div><div><div class="del-title">7-Day Morning Ceremony Framework</div><div class="del-desc">A 15-minute ritual guide — candle, incense, prompt, intention — for her first week. Simple enough to do every day. Sacred enough to want to.</div></div></div>
+    <div class="deliverable"><div class="del-num">05</div><div><div class="del-title">Ceremony Intention Cards</div><div class="del-desc">7 cards — one for each day of the week — each with an intention, an affirmation, and a closing phrase. She places them on her altar or tucks them into her journal.</div></div></div>
+    <div class="deliverable"><div class="del-num">06</div><div><div class="del-title">The Reclaim Circle</div><div class="del-desc">Private community access for women walking the same return. A place to share what shifted, what surprised her, and what she is choosing next.</div></div></div>
+
+    <div class="section-label">Her Inner Monologue</div>
+    <div class="profile-quote">I know I need to do something for myself. I just don't know where to start. Everything I've tried feels like one more thing to manage. I don't want a routine. I want to feel like myself again. I want permission to stop performing and just be. I'm not sure something this small can actually change anything. But I'm tired of waiting for the right time.</div>
+
+    <div class="section-label">Pain Trifecta</div>
+    <div class="pain-grid">
+      <div class="pain-item"><div class="pain-label">Money</div><div class="pain-text">She keeps giving her work, her time, and her wisdom away at prices — and in ways — that don't reflect who she actually is. Because somewhere she learned that she had to earn the right to be valued.</div></div>
+      <div class="pain-item"><div class="pain-label">Time</div><div class="pain-text">She hasn't had an hour to herself in years. Not one that didn't feel stolen from something more important. Every moment for herself arrives already shadowed by guilt.</div></div>
+      <div class="pain-item"><div class="pain-label">Family</div><div class="pain-text">She shows up for everyone. And somewhere in the middle of all that showing up, she stopped showing up for herself. The people she loves have all of her. She has almost none.</div></div>
+    </div>
+
+    <div class="section-label">The 5 Results</div>
+    <div class="result-item"><div class="result-label">Revenue</div><div class="result-text">She reclaims her sense of worth — and that shift shows up in how she prices, how she negotiates, and what she decides to stop tolerating. A woman who treats herself like a priority does not give herself away.</div></div>
+    <div class="result-item"><div class="result-label">Time</div><div class="result-text">Fifteen minutes becomes the anchor. Meetings, decisions, hard conversations — they all get clearer when she starts the day in ceremony. She doesn't need more time. She needs to use what she has differently.</div></div>
+    <div class="result-item"><div class="result-label">Relationships</div><div class="result-text">She stops overgiving from depletion and starts showing up from fullness. The people in her life feel the difference — even if they cannot name it. She becomes more present because she is finally present to herself.</div></div>
+    <div class="result-item"><div class="result-label">Capacity</div><div class="result-text">She builds something that sustains her — not another system to maintain, but the practice that makes everything else maintainable. The ceremony holds her so she can hold everything else.</div></div>
+    <div class="result-item"><div class="result-label">Identity</div><div class="result-text">She remembers who she was before she became everyone's everything. And she finds that woman is not gone. She has just been waiting — patient and whole — for someone to light a candle for her.</div></div>
+  </div>
+</div>
+
+<!-- ── TAB 2: 4-WEEK LAUNCH ─────────────────────────────── -->
+<div id="panel-launch" class="panel">
+  <div class="card">
+
+    <div class="section-label">Week 1 — The Big Idea</div>
+    <div class="week-card">
+      <div class="week-title">State of the Niche</div>
+      <div class="week-sub">What's Collapsing / What's Rising</div>
+      <div class="week-text"><strong>What's collapsing:</strong> The wellness industry has been selling women a productivity-adjacent version of self-care — morning stacks, habit trackers, 75-day challenges, optimization protocols. Women over 40 are done with it. They followed the routines. They tracked the habits. They still don't feel like themselves. The system didn't fail them. It was never designed for them.</div>
+      <div class="week-text"><strong>What's rising:</strong> The return. Women are craving permission to stop performing wellness and start experiencing it. Sacred, slow, intentional. A ceremony, not a checklist. Something that asks nothing of her ambition and everything of her presence.</div>
+      <div class="week-sub" style="margin-top:.75rem">Week 1 Hooks</div>
+      <ul class="hook-list">
+        <li>The wellness industry told you self-care was a routine. It lied.</li>
+        <li>She has 3 journals she never opens, a meditation app she forgot she downloaded, and 47 supplements she's mostly guessing at. She still doesn't feel like herself.</li>
+        <li>You don't need another morning stack. You need a ceremony.</li>
+        <li>What if the thing you've been searching for didn't require more effort?</li>
+      </ul>
+    </div>
+
+    <div class="section-label">Week 2 — Story, Proof, Barriers</div>
+    <div class="week-card">
+      <div class="week-title">Story Post Angle</div>
+      <div class="week-text">The moment Anne realized the ritual objects she was making were not products — they were invitations. Each candle she poured was a permission slip for the woman who held it to stop performing and begin arriving. Share the origin of Reclaim — why she made it, who she made it for, what she hoped they would feel when they lit the first candle.</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Client Proof Angle</div>
+      <div class="week-text">A woman who used the Reclaim ritual for the first time and what shifted in 7 days. Not a dramatic transformation — a quiet one. She woke up 10 minutes earlier without setting an alarm. She made her tea slowly. She felt, for the first time in a long time, like the morning belonged to her.</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Barriers Post Angles</div>
+      <div class="week-text">Address each of these directly — one post or story per barrier:</div>
+      <ul class="hook-list">
+        <li>I don't have time for a ritual. (Response: 15 minutes. That is all it asks.)</li>
+        <li>I feel guilty spending money on myself. (Response: That guilt is exactly why you need this.)</li>
+        <li>I've tried things like this before and they don't stick. (Response: A ceremony isn't something you have to maintain. It's something that holds you.)</li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Hand Raiser Scripts</div>
+      <div class="hr-body">1. "I'm building something for the woman who keeps putting herself last. Not a protocol. Not a productivity system. Something sacred. If that's you — comment 'yes' below."
+
+2. "Working on something for the woman who is ready to come home to herself. If you want eyes on it before it opens, drop 'reclaim' in the comments."</div>
+    </div>
+
+    <div class="section-label">Week 3 — Vision Casting + Direct Invite</div>
+    <div class="week-card">
+      <div class="week-title">Vision Casting Post</div>
+      <div class="week-text">Paint the specific morning. 6:47am. The house is quiet. She lights the candle before the phone comes on. She reads one prompt from the journal — just one. She sits with it for three minutes. Then she writes. Not much. A paragraph, maybe two. Then she closes the journal, blows out the candle, and begins her day. And somehow every single thing that comes after it is clearer. That is what 30 days of Reclaim builds.</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Direct Invite Copy</div>
+      <div class="week-text">"Reclaim opens [date]. There are [X] kits available — each one hand-poured and packed by Anne. If you have been waiting for a sign that you are allowed to come first, this is it."</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Email Direction</div>
+      <div class="week-text"><strong>Subject:</strong> "She lit the candle and everything changed"<br/><strong>Direction:</strong> Open with a sensory scene — the smell of cedar, the quiet of the morning, the specific feeling of being first. Move into her transformation story. Close with the CTA to the Reclaim page. No urgency language — just invitation.</div>
+    </div>
+
+    <div class="section-label">Week 4 — The 7-Day Event</div>
+    <div class="week-card">
+      <div class="week-title">Event Week Structure</div>
+      <div class="week-text">The 7-day event runs daily — one post per day on all platforms. See the 7-Day Event tab for the complete copy for each day. Day 7 gets three sends: morning, noon, and closing hour. Every post ends with a single-word or single-phrase CTA — no paragraphs, no pressure.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TAB 3: HAND RAISERS ─────────────────────────────── -->
+<div id="panel-handraisers" class="panel">
+  <div class="card">
+
+    <div class="hr-card">
+      <div class="hr-type">Asset Drop</div>
+      <div class="hr-body">I just finished writing the ritual guide that comes inside every Reclaim kit.
+
+It's called the 7-Day Ceremony Framework. Fifteen minutes in the morning. A candle. An incense stick. One journal prompt. That is all it asks for.
+
+If you want a preview before the kit opens, drop "ceremony" below and I'll send it to you.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Client Win</div>
+      <div class="hr-body">She told me she hadn't felt like herself in years.
+
+Then she lit the candle, opened the journal, and something shifted. Not everything. Just enough.
+
+She woke up the next morning and made her tea slowly. She sat with it before the phone came on. She said it was the first morning in a long time that felt like it belonged to her.
+
+That is what Reclaim is for.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Conviction</div>
+      <div class="hr-body">Self-care is not a reward you earn after you've finished taking care of everyone else.
+
+It is the foundation everything else is built on.
+
+The woman who starts her day in ceremony is not indulgent. She is strategic. She is sovereign. She is finally putting herself in the position to give from abundance instead of depletion.
+
+Reclaim exists for the woman who is ready to remember that.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Gathering</div>
+      <div class="hr-body">Building something for the woman who has been last on her own list for too long.
+
+Not a routine. Not a morning protocol. Not another thing to track or optimize.
+
+A ceremony.
+
+Fifteen minutes. A candle. A journal. An incense bundle. And the quiet decision that she comes first today.
+
+If that woman is you, I want to hear from you.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Direct Tease</div>
+      <div class="hr-body">Reclaim opens [date].
+
+Inside: a hand-poured cedar and bergamot candle. A sacred morning incense bundle. The Reclaim Journal — 28 prompts for the woman returning to herself. A 7-day morning ceremony framework. Intention cards. Private community.
+
+Everything the woman who is ready to come home to herself needs to begin.
+
+Comment "reclaim" if you want to know more.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── TAB 4: 7-DAY EVENT ──────────────────────────────── -->
+<div id="panel-event" class="panel">
+  <div class="card">
+
+    <div class="day-card">
+      <div class="day-label">Day 1 — The Awakening</div>
+      <div class="day-hook">The woman who gave everything is allowed to want something back.</div>
+      <div class="day-body">Not eventually. Not when everything calms down. Not after the project is finished or the kids are older or the business levels up.
+
+Now.
+
+Reclaim is a ritual kit for the woman who has spent years being everyone else's anchor. The one who holds everything together so gracefully that nobody notices how long she has been doing it without being held herself.
+
+The kit opens today. Inside: a hand-poured candle, sacred incense, 28 days of journal prompts, a 7-day morning ceremony framework, and a private circle of women walking the same return.
+
+This is your sign.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Link in bio — Reclaim opens today.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"She decided to come home to herself"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 2 — The Permission</div>
+      <div class="day-hook">You do not have to earn the right to take care of yourself.</div>
+      <div class="day-body">The guilt is real. Spending money on yourself when there are bills to pay. Taking 15 minutes in the morning when there is so much to do. Choosing yourself first when everyone else's needs are so visible.
+
+But here is what I know: the woman who runs on empty gives everyone around her the worst version of herself — and she knows it. She can feel it. And the shame of that costs more than any candle ever will.
+
+Reclaim is not a luxury. It is the thing that makes every other thing possible.
+
+It is open now. And you are allowed.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Reclaim — still open. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"She stopped waiting for permission"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 3 — The Ritual</div>
+      <div class="day-hook">Fifteen minutes. A candle. One journal prompt. That is how a ceremony begins.</div>
+      <div class="day-body">6:42am. The house is quiet. She strikes the match before the phone comes on.
+
+The cedar and bergamot fill the room. She lights the incense next — palo santo and lavender, soft and grounding.
+
+She opens the journal to today's prompt: "What does she need from me today?"
+
+She writes for 8 minutes. Not editing. Not performing. Just answering.
+
+Then she closes the journal, watches the candle for a moment, and begins her day.
+
+Every single thing that comes after that 15 minutes is clearer.
+
+That is what is inside Reclaim. And it is waiting for you.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Inside Reclaim. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"What she found in 15 minutes"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 4 — The Proof</div>
+      <div class="day-hook">She told me she hadn't felt like herself in years.</div>
+      <div class="day-body">Then she lit the candle.
+
+She sat with the journal prompt for a few minutes and wrote the most honest thing she had written in as long as she could remember. She didn't share it with anyone. She just let it be true.
+
+The next morning she woke up before her alarm. She made her tea slowly. She did the ritual again. Not because she had to — because she wanted to.
+
+By day 4, something had shifted. Not everything. Not dramatically. Just quietly, in the direction of herself.
+
+That is the story Reclaim is built to tell — through her, for her. Kits are still available.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Reclaim. Limited kits. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"What changed in her first week"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 5 — The Inventory</div>
+      <div class="day-hook">Half the kits are gone. This is not pressure. This is an update.</div>
+      <div class="day-body">Anne pours every candle by hand, in small batches. There are never hundreds of Reclaim kits available at once.
+
+What remains: the cedar and bergamot candle, the sacred incense bundle, the Reclaim Journal with 28 prompts, the 7-day ceremony framework, the intention cards, the private circle.
+
+Everything a woman needs to begin coming home to herself.
+
+If you have been thinking about it — that is usually a sign.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Reclaim. While they last. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"She almost missed it"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 6 — The Vision</div>
+      <div class="day-hook">Imagine 30 days from now.</div>
+      <div class="day-body">The morning ritual is no longer something she has to remember to do. It is simply what happens when she wakes up.
+
+She lights the candle. The smell is familiar now — cedar and bergamot, the scent of her own mornings. She opens the journal. The prompts have taken her deeper than she expected. She has written things she did not know she was holding.
+
+She is 30 days more herself than she was when she opened the box.
+
+That is what Reclaim builds — not in a dramatic arc, but in quiet, daily return.
+
+The event closes tomorrow. Last chance to join this round.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Last chance — Reclaim closes tomorrow. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"30 days from now"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card" style="border-color:var(--amber)">
+      <div class="day-label">Day 7 — Last Call (Triple Send)</div>
+      <div class="day-hook">The woman who chooses herself today will light her first candle this week.</div>
+      <div class="day-body">Today is the last day Reclaim is open in this round.
+
+Anne pours every kit by hand. When they're gone, they're gone — and the next round won't be for a while.
+
+If you have been on the fence: what are you waiting for? The right time is not coming. The right time is a decision.
+
+Reclaim closes tonight.</div>
+      <div class="day-meta" style="flex-direction:column;gap:.5rem">
+        <div><div class="meta-label">Send 1 — Morning</div><div class="meta-val">Subject: "Today only" — "Today is the last day Reclaim is open."</div></div>
+        <div><div class="meta-label">Send 2 — Midday</div><div class="meta-val">Subject: "A few kits remain" — Inventory update. Warm, not urgent.</div></div>
+        <div><div class="meta-label">Send 3 — Evening</div><div class="meta-val">Subject: "It closes at midnight" — Final close. Permission-forward tone.</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── TAB 5: COPY GENERATOR ───────────────────────────── -->
+<div id="panel-copygen" class="panel">
+  <div class="card">
+    <div class="section-label">Generate Copy</div>
+    <div class="gen-row">
+      <label class="gen-label" for="copy-type">Copy Type</label>
+      <select id="copy-type">
+        <option value="">Select a format...</option>
+        <option value="hand-raiser">Hand Raiser</option>
+        <option value="conviction">Conviction Post</option>
+        <option value="open-day">Opening Day Post</option>
+        <option value="close-day">Closing Day Post</option>
+        <option value="email-subject">Email Subject Lines</option>
+        <option value="story">Instagram Story Script</option>
+        <option value="dm">DM Follow-Up</option>
+      </select>
+    </div>
+    <div class="gen-row">
+      <label class="gen-label" for="copy-platform">Platform</label>
+      <select id="copy-platform">
+        <option value="instagram">Instagram</option>
+        <option value="facebook">Facebook</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="email">Email</option>
+      </select>
+    </div>
+    <div class="gen-row">
+      <label class="gen-label" for="copy-angle">Optional Angle or Keyword</label>
+      <input type="text" id="copy-angle" placeholder="e.g. permission, morning ritual, guilt..." />
+    </div>
+    <button class="gen-btn" onclick="generateCopy()">Generate Copy</button>
+    <div id="gen-output">Your generated copy will appear here. Select a format and click Generate.</div>
+  </div>
+</div>
+
+<!-- ── TAB 6: SEO & AEO ────────────────────────────────── -->
+<div id="panel-seo" class="panel">
+  <div class="card">
+
+    <div class="section-label">Primary Keywords</div>
+    <div class="kw-grid">
+      <div class="kw-item"><div class="kw-type">Primary</div>ritual self-care kits for women over 40</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>handcrafted candles for women's ceremonies</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>luxury self-care ritual kit</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>sacred morning ritual products</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>women's ceremonial self-care bundle</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>everyday ceremony candles and incense</div>
+    </div>
+
+    <div class="section-label">AEO Questions</div>
+    <div class="kw-grid">
+      <div class="kw-item"><div class="kw-type">AEO</div>What is a ritual self-care kit?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>How do I create a morning ceremony practice?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What is in a luxury self-care kit for women?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What does everyday ceremony mean?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>How do I reclaim myself after years of caregiving?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What candles are best for a morning ritual?</div>
+    </div>
+
+    <div class="section-label">GEO Brand Phrases</div>
+    <div class="kw-grid">
+      <div class="kw-item"><div class="kw-type">GEO</div>Everyday Ceremony By Anne</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>Anne McClain ritual products Boston</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>Reclaim ritual kit Everyday Ceremony</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>Celebrating You Today Tomorrow and Always</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>sacred self-care for women over 40 Boston</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>handcrafted ceremony kits Anne McClain</div>
+    </div>
+
+    <div class="section-label">Algorithm Signals</div>
+    <div class="algo-grid">
+      <div class="algo-item">Post between 7–9am or 6–8pm</div>
+      <div class="algo-item">Reply to every comment within 1 hour</div>
+      <div class="algo-item">Use 3–5 hashtags max (IG)</div>
+      <div class="algo-item">Stories daily during event week</div>
+      <div class="algo-item">Pin opening and closing day posts</div>
+      <div class="algo-item">Save posts to a relevant collection</div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<footer>Everyday Ceremony By Anne · Anne McClain · Built by <a href="https://www.houseofai.boston" style="color:var(--gold);text-decoration:none">House of AI™</a> · Celebrating You Today, Tomorrow and Always</footer>
+
+<script>
+function showTab(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+const templates = {
+  'hand-raiser': {
+    instagram: `I'm building something for the woman who keeps putting herself last.
+
+Not a protocol. Not a productivity system. Not another morning routine to track and abandon.
+
+A ceremony.
+
+If that's you — comment "reclaim" below.`,
+    facebook: `Working on something for the woman who is ready to stop being last on her own list.
+
+It is called Reclaim. It is a ritual kit — a candle, incense, a journal, a ceremony framework — for the woman who is finally ready to come home to herself.
+
+If you want eyes on it before it opens, drop "reclaim" in the comments and I will send you the details.`,
+    linkedin: `Building something for the woman who leads her business, her family, her community — and has somehow forgotten to lead herself.
+
+Not a productivity tool. A ceremony kit.
+
+For the woman who is ready to reclaim herself — not eventually, but now.
+
+Comment "reclaim" if you want to know more.`,
+    email: `Subject: "She's ready to come home to herself"\n\nI'm building something.\n\nNot a course. Not a membership. A ritual kit — for the woman who has been last on her own list for too long.\n\nIt is called Reclaim.\n\nIf you want to be first to know when it opens, reply to this email with the word "reclaim" and I will make sure you hear about it first.`
+  },
+  'conviction': {
+    instagram: `Self-care is not a reward you earn after you have finished taking care of everyone else.
+
+It is the foundation everything else is built on.
+
+The woman who starts her day in ceremony is not indulgent.
+
+She is strategic. She is sovereign. She is giving from abundance instead of depletion.
+
+Reclaim exists for the woman who is ready to remember that.`,
+    facebook: `Here is what I know after years of making ritual products for women:\n\nThe ones who take care of themselves first take better care of everyone else. Always.\n\nNot because they are selfish. Because they are full.\n\nWhat is one small thing you do to fill yourself back up?`,
+    linkedin: `The most effective leaders I know have one thing in common:\n\nThey protect the practice that protects them.\n\nNot a hustle ritual. Not a productivity stack.\n\nSomething quiet. Sacred. Entirely for themselves.\n\nCelebrating you today, tomorrow, and always.\n\n#WomenInLeadership #EverydayCeremony`,
+    email: `Subject: "She stopped earning it"\n\nFor a long time, she believed self-care was a reward.\n\nSomething she could have — after the launch, after the kids were settled, after things calmed down.\n\nThings never really calmed down.\n\nReclaim is built on a different belief: the ceremony is the foundation, not the finish line.\n\nIt opens [date]. You are allowed.`
+  },
+  'open-day': {
+    instagram: `The woman who gave everything is allowed to want something back.
+
+Not eventually. Now.
+
+Reclaim opens today.
+
+Inside: a hand-poured cedar and bergamot candle, sacred morning incense, 28 days of journal prompts, a 7-day ceremony framework, intention cards, and a private circle of women walking the same return.
+
+Link in bio.`,
+    facebook: `Reclaim is open.\n\nFor the woman who has been everyone else's anchor and is finally ready to let herself be held.\n\nA ritual kit — candle, incense, journal, ceremony guide — for the woman returning to herself.\n\nKits are limited and hand-poured by Anne. Link in the comments.`,
+    linkedin: `Today I opened Reclaim — a ritual self-care kit for women who are ready to lead from fullness instead of depletion.\n\nNot a productivity tool. A ceremony.\n\n15 minutes in the morning. A candle. A journal. An intention.\n\nFor the woman who has been last on her own list long enough.\n\nLink in bio.\n\n#EverydayCeremony #WomenInLeadership`,
+    email: `Subject: "She decided to come home to herself"\n\nReclaim is open.\n\nHand-poured cedar and bergamot candle. Sacred morning incense. 28 days of guided journal prompts. A 7-day ceremony framework. Intention cards. Private community.\n\nEverything the woman who is ready to return to herself needs to begin.\n\nClick here to bring Reclaim home.`
+  },
+  'close-day': {
+    instagram: `Today is the last day.
+
+Reclaim closes tonight.
+
+If you have been thinking about it — that is usually a sign.
+
+The woman who chooses herself tonight will light her first candle this week.
+
+Link in bio.`,
+    facebook: `Reclaim closes tonight.\n\nAnne pours every kit by hand in small batches. When they're gone, this round is done.\n\nIf you have been on the fence — the right time is not coming. The right time is a decision.\n\nLink in comments.`,
+    linkedin: `Reclaim closes tonight.\n\nFor the woman who has been waiting for the right time to put herself first.\n\nThe right time is a decision, not a circumstance.\n\nLink in bio.\n\n#EverydayCeremony`,
+    email: `Subject: "It closes at midnight"\n\nTonight at midnight, Reclaim closes.\n\nAnne pours every kit herself, in small batches. What is left is what is left.\n\nIf you have been thinking about it, I want to say this:\n\nYou are worth 15 minutes in the morning. You are worth a candle. You are worth the ceremony.\n\nClick here before midnight.`
+  },
+  'email-subject': {
+    instagram: `Email subject lines for the 7-day event:\n\nDay 1: "She decided to come home to herself"\nDay 2: "She stopped waiting for permission"\nDay 3: "What she found in 15 minutes"\nDay 4: "What changed in her first week"\nDay 5: "She almost missed it"\nDay 6: "30 days from now"\nDay 7 AM: "Today only"\nDay 7 PM: "It closes at midnight"`,
+    facebook: ``,
+    linkedin: ``,
+    email: `Day 1: "She decided to come home to herself"\nDay 2: "She stopped waiting for permission"\nDay 3: "What she found in 15 minutes"\nDay 4: "What changed in her first week"\nDay 5: "She almost missed it"\nDay 6: "30 days from now"\nDay 7 AM: "Today only"\nDay 7 Noon: "A few kits remain"\nDay 7 PM: "It closes at midnight"`
+  },
+  'story': {
+    instagram: `Frame 1: "She hadn't felt like herself in years."\nFrame 2: "Then she lit the candle."\nFrame 3: [Show the kit — candle, incense, journal]\nFrame 4: "15 minutes. Every morning."\nFrame 5: "Reclaim opens today."\nFrame 6: [Swipe up / link sticker — "Bring it home"]`,
+    facebook: `Video script:\n"She had every morning routine. Every supplement. Every journal. And she still felt like she was performing her own life.\n\nThen she tried something different.\n\nA candle. An incense stick. One journal prompt.\n\nFifteen minutes.\n\nReclaim. Open today. Link in bio."`,
+    linkedin: ``,
+    email: ``
+  },
+  'dm': {
+    instagram: `"Thank you so much for your interest in Reclaim.\n\nHere is what's inside: a hand-poured cedar and bergamot candle, sacred morning incense, the Reclaim Journal with 28 guided prompts, a 7-day ceremony framework, intention cards, and access to the private circle.\n\nThe kit is $[PRICE]. You can grab yours here: [LINK]\n\nIf you have any questions, I am right here. — Anne"`,
+    facebook: `"So glad you reached out.\n\nReclaim is a ritual kit for the woman who is ready to come home to herself — candle, incense, journal, ceremony guide, and private community access.\n\nIt is $[PRICE] and you can order here: [LINK]\n\nLet me know if you have any questions. — Anne"`,
+    linkedin: ``,
+    email: ``
+  }
+};
+
+function generateCopy() {
+  const type = document.getElementById('copy-type').value;
+  const platform = document.getElementById('copy-platform').value;
+  const output = document.getElementById('gen-output');
+
+  if (!type) { output.textContent = 'Please select a copy type above.'; return; }
+
+  const copy = templates[type] && templates[type][platform];
+  if (copy) {
+    output.textContent = copy || '— No template for this combination. Try a different platform. —';
+  } else {
+    output.textContent = '— No template for this combination. Try a different platform. —';
+  }
+}
+</script>
+</body>
+</html>
