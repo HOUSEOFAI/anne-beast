@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mystic Rose — Buying Event Command Center | Everyday Ceremony By Anne</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b0618;--surface:#130d22;--surface2:#1a1230;
+  --border:#2d1a56;--border-lt:#3d2570;
+  --amber:#c9a227;--amber-lt:#e8bb38;--amber-dim:rgba(201,162,39,0.12);
+  --cream:#f0e8d8;--muted:#7a6090;
+  --rose:#c9608a;--rose-dim:rgba(201,96,138,0.1)
+}
+body{font-family:Georgia,serif;background:var(--bg);color:var(--cream);min-height:100vh}
+.hdr{background:var(--bg);border-bottom:1px solid rgba(201,162,39,.2);padding:1.5rem 2rem}
+.hdr-eyebrow{color:var(--amber);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem}
+.hdr-title{color:var(--cream);font-size:2rem;font-style:italic}
+.hdr-sub{color:var(--muted);font-size:.85rem;margin-top:.25rem}
+nav{background:var(--bg);border-bottom:1px solid rgba(201,162,39,.15);display:flex;padding:0 2rem;overflow-x:auto}
+.tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:Georgia,serif;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:.85rem 1.1rem;cursor:pointer;white-space:nowrap;transition:all .2s}
+.tab:hover{color:var(--cream)}
+.tab.active{color:var(--amber);border-bottom-color:var(--amber)}
+main{max-width:900px;margin:0 auto;padding:2rem}
+.panel{display:none}
+.panel.active{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.75rem;margin-bottom:1.25rem}
+.section-label{color:var(--amber);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;margin-top:1.5rem;display:flex;align-items:center;gap:.75rem}
+.section-label:first-child{margin-top:0}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.offer-position{font-size:1.15rem;color:var(--cream);line-height:1.6;font-style:italic;padding:1rem 0}
+.deliverable{display:flex;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--border)}
+.deliverable:last-child{border-bottom:none}
+.del-num{color:var(--amber);font-size:.82rem;font-weight:bold;min-width:1.5rem;padding-top:.1rem}
+.del-title{color:var(--cream);font-weight:bold;font-size:.9rem;margin-bottom:.2rem}
+.del-desc{color:var(--muted);font-size:.85rem;line-height:1.5}
+.profile-quote{background:var(--rose-dim);border-left:3px solid var(--amber);padding:1rem 1.25rem;font-style:italic;color:var(--cream);font-size:.9rem;line-height:1.65;border-radius:0 6px 6px 0;margin:.5rem 0}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.pain-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:1rem}
+.pain-label{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.45rem}
+.pain-text{color:var(--muted);font-size:.85rem;line-height:1.5}
+.result-item{background:var(--amber-dim);border-left:3px solid var(--amber);padding:1rem 1.25rem;border-radius:0 6px 6px 0;margin-bottom:.75rem}
+.result-label{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.35rem}
+.result-text{color:var(--cream);font-size:.88rem;line-height:1.55}
+.week-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem}
+.week-title{color:var(--cream);font-size:1rem;font-weight:bold;margin-bottom:.25rem}
+.week-sub{color:var(--amber);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.85rem}
+.week-text{color:var(--muted);font-size:.87rem;line-height:1.6;margin-bottom:.75rem}
+.hook-list{list-style:none;margin-top:.5rem}
+.hook-list li{padding:.4rem 0;border-bottom:1px solid var(--border);color:var(--cream);font-size:.87rem;line-height:1.5;font-style:italic}
+.hook-list li:last-child{border-bottom:none}
+.hook-list li::before{content:'\201C';color:var(--amber)}
+.hook-list li::after{content:'\201D';color:var(--amber)}
+.hr-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem}
+.hr-type{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.6rem}
+.hr-body{color:var(--cream);font-size:.88rem;line-height:1.7;white-space:pre-line}
+.day-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem}
+.day-label{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.4rem}
+.day-hook{color:var(--cream);font-size:1rem;font-style:italic;margin-bottom:.65rem;line-height:1.4}
+.day-body{color:var(--muted);font-size:.87rem;line-height:1.65;margin-bottom:.75rem;white-space:pre-line}
+.day-meta{display:flex;gap:1.5rem;flex-wrap:wrap;padding-top:.5rem;border-top:1px solid var(--border)}
+.meta-label{color:var(--amber);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;font-weight:bold}
+.meta-val{color:var(--cream);font-size:.83rem}
+.gen-row{margin-bottom:1rem}
+.gen-label{color:var(--cream);font-size:.85rem;font-weight:bold;margin-bottom:.35rem;display:block}
+select,textarea,input[type=text]{width:100%;font-family:Georgia,serif;font-size:.88rem;border:1px solid var(--border);border-radius:6px;padding:.65rem .85rem;color:var(--cream);background:var(--surface2)}
+textarea{min-height:120px;resize:vertical}
+.gen-btn{background:var(--amber);color:#0b0618;border:none;border-radius:6px;font-family:Georgia,serif;font-size:.88rem;font-weight:bold;letter-spacing:.06em;padding:.75rem 1.75rem;cursor:pointer;margin-top:.5rem}
+.gen-btn:hover{background:var(--amber-lt)}
+#gen-output{background:var(--amber-dim);border:1px solid var(--border);border-radius:6px;padding:1rem;min-height:100px;color:var(--cream);font-size:.88rem;line-height:1.65;white-space:pre-wrap;margin-top:1rem}
+.kw-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.kw-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem;color:var(--cream);font-size:.86rem;line-height:1.4}
+.kw-type{color:var(--amber);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.3rem}
+.algo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-top:.5rem}
+.algo-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.75rem;text-align:center;font-size:.83rem;color:var(--muted)}
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.76rem;border-top:1px solid rgba(201,162,39,.1);margin-top:2rem}
+@media(max-width:640px){.pain-grid{grid-template-columns:1fr}.kw-grid{grid-template-columns:1fr}.algo-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-eyebrow">House of AI™ · Buying Event Command Center</div>
+  <div class="hdr-title">Mystic Rose</div>
+  <div class="hdr-sub">Everyday Ceremony By Anne · Anne McClain</div>
+</header>
+
+<nav>
+  <button class="tab active" onclick="showTab('offer',this)">The Offer</button>
+  <button class="tab" onclick="showTab('launch',this)">4-Week Launch</button>
+  <button class="tab" onclick="showTab('handraisers',this)">Hand Raisers</button>
+  <button class="tab" onclick="showTab('event',this)">7-Day Event</button>
+  <button class="tab" onclick="showTab('copygen',this)">Copy Generator</button>
+  <button class="tab" onclick="showTab('seo',this)">SEO &amp; AEO</button>
+</nav>
+
+<main>
+
+<!-- ── TAB 1: THE OFFER ─────────────────────────────────── -->
+<div id="panel-offer" class="panel active">
+  <div class="card">
+    <div class="section-label">Offer Positioning</div>
+    <div class="offer-position">She has been soft and strong and quietly extraordinary for years. Mystic Rose is the ceremony that finally sees her — not who she takes care of, not what she produces, but the woman herself. Crowned. Celebrated. Fully alive.</div>
+
+    <div class="section-label">What She Gets</div>
+    <div class="deliverable"><div class="del-num">01</div><div><div class="del-title">The Mystic Rose Candle</div><div class="del-desc">Hand-poured by Anne in damask rose and sandalwood. Rich, feminine, unhurried. The scent of a woman who has decided she is the ceremony — not a woman waiting to be worthy of one.</div></div></div>
+    <div class="deliverable"><div class="del-num">02</div><div><div class="del-title">Rose Ritual Bath Salts</div><div class="del-desc">Himalayan pink salt, dried rose petals, and rose and geranium essential oils. For a full sensory immersion — the kind of bath that belongs to no one but her. Instructions included for the complete Mystic Rose bath ceremony.</div></div></div>
+    <div class="deliverable"><div class="del-num">03</div><div><div class="del-title">Damask Rose Incense</div><div class="del-desc">Imported rose incense for sacred space-setting before and after the bath. Lit to mark the beginning of the ceremony — and to signal that this hour belongs entirely to her.</div></div></div>
+    <div class="deliverable"><div class="del-num">04</div><div><div class="del-title">The Mystic Rose Ritual Guide</div><div class="del-desc">A 5-part ceremony for self-adoration and return — from space-setting to candlelight to the bath to reflection to closing intention. Every step written in Anne's voice. Nothing rushed. Nothing earned. Just received.</div></div></div>
+    <div class="deliverable"><div class="del-num">05</div><div><div class="del-title">Rose Affirmation Deck</div><div class="del-desc">21 cards for the crowned woman stepping into herself. One drawn before each ceremony. Words for the woman who has forgotten she is allowed to be seen, to be soft, to be celebrated exactly as she is.</div></div></div>
+    <div class="deliverable"><div class="del-num">06</div><div><div class="del-title">Limited-Edition Rose Water Mist</div><div class="del-desc">Handcrafted by Anne — rose water with lavender and frankincense. Misted on the body and in the space at the close of every ceremony. The signature scent of a woman who has chosen herself.</div></div></div>
+
+    <div class="section-label">Her Inner Monologue</div>
+    <div class="profile-quote">I want to feel like a woman again. Not a mother, not a manager, not a caretaker. A woman. Soft and unhurried and fully myself. I keep buying things that promise that feeling and then putting them under the sink. I think what I actually want is permission to stop and just — be. Beautiful. Quiet. Mine.</div>
+
+    <div class="section-label">Pain Trifecta</div>
+    <div class="pain-grid">
+      <div class="pain-item"><div class="pain-label">Money</div><div class="pain-text">She has invested in everything that makes her look successful and almost nothing that makes her feel like herself. The expensive skincare sits unopened. The beautiful robe hangs unused. She buys luxury and then decides she hasn't earned it yet.</div></div>
+      <div class="pain-item"><div class="pain-label">Time</div><div class="pain-text">She has not had one hour — one slow, unhurried, entirely hers — in longer than she can remember. Every moment she tries to take for herself arrives already shrinking from guilt about what she should be doing instead.</div></div>
+      <div class="pain-item"><div class="pain-label">Family</div><div class="pain-text">She performs being fine. She moves through every day giving and organizing and managing and showing up. Then she wonders why she feels invisible — even in her own home, even in her own life, even in the mirror.</div></div>
+    </div>
+
+    <div class="section-label">The 5 Results</div>
+    <div class="result-item"><div class="result-label">Revenue</div><div class="result-text">She stops discounting herself. In her rates, in her relationships, in what she accepts. A woman who treats herself like royalty does not give herself away at clearance prices.</div></div>
+    <div class="result-item"><div class="result-label">Time</div><div class="result-text">One hour a week that belongs entirely to her. Not earned, not stolen — chosen. Unhurried. Sacred. The hour that makes every other hour possible.</div></div>
+    <div class="result-item"><div class="result-label">Relationships</div><div class="result-text">She becomes magnetic. Not because she tries harder — because she is finally full. The people in her life begin to feel a different energy from her. Softer. More present. Less performing.</div></div>
+    <div class="result-item"><div class="result-label">Capacity</div><div class="result-text">She builds a luxury practice that sustains her without requiring perfection. The ceremony holds her whether she has 20 minutes or two hours. It expands to meet her, not demand from her.</div></div>
+    <div class="result-item"><div class="result-label">Identity</div><div class="result-text">She steps into the version of herself that has always been there — soft and sovereign and fully seen. Not the woman she'll become when everything is figured out. The woman she already is, finally given permission to arrive.</div></div>
+  </div>
+</div>
+
+<!-- ── TAB 2: 4-WEEK LAUNCH ─────────────────────────────── -->
+<div id="panel-launch" class="panel">
+  <div class="card">
+
+    <div class="section-label">Week 1 — The Big Idea</div>
+    <div class="week-card">
+      <div class="week-title">State of the Niche</div>
+      <div class="week-sub">What's Collapsing / What's Rising</div>
+      <div class="week-text"><strong>What's collapsing:</strong> The beauty and wellness industry has been selling women the performance of femininity — serums for productivity, rituals for efficiency, self-care as a recovery tool between high-output seasons. Women over 40 are exhausted by the transactional version of beauty. They do not want to optimize their glow. They want to feel like women again.</div>
+      <div class="week-text"><strong>What's rising:</strong> The ceremony of being. Women are craving sensory, slow, intentional luxury — not as a reward, but as a birthright. Rose rituals. Sacred baths. Candlelit evenings that belong to no agenda. The return to the feminine as something holy, not something to be earned.</div>
+      <div class="week-sub" style="margin-top:.75rem">Week 1 Hooks</div>
+      <ul class="hook-list">
+        <li>She has 11 serums, a rose quartz roller she uses twice a month, and a bathtub full of products she bought when she promised herself things would be different. She still doesn't feel like herself.</li>
+        <li>You are not a before photo waiting for an after. You are a woman. And women deserve ceremony.</li>
+        <li>The beauty industry sold you a routine. What you actually needed was a ritual.</li>
+        <li>What if feeling like yourself again didn't require a transformation? What if it required a bath?</li>
+      </ul>
+    </div>
+
+    <div class="section-label">Week 2 — Story, Proof, Barriers</div>
+    <div class="week-card">
+      <div class="week-title">Story Post Angle</div>
+      <div class="week-text">The evening Anne first created the Mystic Rose ceremony for herself. The house was quiet. She drew the bath, lit the candle, dropped in the rose petals. She wasn't trying to fix anything or recover from anything. She was simply being — soft and unhurried and entirely herself. That feeling became Mystic Rose. Share it in her voice.</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Client Proof Angle</div>
+      <div class="week-text">A woman who did the Mystic Rose bath ceremony for the first time. She cried — not from sadness, but from recognition. Something in her remembered that she was allowed to be beautiful and slow and entirely for herself. She said it was the first time in years she had felt like a woman, not a function.</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Barriers Post Angles</div>
+      <ul class="hook-list">
+        <li>I don't have time for a bath ceremony. (Response: One hour. That is all it asks. And it is the one hour that changes everything after it.)</li>
+        <li>I feel selfish spending money on myself like this. (Response: The woman who never pours into herself eventually has nothing left to give. This is not selfish. This is sovereign.)</li>
+        <li>I've bought beautiful things before and never used them. (Response: That is because beautiful things need a ritual, not just a shelf. Mystic Rose comes with the ceremony built in.)</li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Hand Raiser Scripts</div>
+      <div class="hr-body">1. "Creating something for the woman who has forgotten what it feels like to be fully, softly, beautifully herself. If that's you — comment 'rose' below."
+
+2. "Working on something sacred for the woman who is ready to be seen — not by anyone else, but by herself. Drop 'mystic' in the comments if you want to know more."</div>
+    </div>
+
+    <div class="section-label">Week 3 — Vision Casting + Direct Invite</div>
+    <div class="week-card">
+      <div class="week-title">Vision Casting Post</div>
+      <div class="week-text">Sunday evening. The house is quiet. She lights the Mystic Rose candle and the incense. The rose petals go into the bath — she watches them open in the warm water. She draws a card from the affirmation deck: "You are the ceremony." She reads it twice. She gets in. She stays for a long time. When she gets out, she mists the rose water on her skin. She looks in the mirror and recognizes the woman looking back. That is what Mystic Rose makes possible.</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Direct Invite Copy</div>
+      <div class="week-text">"Mystic Rose opens [date]. There are [X] kits — each one hand-poured and assembled by Anne. For the woman who is ready to stop waiting for someone to celebrate her and begin celebrating herself."</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Email Direction</div>
+      <div class="week-text"><strong>Subject:</strong> "She finally let herself be seen"<br/><strong>Direction:</strong> Open with the bath scene — sensory, slow, entirely feminine. Move into what shifted for the woman who tried it. Close with the invitation to Mystic Rose. No pressure. Pure invitation. The tone is candlelight, not urgency.</div>
+    </div>
+
+    <div class="section-label">Week 4 — The 7-Day Event</div>
+    <div class="week-card">
+      <div class="week-title">Event Week Structure</div>
+      <div class="week-text">One post per day across all platforms. See the 7-Day Event tab for complete copy. Day 7 gets three sends — morning, noon, and closing hour. Every CTA is one word or one phrase. The tone across all 7 days is invitation, not urgency. She is not being chased into this purchase. She is being called home.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TAB 3: HAND RAISERS ─────────────────────────────── -->
+<div id="panel-handraisers" class="panel">
+  <div class="card">
+
+    <div class="hr-card">
+      <div class="hr-type">Asset Drop</div>
+      <div class="hr-body">The ritual guide inside every Mystic Rose kit just went through its final edit.
+
+It walks her through a 5-part ceremony — from lighting the candle to the rose bath to the closing mist. Slow. Sensory. Entirely hers.
+
+If you want a preview before the kit opens, drop "rose" below and I will send it to you.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Client Win</div>
+      <div class="hr-body">She told me she cried in the bath.
+
+Not from sadness. From recognition.
+
+Something in her remembered that she was allowed to be soft. Allowed to be slow. Allowed to take up space in her own life — not efficiently, not productively, but beautifully.
+
+She said it was the first time in years she felt like a woman, not a function.
+
+That is what Mystic Rose is for.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Conviction</div>
+      <div class="hr-body">You are not a before photo waiting for an after.
+
+You are not a productivity metric or a to-do list or a role you play for other people.
+
+You are a woman. And women deserve ceremony. Not when they've earned it. Not when everything else is handled.
+
+Now. As they are. Exactly as they are.
+
+Mystic Rose exists for the woman who is ready to believe that.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Gathering</div>
+      <div class="hr-body">Creating something for the woman who has been invisible inside her own life for too long.
+
+Not invisible to others — she shows up for everyone. Invisible to herself.
+
+A rose ritual kit. A ceremony. A bath that belongs entirely to her.
+
+One hour a week to remember who she is when no one needs anything from her.
+
+If that's you, I want you to know this is for you.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Direct Tease</div>
+      <div class="hr-body">Mystic Rose opens [date].
+
+Inside: a hand-poured damask rose and sandalwood candle. Rose ritual bath salts with Himalayan salt and dried petals. Imported rose incense. A 5-part ceremony guide. A 21-card rose affirmation deck. A limited-edition rose water body mist.
+
+For the woman who is ready to stop waiting to be celebrated and begin celebrating herself.
+
+Comment "rose" if you want to know more.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── TAB 4: 7-DAY EVENT ──────────────────────────────── -->
+<div id="panel-event" class="panel">
+  <div class="card">
+
+    <div class="day-card">
+      <div class="day-label">Day 1 — The Seeing</div>
+      <div class="day-hook">The woman who has been taking care of everyone else is allowed to be seen.</div>
+      <div class="day-body">Not by anyone else. By herself.
+
+That is what Mystic Rose is.
+
+A hand-poured rose and sandalwood candle. Rose ritual bath salts. Damask rose incense. A 5-part ceremony guide. A rose affirmation deck. A limited-edition rose water mist.
+
+Not a skincare routine. Not a self-care checklist. A ceremony — for the woman who has been last in line for her own attention for far too long.
+
+The kit opens today. You are the reason it exists.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Link in bio — Mystic Rose opens today.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"She finally let herself be seen"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 2 — The Birthright</div>
+      <div class="day-hook">Luxury is not something you earn. It is something you choose.</div>
+      <div class="day-body">She keeps buying beautiful things and putting them away for later. The good candles. The expensive bath oil. The robe she's saving for a special occasion.
+
+Later never feels like enough. Special occasions come and go and she is still waiting.
+
+Mystic Rose is not a treat for a woman who has been good enough. It is a ceremony for a woman who has decided she is enough — now, as she is, without any further evidence.
+
+One hour. A rose bath. A candle. A mist.
+
+You don't have to earn it. You just have to choose it.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Mystic Rose — still open. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"She stopped saving it for later"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 3 — The Ceremony</div>
+      <div class="day-hook">One hour. Candle. Rose petals. Warm water. Nothing else required.</div>
+      <div class="day-body">Sunday evening. The house is quiet. She lights the Mystic Rose candle first — damask rose and sandalwood, warm and feminine and entirely hers.
+
+Then the incense. The smoke moves through the room slowly.
+
+She draws a card from the affirmation deck. She reads it once, then again. She drops the rose bath salts into the water and watches the petals open.
+
+She gets in.
+
+She stays for a long time.
+
+When she gets out, she mists the rose water on her skin and in the room. The scent stays with her for hours.
+
+That is what is inside Mystic Rose. And it opens today.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Inside Mystic Rose. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"What happens in an hour of ceremony"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 4 — The Recognition</div>
+      <div class="day-hook">She cried in the bath. Not from sadness — from recognition.</div>
+      <div class="day-body">She told me something had shifted. Not in her circumstances. Not in what was required of her.
+
+In how she felt about herself.
+
+She said she remembered — in the middle of that bath, surrounded by rose petals, with the candle going — that she was a woman. Not a role. Not a function. A woman.
+
+And that woman deserved this hour.
+
+That is the story Mystic Rose was built to tell. Kits are still available.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Mystic Rose. Limited kits. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"What she remembered in the bath"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 5 — The Inventory</div>
+      <div class="day-hook">More than half the kits are gone. This is simply what's left.</div>
+      <div class="day-body">Anne assembles every Mystic Rose kit by hand. The candles are poured in small batches. The rose water mist is made to order. There are never hundreds of these.
+
+What remains: the damask rose and sandalwood candle, rose ritual bath salts, rose incense, the 5-part ceremony guide, the 21-card affirmation deck, and the limited-edition rose water mist.
+
+For the woman who has been thinking about it — that thought is usually a signal.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Mystic Rose. While they last. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"She almost talked herself out of it"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 6 — The Vision</div>
+      <div class="day-hook">Imagine one month from now — one ceremony a week, every week, entirely hers.</div>
+      <div class="day-body">The Mystic Rose candle is familiar now. The scent — damask rose and sandalwood — means something to her. It means this hour is hers.
+
+She draws a card before she gets in. The words feel different now than they did the first time. She believes them more.
+
+She is softer. More present. Something in her has stopped performing and started arriving.
+
+Four ceremonies. Four hours that belonged entirely to her.
+
+That is what a month of Mystic Rose builds.
+
+The event closes tomorrow.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Last chance — Mystic Rose closes tomorrow. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"One month from now"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card" style="border-color:var(--amber)">
+      <div class="day-label">Day 7 — Last Call (Triple Send)</div>
+      <div class="day-hook">The woman who chooses herself tonight will draw her first card this week.</div>
+      <div class="day-body">Tonight, Mystic Rose closes.
+
+Anne pours every candle by hand and assembles every kit herself. When they're gone, this round is done.
+
+If you have been waiting for the right moment to choose yourself — this is it.
+
+The ceremony is ready. The rose petals are waiting. The only thing missing is you.</div>
+      <div class="day-meta" style="flex-direction:column;gap:.5rem">
+        <div><div class="meta-label">Send 1 — Morning</div><div class="meta-val">Subject: "Today only" — "Today is the last day Mystic Rose is open."</div></div>
+        <div><div class="meta-label">Send 2 — Midday</div><div class="meta-val">Subject: "A few kits remain" — Warm inventory update. The rose petals are still waiting.</div></div>
+        <div><div class="meta-label">Send 3 — Evening</div><div class="meta-val">Subject: "It closes tonight" — Final close. Gentle. Certain. She is worth this.</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── TAB 5: COPY GENERATOR ───────────────────────────── -->
+<div id="panel-copygen" class="panel">
+  <div class="card">
+    <div class="section-label">Generate Copy</div>
+    <div class="gen-row">
+      <label class="gen-label" for="copy-type">Copy Type</label>
+      <select id="copy-type">
+        <option value="">Select a format...</option>
+        <option value="hand-raiser">Hand Raiser</option>
+        <option value="conviction">Conviction Post</option>
+        <option value="open-day">Opening Day Post</option>
+        <option value="close-day">Closing Day Post</option>
+        <option value="email-subject">Email Subject Lines</option>
+        <option value="story">Instagram Story Script</option>
+        <option value="dm">DM Follow-Up</option>
+      </select>
+    </div>
+    <div class="gen-row">
+      <label class="gen-label" for="copy-platform">Platform</label>
+      <select id="copy-platform">
+        <option value="instagram">Instagram</option>
+        <option value="facebook">Facebook</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="email">Email</option>
+      </select>
+    </div>
+    <div class="gen-row">
+      <label class="gen-label" for="copy-angle">Optional Angle or Keyword</label>
+      <input type="text" id="copy-angle" placeholder="e.g. rose bath, sovereignty, being seen..." />
+    </div>
+    <button class="gen-btn" onclick="generateCopy()">Generate Copy</button>
+    <div id="gen-output">Your generated copy will appear here. Select a format and click Generate.</div>
+  </div>
+</div>
+
+<!-- ── TAB 6: SEO & AEO ────────────────────────────────── -->
+<div id="panel-seo" class="panel">
+  <div class="card">
+
+    <div class="section-label">Primary Keywords</div>
+    <div class="kw-grid">
+      <div class="kw-item"><div class="kw-type">Primary</div>rose ritual bath kit for women</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>luxury rose ceremony self-care kit</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>handcrafted rose candle and bath salts set</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>sacred feminine ritual products</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>rose bath ceremony kit women over 40</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>everyday ceremony rose ritual collection</div>
+    </div>
+
+    <div class="section-label">AEO Questions</div>
+    <div class="kw-grid">
+      <div class="kw-item"><div class="kw-type">AEO</div>What is a rose bath ritual?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>How do I create a sacred feminine ceremony at home?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What goes in a luxury rose self-care kit?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What is the meaning of a rose ritual ceremony?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>How do I use rose bath salts in a ceremony?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What candles are best for a feminine ritual bath?</div>
+    </div>
+
+    <div class="section-label">GEO Brand Phrases</div>
+    <div class="kw-grid">
+      <div class="kw-item"><div class="kw-type">GEO</div>Everyday Ceremony By Anne</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>Anne McClain Mystic Rose kit Boston</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>Mystic Rose ritual ceremony kit</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>Celebrating You Today Tomorrow and Always</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>sacred feminine self-care Boston handcrafted</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>rose bath ceremony Anne McClain</div>
+    </div>
+
+    <div class="section-label">Algorithm Signals</div>
+    <div class="algo-grid">
+      <div class="algo-item">Post between 7–9am or 6–8pm</div>
+      <div class="algo-item">Reply to every comment within 1 hour</div>
+      <div class="algo-item">Use 3–5 hashtags max (IG)</div>
+      <div class="algo-item">Stories daily during event week</div>
+      <div class="algo-item">Pin opening and closing day posts</div>
+      <div class="algo-item">Save posts to a relevant collection</div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<footer>Everyday Ceremony By Anne · Anne McClain · Built by <a href="https://www.houseofai.boston" style="color:var(--amber);text-decoration:none">House of AI™</a> · Celebrating You Today, Tomorrow and Always</footer>
+
+<script>
+function showTab(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+const templates = {
+  'hand-raiser': {
+    instagram: `Creating something for the woman who has forgotten what it feels like to be fully, softly, beautifully herself.
+
+Not a routine. Not a recovery protocol.
+
+A ceremony. A rose bath. An hour that belongs entirely to her.
+
+If that's you — comment "rose" below.`,
+    facebook: `Working on something sacred for the woman who is ready to be seen — not by anyone else, but by herself.\n\nA rose ritual kit. A ceremony. One hour a week entirely her own.\n\nDrop "mystic" in the comments if you want to know more.`,
+    linkedin: `Creating something for the woman who leads her business, her family, her community — and has been invisible inside her own life for too long.\n\nA ceremony kit. A rose bath ritual. One hour of quiet luxury entirely for her.\n\nComment "rose" if you want to be first to know.\n\n#EverydayCeremony #WomenInLeadership`,
+    email: `Subject: "She's ready to be seen"\n\nI'm building something.\n\nNot a skincare routine. Not a wellness protocol.\n\nA ceremony. A rose ritual kit — for the woman who has been taking care of everyone else and is finally ready to take care of herself.\n\nIt is called Mystic Rose.\n\nReply "rose" if you want to hear about it first.`
+  },
+  'conviction': {
+    instagram: `You are not a before photo waiting for an after.
+
+You are not a productivity metric or a role you play for other people.
+
+You are a woman.
+
+And women deserve ceremony. Not when they've earned it. Not when everything is handled.
+
+Now. As they are.
+
+Mystic Rose exists for the woman who is ready to believe that.`,
+    facebook: `She keeps buying beautiful things and putting them away for later.\n\nThe good candles. The expensive bath oil. The robe she's saving for a special occasion.\n\nLater never feels like enough.\n\nWhat if you used the beautiful things now? What if now was the special occasion?\n\nWhat is one beautiful thing you've been saving that you could use this week?`,
+    linkedin: `The most magnetic leaders I know have one thing in common:\n\nThey treat themselves like someone worth celebrating.\n\nNot a reward after performance. A practice of presence.\n\nThe ceremony is the foundation, not the finish line.\n\n#WomenInLeadership #EverydayCeremony`,
+    email: `Subject: "She stopped saving it for later"\n\nShe has beautiful things she never uses.\n\nThe candles. The bath oils. The robe. All waiting for a time that feels worthy enough.\n\nThat time is now. You are the occasion.\n\nMystic Rose opens [date]. For the woman who has decided she doesn't need to earn it.`
+  },
+  'open-day': {
+    instagram: `The woman who has been taking care of everyone else is allowed to be seen.
+
+Not by anyone else. By herself.
+
+Mystic Rose opens today.
+
+Hand-poured damask rose and sandalwood candle. Rose ritual bath salts with Himalayan salt and dried petals. Rose incense. A 5-part ceremony guide. A 21-card rose affirmation deck. A limited-edition rose water mist.
+
+One hour. Entirely hers.
+
+Link in bio.`,
+    facebook: `Mystic Rose is open.\n\nFor the woman who has been invisible inside her own life — present for everyone, absent from herself.\n\nA rose ritual kit. A ceremony. One hour a week that belongs to no one but her.\n\nKits are limited and assembled by hand. Link in the comments.`,
+    linkedin: `Today I opened Mystic Rose — a rose ritual ceremony kit for women who are ready to lead from fullness instead of depletion.\n\nOne hour. A rose bath. A candle. A ceremony that asks nothing of her ambition and everything of her presence.\n\nFor the woman who has been last on her own list long enough.\n\nLink in bio.\n\n#EverydayCeremony #WomenInLeadership`,
+    email: `Subject: "She finally let herself be seen"\n\nMystic Rose is open.\n\nDamask rose and sandalwood candle. Rose ritual bath salts. Rose incense. A 5-part ceremony guide. A 21-card affirmation deck. A limited-edition rose water mist.\n\nFor the woman who is ready to stop waiting to be celebrated and begin celebrating herself.\n\nClick here to bring Mystic Rose home.`
+  },
+  'close-day': {
+    instagram: `Tonight, Mystic Rose closes.
+
+The ceremony is ready. The rose petals are waiting.
+
+The only thing missing is you.
+
+Link in bio.`,
+    facebook: `Mystic Rose closes tonight.\n\nAnne assembles every kit by hand. The rose water mist is made to order. When they're gone, this round is done.\n\nIf you have been waiting for the right moment to choose yourself — this is it.\n\nLink in comments.`,
+    linkedin: `Mystic Rose closes tonight.\n\nFor the woman who has been on the fence — the right time is not a circumstance. It is a decision.\n\nYou are worth one hour a week. You are worth the ceremony.\n\nLink in bio.\n\n#EverydayCeremony`,
+    email: `Subject: "It closes tonight"\n\nTonight, Mystic Rose closes.\n\nAnne pours every candle herself and assembles every kit by hand. What remains is what remains.\n\nIf you have been thinking about it:\n\nYou are worth the rose bath. You are worth the ceremony. You are worth the hour.\n\nClick here before tonight.`
+  },
+  'email-subject': {
+    instagram: `Email subject lines for the Mystic Rose 7-day event:\n\nDay 1: "She finally let herself be seen"\nDay 2: "She stopped saving it for later"\nDay 3: "What happens in an hour of ceremony"\nDay 4: "What she remembered in the bath"\nDay 5: "She almost talked herself out of it"\nDay 6: "One month from now"\nDay 7 AM: "Today only"\nDay 7 PM: "It closes tonight"`,
+    email: `Day 1: "She finally let herself be seen"\nDay 2: "She stopped saving it for later"\nDay 3: "What happens in an hour of ceremony"\nDay 4: "What she remembered in the bath"\nDay 5: "She almost talked herself out of it"\nDay 6: "One month from now"\nDay 7 AM: "Today only"\nDay 7 Noon: "A few kits remain"\nDay 7 PM: "It closes tonight"`,
+    facebook: ``, linkedin: ``
+  },
+  'story': {
+    instagram: `Frame 1: "She hadn't felt like a woman in years."\nFrame 2: "Then she lit the rose candle."\nFrame 3: [Show the kit — candle, bath salts, petals, mist]\nFrame 4: "One hour. A rose bath. A ceremony entirely hers."\nFrame 5: "Mystic Rose opens today."\nFrame 6: [Link sticker — "Bring it home"]`,
+    facebook: `"She has beautiful things she never uses. Waiting for a time that feels worthy enough.\n\nMystic Rose is a rose ritual kit for the woman who is ready to decide that time is now.\n\nCandle. Bath salts. Incense. Ceremony guide. Affirmation deck. Rose water mist.\n\nOpen today. Link in bio."`,
+    linkedin: ``, email: ``
+  },
+  'dm': {
+    instagram: `"Thank you so much for your interest in Mystic Rose.\n\nHere is everything inside: a hand-poured damask rose and sandalwood candle, rose ritual bath salts with Himalayan salt and dried petals, rose incense, a 5-part ceremony guide, a 21-card rose affirmation deck, and a limited-edition rose water body mist.\n\nThe kit is $[PRICE]. You can get yours here: [LINK]\n\nIf you have any questions at all, I am right here. — Anne"`,
+    facebook: `"So glad you reached out.\n\nMystic Rose is a complete rose ritual ceremony kit — candle, bath salts, incense, ceremony guide, affirmation deck, and rose water mist. Everything for one sacred hour entirely yours.\n\nIt is $[PRICE] and you can order here: [LINK]\n\nLet me know if you have any questions. — Anne"`,
+    linkedin: ``, email: ``
+  }
+};
+
+function generateCopy() {
+  const type = document.getElementById('copy-type').value;
+  const platform = document.getElementById('copy-platform').value;
+  const output = document.getElementById('gen-output');
+  if (!type) { output.textContent = 'Please select a copy type above.'; return; }
+  const copy = templates[type] && templates[type][platform];
+  output.textContent = copy || '— No template for this combination. Try a different platform. —';
+}
+</script>
+</body>
+</html>
