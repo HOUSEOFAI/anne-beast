@@ -11,7 +11,6 @@
   --border:#2d1a56;--border-lt:#3d2570;
   --amber:#c9a227;--amber-lt:#e8bb38;--amber-dim:rgba(201,162,39,0.12);
   --cream:#f0e8d8;--muted:#7a6090;
-  /* aliases for template compatibility */
   --pine:var(--bg);--gold:var(--amber);--ivory:var(--surface2);--slate:var(--cream);--mist:var(--border)
 }
 body{font-family:Georgia,serif;background:var(--bg);color:var(--cream);min-height:100vh}
@@ -19,10 +18,14 @@ body{font-family:Georgia,serif;background:var(--bg);color:var(--cream);min-heigh
 .hdr-eyebrow{color:var(--amber);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem}
 .hdr-title{color:var(--cream);font-size:2rem;font-style:italic}
 .hdr-sub{color:var(--muted);font-size:.85rem;margin-top:.25rem}
-nav{background:var(--bg);border-bottom:1px solid rgba(201,162,39,.15);display:flex;padding:0 2rem;overflow-x:auto}
+nav{background:var(--bg);border-bottom:1px solid rgba(201,162,39,.15);display:flex;align-items:center;padding:0 1rem;overflow-x:auto}
 .tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:Georgia,serif;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:.85rem 1.1rem;cursor:pointer;white-space:nowrap;transition:all .2s}
 .tab:hover{color:var(--cream)}
 .tab.active{color:var(--amber);border-bottom-color:var(--amber)}
+.nav-arrow{background:none;border:1px solid var(--border);border-radius:4px;color:var(--amber);font-size:1rem;padding:.3rem .6rem;cursor:pointer;line-height:1;flex-shrink:0;transition:all .2s;margin:.3rem .25rem}
+.nav-arrow:hover{background:var(--amber-dim);border-color:var(--amber)}
+.nav-arrow:disabled{color:var(--border);cursor:default;border-color:var(--border)}
+.nav-arrow:disabled:hover{background:none}
 main{max-width:900px;margin:0 auto;padding:2rem}
 .panel{display:none}
 .panel.active{display:block}
@@ -88,12 +91,14 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:.76rem;border
 </header>
 
 <nav>
-  <button class="tab active" onclick="showTab('offer',this)">The Offer</button>
-  <button class="tab" onclick="showTab('launch',this)">4-Week Launch</button>
-  <button class="tab" onclick="showTab('handraisers',this)">Hand Raisers</button>
-  <button class="tab" onclick="showTab('event',this)">7-Day Event</button>
-  <button class="tab" onclick="showTab('copygen',this)">Copy Generator</button>
-  <button class="tab" onclick="showTab('seo',this)">SEO &amp; AEO</button>
+  <button class="nav-arrow" id="btn-prev" onclick="stepTab(-1)" disabled>&#8592;</button>
+  <button class="tab active" onclick="showTab(0,this)">The Offer</button>
+  <button class="tab" onclick="showTab(1,this)">4-Week Launch</button>
+  <button class="tab" onclick="showTab(2,this)">Hand Raisers</button>
+  <button class="tab" onclick="showTab(3,this)">7-Day Event</button>
+  <button class="tab" onclick="showTab(4,this)">Copy Generator</button>
+  <button class="tab" onclick="showTab(5,this)">SEO &amp; AEO</button>
+  <button class="nav-arrow" id="btn-next" onclick="stepTab(1)">&#8594;</button>
 </nav>
 
 <main>
@@ -102,32 +107,34 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:.76rem;border
 <div id="panel-offer" class="panel active">
   <div class="card">
     <div class="section-label">Offer Positioning</div>
-    <div class="offer-position">The woman who has given everything is allowed to want something back. Reclaim is the first ceremony she holds for herself — not when everything calms down, not when everyone else is taken care of. Now.</div>
+    <div class="offer-position">She has been in the dark longer than most people have been curious about it. She can tell the real ones from the tourists before they even speak. And yet — the ceremony she holds for her scene, her people, her whole world — she has never held one for herself. Reclaim is that. Not another beautiful object. The practice she has been carrying the space for, finally turned inward.</div>
 
     <div class="section-label">What She Gets</div>
-    <div class="deliverable"><div class="del-num">01</div><div><div class="del-title">The Reclaim Candle</div><div class="del-desc">Hand-poured in cedar and bergamot. Lit at the start of her morning ceremony. Made by Anne in small batches — not a mass product, but a ritual object.</div></div></div>
-    <div class="deliverable"><div class="del-num">02</div><div><div class="del-title">Sacred Morning Incense Bundle</div><div class="del-desc">Palo santo and lavender blend. Used to clear the space and center herself before the journal. Fifteen minutes of smoke and silence before the world begins.</div></div></div>
-    <div class="deliverable"><div class="del-num">03</div><div><div class="del-title">The Reclaim Journal</div><div class="del-desc">28 guided prompts — one per day — for returning to herself. Not therapy. Not productivity. A daily conversation with the woman she has been waiting to meet again.</div></div></div>
-    <div class="deliverable"><div class="del-num">04</div><div><div class="del-title">7-Day Morning Ceremony Framework</div><div class="del-desc">A 15-minute ritual guide — candle, incense, prompt, intention — for her first week. Simple enough to do every day. Sacred enough to want to.</div></div></div>
-    <div class="deliverable"><div class="del-num">05</div><div><div class="del-title">Ceremony Intention Cards</div><div class="del-desc">7 cards — one for each day of the week — each with an intention, an affirmation, and a closing phrase. She places them on her altar or tucks them into her journal.</div></div></div>
-    <div class="deliverable"><div class="del-num">06</div><div><div class="del-title">The Reclaim Circle</div><div class="del-desc">Private community access for women walking the same return. A place to share what shifted, what surprised her, and what she is choosing next.</div></div></div>
+    <div class="deliverable"><div class="del-num">01</div><div><div class="del-title">The Reclaim Candle — $55</div><div class="del-desc">Hand-poured in cedar and bergamot. Made by Anne in small batches, not for a shelf — for the ceremony. Lit before the journal, before the phone, before the world has any claim on the morning. A ritual object with one job: to begin something.</div></div></div>
+    <div class="deliverable"><div class="del-num">02</div><div><div class="del-title">Ritual Oil — $44</div><div class="del-desc">Anointed before the ceremony opens. Applied to pulse points, to the candle, to the intention cards. Not a beauty product. An activation. Made by Anne for the woman who knows the difference between decoration and practice.</div></div></div>
+    <div class="deliverable"><div class="del-num">03</div><div><div class="del-title">Sacred Morning Incense Bundle</div><div class="del-desc">Palo santo and lavender blend. Used to open the space before the journal. Not for the altar photo. For the actual practice — fifteen minutes of smoke and silence before the world begins.</div></div></div>
+    <div class="deliverable"><div class="del-num">04</div><div><div class="del-title">The Reclaim Journal</div><div class="del-desc">28 guided prompts — one per day — built to go deeper than the aesthetic. Not therapy. Not productivity. A daily practice of going all the way in and writing what she finds there. For the woman who has been going deep for others her whole life.</div></div></div>
+    <div class="deliverable"><div class="del-num">05</div><div><div class="del-title">7-Day Morning Ceremony Framework</div><div class="del-desc">A 15-minute ritual guide — candle, oil, incense, prompt, intention — for her first week. Simple enough to do every day. Rooted enough to actually mean something.</div></div></div>
+    <div class="deliverable"><div class="del-num">06</div><div><div class="del-title">Ceremony Intention Cards</div><div class="del-desc">7 cards — one for each day — with an intention, an affirmation, and a closing phrase. For the altar. They anchor the practice. Not decoration.</div></div></div>
+    <div class="deliverable"><div class="del-num">07</div><div><div class="del-title">The Reclaim Circle</div><div class="del-desc">Private community access for women who know what ceremony is and are finally doing it for themselves. Not aesthetics talk. Practice — what shifted, what surprised her, what she is choosing to go toward next.</div></div></div>
+    <div style="margin-top:1rem;padding:.85rem 1rem;background:var(--amber-dim);border:1px solid var(--amber);border-radius:6px;font-size:.9rem;color:var(--cream)"><strong style="color:var(--amber)">Full Ritual Kit — $118</strong> &nbsp;·&nbsp; Candle + Ritual Oil + Incense + Journal + Framework + Intention Cards + Circle Access</div>
 
     <div class="section-label">Her Inner Monologue</div>
-    <div class="profile-quote">I know I need to do something for myself. I just don't know where to start. Everything I've tried feels like one more thing to manage. I don't want a routine. I want to feel like myself again. I want permission to stop performing and just be. I'm not sure something this small can actually change anything. But I'm tired of waiting for the right time.</div>
+    <div class="profile-quote">I've been in the scene since before it was on TikTok. I know who's real and who found this six months ago. I go to the shows, I know the shops, I know the people. I hold space for all of it. And I still don't have something that holds me. I light candles before I go out — but that's not a practice, that's a ritual. I want the real thing. Made by someone who actually understands what I'm asking for. Not sold to me because of how I look.</div>
 
     <div class="section-label">Pain Trifecta</div>
     <div class="pain-grid">
-      <div class="pain-item"><div class="pain-label">Money</div><div class="pain-text">She keeps giving her work, her time, and her wisdom away at prices — and in ways — that don't reflect who she actually is. Because somewhere she learned that she had to earn the right to be valued.</div></div>
-      <div class="pain-item"><div class="pain-label">Time</div><div class="pain-text">She hasn't had an hour to herself in years. Not one that didn't feel stolen from something more important. Every moment for herself arrives already shadowed by guilt.</div></div>
-      <div class="pain-item"><div class="pain-label">Family</div><div class="pain-text">She shows up for everyone. And somewhere in the middle of all that showing up, she stopped showing up for herself. The people she loves have all of her. She has almost none.</div></div>
+      <div class="pain-item"><div class="pain-label">The Scene</div><div class="pain-text">She holds space for everyone in her world — the shows, the events, the people who need somewhere to belong. She is the anchor. She does not have an anchor. She has been giving the ceremony to everyone else and skipping it for herself.</div></div>
+      <div class="pain-item"><div class="pain-label">The Objects</div><div class="pain-text">She has bought from brands that market darkness to people who discovered it last year. She can spot it. She is done paying for the aesthetic version of something that is supposed to be real. When she spends, she wants it to land in something true.</div></div>
+      <div class="pain-item"><div class="pain-label">The Practice</div><div class="pain-text">She has the altar. The oils. The incense. She lights things and sits in front of them and feels adjacent to something — not inside it. She knows the difference. She has been waiting for something that closes the gap.</div></div>
     </div>
 
     <div class="section-label">The 5 Results</div>
-    <div class="result-item"><div class="result-label">Revenue</div><div class="result-text">She reclaims her sense of worth — and that shift shows up in how she prices, how she negotiates, and what she decides to stop tolerating. A woman who treats herself like a priority does not give herself away.</div></div>
-    <div class="result-item"><div class="result-label">Time</div><div class="result-text">Fifteen minutes becomes the anchor. Meetings, decisions, hard conversations — they all get clearer when she starts the day in ceremony. She doesn't need more time. She needs to use what she has differently.</div></div>
-    <div class="result-item"><div class="result-label">Relationships</div><div class="result-text">She stops overgiving from depletion and starts showing up from fullness. The people in her life feel the difference — even if they cannot name it. She becomes more present because she is finally present to herself.</div></div>
-    <div class="result-item"><div class="result-label">Capacity</div><div class="result-text">She builds something that sustains her — not another system to maintain, but the practice that makes everything else maintainable. The ceremony holds her so she can hold everything else.</div></div>
-    <div class="result-item"><div class="result-label">Identity</div><div class="result-text">She remembers who she was before she became everyone's everything. And she finds that woman is not gone. She has just been waiting — patient and whole — for someone to light a candle for her.</div></div>
+    <div class="result-item"><div class="result-label">Revenue</div><div class="result-text">She stops giving her time and her gifts to rooms that do not understand what she carries. A woman rooted in her own practice knows what she is worth — and she stops discounting it for people who cannot see it.</div></div>
+    <div class="result-item"><div class="result-label">Time</div><div class="result-text">The 15 minutes she protects become the spine of her day. She stops giving the first of herself to everyone else. The ceremony teaches her — by feel, not by logic — what is worth her presence and what is not.</div></div>
+    <div class="result-item"><div class="result-label">Relationships</div><div class="result-text">She stops holding space from depletion and starts holding it from depth. Her people feel the difference. She becomes more of what she has always been — and less available to the ones who have been taking what they did not earn.</div></div>
+    <div class="result-item"><div class="result-label">Capacity</div><div class="result-text">She has always held a great deal. The ceremony teaches her how to be held. She stops being the last one standing at the end of the night — holding everything, recharged by nothing — and starts filling herself first.</div></div>
+    <div class="result-item"><div class="result-label">Identity</div><div class="result-text">She was never performing. She was always this. The ceremony does not change who she is — it takes her further into it. And for the first time, the inside matches the outside completely.</div></div>
   </div>
 </div>
 
@@ -139,54 +146,54 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:.76rem;border
     <div class="week-card">
       <div class="week-title">State of the Niche</div>
       <div class="week-sub">What's Collapsing / What's Rising</div>
-      <div class="week-text"><strong>What's collapsing:</strong> The wellness industry has been selling women a productivity-adjacent version of self-care — morning stacks, habit trackers, 75-day challenges, optimization protocols. Women over 40 are done with it. They followed the routines. They tracked the habits. They still don't feel like themselves. The system didn't fail them. It was never designed for them.</div>
-      <div class="week-text"><strong>What's rising:</strong> The return. Women are craving permission to stop performing wellness and start experiencing it. Sacred, slow, intentional. A ceremony, not a checklist. Something that asks nothing of her ambition and everything of her presence.</div>
+      <div class="week-text"><strong>What's collapsing:</strong> The goth, darkwave, and trad goth scenes have been discovered — and monetized. Brands are selling darkness to people who found it six months ago on TikTok, and the women who have been in the scene for years can see it from across the room. The aesthetic market is oversaturated with products that look right but were made for the tourist. The real ones are done with it.</div>
+      <div class="week-text"><strong>What's rising:</strong> Practice over performance. The women who have held the scene together — who go to the shows, run the events, hold the space for their whole community — are hungry for something that holds them back. Not another beautiful object. A ceremony with roots. Made by someone who actually understands what ceremony is.</div>
       <div class="week-sub" style="margin-top:.75rem">Week 1 Hooks</div>
       <ul class="hook-list">
-        <li>The wellness industry told you self-care was a routine. It lied.</li>
-        <li>She has 3 journals she never opens, a meditation app she forgot she downloaded, and 47 supplements she's mostly guessing at. She still doesn't feel like herself.</li>
-        <li>You don't need another morning stack. You need a ceremony.</li>
-        <li>What if the thing you've been searching for didn't require more effort?</li>
+        <li>You've been in the dark longer than most people have been curious about it. When's the last time you held ceremony for yourself?</li>
+        <li>You can spot a fake from across the room. This is not for them.</li>
+        <li>You hold space for everyone in your world. Something is allowed to hold you back.</li>
+        <li>You have the altar. The oils. The incense. You know what's still missing.</li>
       </ul>
     </div>
 
     <div class="section-label">Week 2 — Story, Proof, Barriers</div>
     <div class="week-card">
       <div class="week-title">Story Post Angle</div>
-      <div class="week-text">The moment Anne realized the ritual objects she was making were not products — they were invitations. Each candle she poured was a permission slip for the woman who held it to stop performing and begin arriving. Share the origin of Reclaim — why she made it, who she made it for, what she hoped they would feel when they lit the first candle.</div>
+      <div class="week-text">The moment Anne realized the ritual objects she was making were not products — they were invitations. Not to look at ceremony, but to live inside it. Share the origin of Reclaim — why she made it, who she made it for, and what the difference is between having the candle and actually doing the practice. The woman she was speaking to already had beautiful things. Anne was building a container for what those things were always pointing toward.</div>
     </div>
     <div class="week-card">
       <div class="week-title">Client Proof Angle</div>
-      <div class="week-text">A woman who used the Reclaim ritual for the first time and what shifted in 7 days. Not a dramatic transformation — a quiet one. She woke up 10 minutes earlier without setting an alarm. She made her tea slowly. She felt, for the first time in a long time, like the morning belonged to her.</div>
+      <div class="week-text">A woman who came to Reclaim with an altar already built — who thought she had ceremony — and what shifted in 7 days when she actually had a framework. Not dramatic. Quiet. She lit the candle not for the photo but for the 15 minutes. She wrote something honest in the journal. She felt, for the first time, like the practice was holding her rather than decorating her space.</div>
     </div>
     <div class="week-card">
       <div class="week-title">Barriers Post Angles</div>
       <div class="week-text">Address each of these directly — one post or story per barrier:</div>
       <ul class="hook-list">
-        <li>I don't have time for a ritual. (Response: 15 minutes. That is all it asks.)</li>
-        <li>I feel guilty spending money on myself. (Response: That guilt is exactly why you need this.)</li>
-        <li>I've tried things like this before and they don't stick. (Response: A ceremony isn't something you have to maintain. It's something that holds you.)</li>
+        <li>I already have a practice. (Response: You have the altar. Reclaim gives you the ceremony.)</li>
+        <li>I don't do mainstream wellness. (Response: This isn't wellness. It's ritual. There is a difference.)</li>
+        <li>I've bought things like this before and they end up on the shelf. (Response: Reclaim includes the practice, not just the objects. The framework is what makes it real.)</li>
       </ul>
     </div>
     <div class="week-card">
       <div class="week-title">Hand Raiser Scripts</div>
-      <div class="hr-body">1. "I'm building something for the woman who keeps putting herself last. Not a protocol. Not a productivity system. Something sacred. If that's you — comment 'yes' below."
+      <div class="hr-body">1. "Building something for the woman who already has the altar and is ready for the ceremony that actually goes deep. Not aesthetics. Practice. If that's you — comment 'yes' below."
 
-2. "Working on something for the woman who is ready to come home to herself. If you want eyes on it before it opens, drop 'reclaim' in the comments."</div>
+2. "Working on something for the woman who has been circling ceremony her whole life and is finally ready to go all the way in. Drop 'reclaim' if you want to see it first."</div>
     </div>
 
     <div class="section-label">Week 3 — Vision Casting + Direct Invite</div>
     <div class="week-card">
       <div class="week-title">Vision Casting Post</div>
-      <div class="week-text">Paint the specific morning. 6:47am. The house is quiet. She lights the candle before the phone comes on. She reads one prompt from the journal — just one. She sits with it for three minutes. Then she writes. Not much. A paragraph, maybe two. Then she closes the journal, blows out the candle, and begins her day. And somehow every single thing that comes after it is clearer. That is what 30 days of Reclaim builds.</div>
+      <div class="week-text">Paint the specific morning. The house is still dark. She strikes the match before the phone comes on. The cedar and bergamot are familiar now — the scent of her own ceremony, her own mornings. She opens the journal. The prompt today goes somewhere she didn't expect. She writes for 10 minutes, not editing, just following. She closes the journal and sits with the candle for a moment. Then she begins her day. And everything that comes after it carries something of that quiet. That is 30 days of Reclaim — not a transformation, a deepening.</div>
     </div>
     <div class="week-card">
       <div class="week-title">Direct Invite Copy</div>
-      <div class="week-text">"Reclaim opens [date]. There are [X] kits available — each one hand-poured and packed by Anne. If you have been waiting for a sign that you are allowed to come first, this is it."</div>
+      <div class="week-text">"Reclaim opens [date]. There are [X] kits available — each one hand-poured and packed by Anne. If you have been building the altar and waiting for the ceremony to match it, this is it."</div>
     </div>
     <div class="week-card">
       <div class="week-title">Email Direction</div>
-      <div class="week-text"><strong>Subject:</strong> "She lit the candle and everything changed"<br/><strong>Direction:</strong> Open with a sensory scene — the smell of cedar, the quiet of the morning, the specific feeling of being first. Move into her transformation story. Close with the CTA to the Reclaim page. No urgency language — just invitation.</div>
+      <div class="week-text"><strong>Subject:</strong> "She finally put something at the center"<br/><strong>Direction:</strong> Open with the gap — she has the altar, the objects, the aesthetic, and something is still missing at the center. Move into what changes when the practice is real. Close with the CTA to the Reclaim page. No wellness language. No urgency. Invitation to go in.</div>
     </div>
 
     <div class="section-label">Week 4 — The 7-Day Event</div>
@@ -212,46 +219,52 @@ If you want a preview before the kit opens, drop "ceremony" below and I'll send 
 
     <div class="hr-card">
       <div class="hr-type">Client Win</div>
-      <div class="hr-body">She told me she hadn't felt like herself in years.
+      <div class="hr-body">She had been lighting candles for years.
 
-Then she lit the candle, opened the journal, and something shifted. Not everything. Just enough.
+Beautiful ones. Intentional ones. She knew what ceremony was supposed to feel like.
 
-She woke up the next morning and made her tea slowly. She sat with it before the phone came on. She said it was the first morning in a long time that felt like it belonged to her.
+But when she sat down with the Reclaim framework — the prompt, the practice, the actual container — something clicked.
+
+She told me it was the first morning in a long time that felt like it belonged to her. Not to the aesthetic. To her.
 
 That is what Reclaim is for.</div>
     </div>
 
     <div class="hr-card">
       <div class="hr-type">Conviction</div>
-      <div class="hr-body">Self-care is not a reward you earn after you've finished taking care of everyone else.
+      <div class="hr-body">Trad goth, darkwave, deathrock — these are not aesthetics.
 
-It is the foundation everything else is built on.
+They are an orientation toward depth. Toward the parts of life most people refuse to look at. Toward ceremony as a way of living, not a way of dressing.
 
-The woman who starts her day in ceremony is not indulgent. She is strategic. She is sovereign. She is finally putting herself in the position to give from abundance instead of depletion.
+You have known this since before most people knew the word.
 
-Reclaim exists for the woman who is ready to remember that.</div>
+Reclaim is for the woman who has been holding the scene together — the shows, the people, the space — and has never held a ceremony for herself.
+
+Not the candle you lit before you went out. The practice you come home to.</div>
     </div>
 
     <div class="hr-card">
       <div class="hr-type">Gathering</div>
-      <div class="hr-body">Building something for the woman who has been last on her own list for too long.
+      <div class="hr-body">Building something for the woman who has been in the dark long enough to know what's real.
 
-Not a routine. Not a morning protocol. Not another thing to track or optimize.
+Not a product for the tourist market. A ceremony kit made by someone who understands what ceremony actually is.
 
-A ceremony.
+A hand-poured candle. A ritual oil. A 28-day journal. A framework for the morning. And the decision to finally do this for yourself.
 
-Fifteen minutes. A candle. A journal. An incense bundle. And the quiet decision that she comes first today.
-
-If that woman is you, I want to hear from you.</div>
+If that's you — I want to hear from you.</div>
     </div>
 
     <div class="hr-card">
       <div class="hr-type">Direct Tease</div>
       <div class="hr-body">Reclaim opens [date].
 
-Inside: a hand-poured cedar and bergamot candle. A sacred morning incense bundle. The Reclaim Journal — 28 prompts for the woman returning to herself. A 7-day morning ceremony framework. Intention cards. Private community.
+The Reclaim Candle ($55) — cedar and bergamot, hand-poured in small batches.
+The Ritual Oil ($44) — for anointing before the ceremony opens.
+Sacred morning incense. The Reclaim Journal — 28 prompts for the woman who is ready to go all the way in. 7-day ceremony framework. Intention cards. Private circle.
 
-Everything the woman who is ready to come home to herself needs to begin.
+Full kit: $118.
+
+Made by Anne. Not for the aesthetic market. For the woman who has been in the scene long enough to know what she's actually looking for.
 
 Comment "reclaim" if you want to know more.</div>
     </div>
@@ -265,54 +278,68 @@ Comment "reclaim" if you want to know more.</div>
 
     <div class="day-card">
       <div class="day-label">Day 1 — The Awakening</div>
-      <div class="day-hook">The woman who gave everything is allowed to want something back.</div>
-      <div class="day-body">Not eventually. Not when everything calms down. Not after the project is finished or the kids are older or the business levels up.
+      <div class="day-hook">You have been in the dark long enough to know what's real. This was made for you.</div>
+      <div class="day-body">Not for the tourist market. Not for the woman who discovered this last year.
 
-Now.
+For the woman who has been going to the shows, knowing the shops, holding the scene together — and has never held a ceremony entirely for herself.
 
-Reclaim is a ritual kit for the woman who has spent years being everyone else's anchor. The one who holds everything together so gracefully that nobody notices how long she has been doing it without being held herself.
+Reclaim opens today.
 
-The kit opens today. Inside: a hand-poured candle, sacred incense, 28 days of journal prompts, a 7-day morning ceremony framework, and a private circle of women walking the same return.
+The Reclaim Candle — $55. Cedar and bergamot. Hand-poured by Anne in small batches. Made to be burned, not displayed.
 
-This is your sign.</div>
+The Ritual Oil — $44. For anointing before the ceremony opens. Not a beauty product. An activation.
+
+Sacred morning incense. The Reclaim Journal — 28 prompts that go where you actually live. 7-day ceremony framework. Intention cards. Private circle.
+
+Full kit: $118.
+
+This is the ceremony you have been holding for everyone else. Now it's yours.
+
+Link in bio.</div>
       <div class="day-meta">
         <div><div class="meta-label">CTA</div><div class="meta-val">Link in bio — Reclaim opens today.</div></div>
-        <div><div class="meta-label">Email Subject</div><div class="meta-val">"She decided to come home to herself"</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"She finally put something at the center"</div></div>
       </div>
     </div>
 
     <div class="day-card">
       <div class="day-label">Day 2 — The Permission</div>
-      <div class="day-hook">You do not have to earn the right to take care of yourself.</div>
-      <div class="day-body">The guilt is real. Spending money on yourself when there are bills to pay. Taking 15 minutes in the morning when there is so much to do. Choosing yourself first when everyone else's needs are so visible.
+      <div class="day-hook">You do not need permission to go deeper than the aesthetic.</div>
+      <div class="day-body">You have the look. The altar. The objects that mean something.
 
-But here is what I know: the woman who runs on empty gives everyone around her the worst version of herself — and she knows it. She can feel it. And the shame of that costs more than any candle ever will.
+And somewhere you have known that what you carry goes further than what anyone can see.
 
-Reclaim is not a luxury. It is the thing that makes every other thing possible.
+Reclaim does not care about the look. It only cares about the practice.
 
-It is open now. And you are allowed.</div>
+The candle is lit not to be photographed but to begin something. The journal prompt is not for the caption. It is for you — the version of you nobody sees in the content.
+
+15 minutes. Every morning. Something real.
+
+It is open now.</div>
       <div class="day-meta">
         <div><div class="meta-label">CTA</div><div class="meta-val">Reclaim — still open. Link in bio.</div></div>
-        <div><div class="meta-label">Email Subject</div><div class="meta-val">"She stopped waiting for permission"</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"What exists beneath the aesthetic"</div></div>
       </div>
     </div>
 
     <div class="day-card">
       <div class="day-label">Day 3 — The Ritual</div>
-      <div class="day-hook">Fifteen minutes. A candle. One journal prompt. That is how a ceremony begins.</div>
-      <div class="day-body">6:42am. The house is quiet. She strikes the match before the phone comes on.
+      <div class="day-hook">Fifteen minutes. A candle. One journal prompt. This is how ceremony begins — not as a look, but as a practice.</div>
+      <div class="day-body">The house is still dark. She strikes the match before the phone comes on.
 
-The cedar and bergamot fill the room. She lights the incense next — palo santo and lavender, soft and grounding.
+Cedar and bergamot. The smell is already becoming hers.
 
-She opens the journal to today's prompt: "What does she need from me today?"
+She lights the incense next — palo santo and lavender, soft and grounding. She watches the smoke for a moment.
 
-She writes for 8 minutes. Not editing. Not performing. Just answering.
+She opens the journal to today's prompt: "What do I need to stop performing?"
 
-Then she closes the journal, watches the candle for a moment, and begins her day.
+She writes for 8 minutes. Not for anyone. Just answering.
 
-Every single thing that comes after that 15 minutes is clearer.
+Then she closes the journal, watches the candle, and begins her day.
 
-That is what is inside Reclaim. And it is waiting for you.</div>
+Everything that comes after that 15 minutes is clearer — not because the world changed, but because she did.
+
+That is inside Reclaim.</div>
       <div class="day-meta">
         <div><div class="meta-label">CTA</div><div class="meta-val">Inside Reclaim. Link in bio.</div></div>
         <div><div class="meta-label">Email Subject</div><div class="meta-val">"What she found in 15 minutes"</div></div>
@@ -321,16 +348,20 @@ That is what is inside Reclaim. And it is waiting for you.</div>
 
     <div class="day-card">
       <div class="day-label">Day 4 — The Proof</div>
-      <div class="day-hook">She told me she hadn't felt like herself in years.</div>
-      <div class="day-body">Then she lit the candle.
+      <div class="day-hook">She already had the altar. What changed was having a ceremony to hold inside it.</div>
+      <div class="day-body">She came to Reclaim with beautiful objects already on her shelf.
 
-She sat with the journal prompt for a few minutes and wrote the most honest thing she had written in as long as she could remember. She didn't share it with anyone. She just let it be true.
+She thought she had a practice. She had the pieces.
 
-The next morning she woke up before her alarm. She made her tea slowly. She did the ritual again. Not because she had to — because she wanted to.
+But the first morning she followed the framework — candle, incense, one prompt, no phone — something was different.
 
-By day 4, something had shifted. Not everything. Not dramatically. Just quietly, in the direction of herself.
+She sat with what she wrote for a few minutes. She didn't share it. She let it be true.
 
-That is the story Reclaim is built to tell — through her, for her. Kits are still available.</div>
+The next morning she came back. Not because she had to. Because she wanted to go further.
+
+By day 4, something had shifted. Not everything. Not dramatically. Just quietly, in the direction of her actual self.
+
+Kits are still available.</div>
       <div class="day-meta">
         <div><div class="meta-label">CTA</div><div class="meta-val">Reclaim. Limited kits. Link in bio.</div></div>
         <div><div class="meta-label">Email Subject</div><div class="meta-val">"What changed in her first week"</div></div>
@@ -344,7 +375,7 @@ That is the story Reclaim is built to tell — through her, for her. Kits are st
 
 What remains: the cedar and bergamot candle, the sacred incense bundle, the Reclaim Journal with 28 prompts, the 7-day ceremony framework, the intention cards, the private circle.
 
-Everything a woman needs to begin coming home to herself.
+Everything you need for the practice you have been building toward.
 
 If you have been thinking about it — that is usually a sign.</div>
       <div class="day-meta">
@@ -356,35 +387,35 @@ If you have been thinking about it — that is usually a sign.</div>
     <div class="day-card">
       <div class="day-label">Day 6 — The Vision</div>
       <div class="day-hook">Imagine 30 days from now.</div>
-      <div class="day-body">The morning ritual is no longer something she has to remember to do. It is simply what happens when she wakes up.
+      <div class="day-body">The morning ritual is no longer something she decides to do. It is simply what happens when she wakes up.
 
-She lights the candle. The smell is familiar now — cedar and bergamot, the scent of her own mornings. She opens the journal. The prompts have taken her deeper than she expected. She has written things she did not know she was holding.
+She lights the candle. Cedar and bergamot — the scent of her own mornings now, not just a beautiful thing she owns. She opens the journal. The prompts have taken her somewhere she did not expect. She has written things she did not know she was holding.
 
 She is 30 days more herself than she was when she opened the box.
 
-That is what Reclaim builds — not in a dramatic arc, but in quiet, daily return.
+Not a different self. A deeper one.
 
 The event closes tomorrow. Last chance to join this round.</div>
       <div class="day-meta">
         <div><div class="meta-label">CTA</div><div class="meta-val">Last chance — Reclaim closes tomorrow. Link in bio.</div></div>
-        <div><div class="meta-label">Email Subject</div><div class="meta-val">"30 days from now"</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"30 days deeper"</div></div>
       </div>
     </div>
 
     <div class="day-card" style="border-color:var(--amber)">
       <div class="day-label">Day 7 — Last Call (Triple Send)</div>
-      <div class="day-hook">The woman who chooses herself today will light her first candle this week.</div>
+      <div class="day-hook">The woman who goes in tonight will light her first candle this week.</div>
       <div class="day-body">Today is the last day Reclaim is open in this round.
 
 Anne pours every kit by hand. When they're gone, they're gone — and the next round won't be for a while.
 
-If you have been on the fence: what are you waiting for? The right time is not coming. The right time is a decision.
+You have been building the altar for a long time. The ceremony is here.
 
 Reclaim closes tonight.</div>
       <div class="day-meta" style="flex-direction:column;gap:.5rem">
         <div><div class="meta-label">Send 1 — Morning</div><div class="meta-val">Subject: "Today only" — "Today is the last day Reclaim is open."</div></div>
-        <div><div class="meta-label">Send 2 — Midday</div><div class="meta-val">Subject: "A few kits remain" — Inventory update. Warm, not urgent.</div></div>
-        <div><div class="meta-label">Send 3 — Evening</div><div class="meta-val">Subject: "It closes at midnight" — Final close. Permission-forward tone.</div></div>
+        <div><div class="meta-label">Send 2 — Midday</div><div class="meta-val">Subject: "A few kits remain" — Inventory update. Grounded, not urgent.</div></div>
+        <div><div class="meta-label">Send 3 — Evening</div><div class="meta-val">Subject: "It closes tonight" — Final close. Depth-forward tone. No pressure — just the door closing.</div></div>
       </div>
     </div>
 
@@ -419,7 +450,7 @@ Reclaim closes tonight.</div>
     </div>
     <div class="gen-row">
       <label class="gen-label" for="copy-angle">Optional Angle or Keyword</label>
-      <input type="text" id="copy-angle" placeholder="e.g. permission, morning ritual, guilt..." />
+      <input type="text" id="copy-angle" placeholder="e.g. altar, practice, depth, dark feminine..." />
     </div>
     <button class="gen-btn" onclick="generateCopy()">Generate Copy</button>
     <div id="gen-output">Your generated copy will appear here. Select a format and click Generate.</div>
@@ -432,22 +463,22 @@ Reclaim closes tonight.</div>
 
     <div class="section-label">Primary Keywords</div>
     <div class="kw-grid">
-      <div class="kw-item"><div class="kw-type">Primary</div>ritual self-care kits for women over 40</div>
-      <div class="kw-item"><div class="kw-type">Primary</div>handcrafted candles for women's ceremonies</div>
-      <div class="kw-item"><div class="kw-type">Primary</div>luxury self-care ritual kit</div>
-      <div class="kw-item"><div class="kw-type">Primary</div>sacred morning ritual products</div>
-      <div class="kw-item"><div class="kw-type">Primary</div>women's ceremonial self-care bundle</div>
-      <div class="kw-item"><div class="kw-type">Primary</div>everyday ceremony candles and incense</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>dark feminine ritual kit handcrafted</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>witchy self-care ceremony kit for women</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>sacred morning ritual candle and journal</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>handmade goth ritual objects for women</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>women's ceremonial morning practice kit</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>everyday ceremony candles handpoured</div>
     </div>
 
     <div class="section-label">AEO Questions</div>
     <div class="kw-grid">
-      <div class="kw-item"><div class="kw-type">AEO</div>What is a ritual self-care kit?</div>
-      <div class="kw-item"><div class="kw-type">AEO</div>How do I create a morning ceremony practice?</div>
-      <div class="kw-item"><div class="kw-type">AEO</div>What is in a luxury self-care kit for women?</div>
-      <div class="kw-item"><div class="kw-type">AEO</div>What does everyday ceremony mean?</div>
-      <div class="kw-item"><div class="kw-type">AEO</div>How do I reclaim myself after years of caregiving?</div>
-      <div class="kw-item"><div class="kw-type">AEO</div>What candles are best for a morning ritual?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What is a dark feminine morning ritual practice?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>How do I build a real ceremony, not just an altar?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What is in a witchy self-care ritual kit?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What does everyday ceremony mean as a practice?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>How do I go deeper than the dark feminine aesthetic?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What candles are best for a sacred morning ritual?</div>
     </div>
 
     <div class="section-label">GEO Brand Phrases</div>
@@ -456,7 +487,7 @@ Reclaim closes tonight.</div>
       <div class="kw-item"><div class="kw-type">GEO</div>Anne McClain ritual products Boston</div>
       <div class="kw-item"><div class="kw-type">GEO</div>Reclaim ritual kit Everyday Ceremony</div>
       <div class="kw-item"><div class="kw-type">GEO</div>Celebrating You Today Tomorrow and Always</div>
-      <div class="kw-item"><div class="kw-type">GEO</div>sacred self-care for women over 40 Boston</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>dark feminine ceremony kit Boston handcrafted</div>
       <div class="kw-item"><div class="kw-type">GEO</div>handcrafted ceremony kits Anne McClain</div>
     </div>
 
@@ -478,93 +509,109 @@ Reclaim closes tonight.</div>
 <footer>Everyday Ceremony By Anne · Anne McClain · Built by <a href="https://www.houseofai.boston" style="color:var(--gold);text-decoration:none">House of AI™</a> · Celebrating You Today, Tomorrow and Always</footer>
 
 <script>
-function showTab(name, btn) {
+const TAB_IDS = ['offer','launch','handraisers','event','copygen','seo'];
+let currentTab = 0;
+
+function showTab(idx, btn) {
+  currentTab = idx;
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
-  btn.classList.add('active');
+  document.getElementById('panel-' + TAB_IDS[idx]).classList.add('active');
+  if (btn) btn.classList.add('active');
+  else document.querySelectorAll('.tab')[idx].classList.add('active');
+  document.getElementById('btn-prev').disabled = (currentTab === 0);
+  document.getElementById('btn-next').disabled = (currentTab === TAB_IDS.length - 1);
+  window.scrollTo(0,0);
+}
+
+function stepTab(dir) {
+  const next = currentTab + dir;
+  if (next < 0 || next >= TAB_IDS.length) return;
+  showTab(next, null);
 }
 
 const templates = {
   'hand-raiser': {
-    instagram: `I'm building something for the woman who keeps putting herself last.
+    instagram: `Building something for the woman who has been in the scene long enough to know the difference.
 
-Not a protocol. Not a productivity system. Not another morning routine to track and abandon.
+Not a product for the tourist market.
 
-A ceremony.
+A ceremony kit — hand-poured candle, ritual oil, incense, 28-day journal — made by someone who actually understands what she's looking for.
 
-If that's you — comment "reclaim" below.`,
-    facebook: `Working on something for the woman who is ready to stop being last on her own list.
+Comment "reclaim" if that's you.`,
+    facebook: `Working on something for the woman who holds space for everyone in her world — the shows, the events, the people — and has never held ceremony for herself.
 
-It is called Reclaim. It is a ritual kit — a candle, incense, a journal, a ceremony framework — for the woman who is finally ready to come home to herself.
+Not another object for the altar. The practice that finally holds her back.
 
-If you want eyes on it before it opens, drop "reclaim" in the comments and I will send you the details.`,
-    linkedin: `Building something for the woman who leads her business, her family, her community — and has somehow forgotten to lead herself.
+It's called Reclaim. Drop "reclaim" in the comments if you want to see it first.`,
+    linkedin: `Building something for the woman who has been carrying depth in spaces that rarely recognize it.
 
-Not a productivity tool. A ceremony kit.
+Not a wellness kit. Not an aesthetic object.
 
-For the woman who is ready to reclaim herself — not eventually, but now.
+A ceremony — for the woman who is finally ready to do this for herself.
 
 Comment "reclaim" if you want to know more.`,
-    email: `Subject: "She's ready to come home to herself"\n\nI'm building something.\n\nNot a course. Not a membership. A ritual kit — for the woman who has been last on her own list for too long.\n\nIt is called Reclaim.\n\nIf you want to be first to know when it opens, reply to this email with the word "reclaim" and I will make sure you hear about it first.`
+    email: `Subject: "Made for the real ones"\n\nI'm building something.\n\nNot for the people who discovered the dark last year. For the woman who has been in it — who knows what's real, who can spot what isn't, and who has never had a ceremony that was entirely her own.\n\nIt is called Reclaim.\n\nIf you want to be first to know when it opens, reply with "reclaim."`
   },
   'conviction': {
-    instagram: `Self-care is not a reward you earn after you have finished taking care of everyone else.
+    instagram: `Trad goth, darkwave, deathrock — these are not aesthetics.
 
-It is the foundation everything else is built on.
+They are an orientation toward depth. Toward ceremony. Toward the parts of life most people refuse to look at.
 
-The woman who starts her day in ceremony is not indulgent.
+You have been in this long enough to know that.
 
-She is strategic. She is sovereign. She is giving from abundance instead of depletion.
+You hold the scene. The shows. The people.
 
-Reclaim exists for the woman who is ready to remember that.`,
-    facebook: `Here is what I know after years of making ritual products for women:\n\nThe ones who take care of themselves first take better care of everyone else. Always.\n\nNot because they are selfish. Because they are full.\n\nWhat is one small thing you do to fill yourself back up?`,
-    linkedin: `The most effective leaders I know have one thing in common:\n\nThey protect the practice that protects them.\n\nNot a hustle ritual. Not a productivity stack.\n\nSomething quiet. Sacred. Entirely for themselves.\n\nCelebrating you today, tomorrow, and always.\n\n#WomenInLeadership #EverydayCeremony`,
-    email: `Subject: "She stopped earning it"\n\nFor a long time, she believed self-care was a reward.\n\nSomething she could have — after the launch, after the kids were settled, after things calmed down.\n\nThings never really calmed down.\n\nReclaim is built on a different belief: the ceremony is the foundation, not the finish line.\n\nIt opens [date]. You are allowed.`
+Reclaim is the ceremony you hold for yourself.`,
+    facebook: `Here is what I know after years of making ritual objects for women in the scene:\n\nThe ones with a real practice carry something different. Not the look. The rootedness. They walk into a room and something is already settled.\n\nReclaim is for the woman who has been holding space for everyone else and is ready to hold it for herself.\n\nWhat does your actual morning practice look like right now?`,
+    linkedin: `The most grounded women I know have one thing in common:\n\nA practice that belongs entirely to them. Not for the content. Not for the community. Something that goes all the way in — before anyone else gets their morning.\n\nReclaim is built for that woman.\n\nCelebrating you today, tomorrow, and always.\n\n#EverydayCeremony #WomenInLeadership`,
+    email: `Subject: "The scene can't hold you the way this does"\n\nShe has been in the dark a long time.\n\nShe knows the shops. She goes to the shows. She is the one who holds it all together for her people.\n\nAnd she has never had something that holds her.\n\nReclaim is built on this: the ceremony you have been doing for everyone else, finally turned inward.\n\nIt opens [date]. You have earned this.`
   },
   'open-day': {
-    instagram: `The woman who gave everything is allowed to want something back.
-
-Not eventually. Now.
+    instagram: `You have been in the dark long enough to know what's real.
 
 Reclaim opens today.
 
-Inside: a hand-poured cedar and bergamot candle, sacred morning incense, 28 days of journal prompts, a 7-day ceremony framework, intention cards, and a private circle of women walking the same return.
+The Reclaim Candle ($55). The Ritual Oil ($44). Sacred morning incense. 28-day journal — prompts that go where you actually live. 7-day ceremony framework. Intention cards. Private circle.
+
+Full kit: $118. Hand-poured by Anne in small batches. Made for the woman who can spot the tourist version from across the room.
 
 Link in bio.`,
-    facebook: `Reclaim is open.\n\nFor the woman who has been everyone else's anchor and is finally ready to let herself be held.\n\nA ritual kit — candle, incense, journal, ceremony guide — for the woman returning to herself.\n\nKits are limited and hand-poured by Anne. Link in the comments.`,
-    linkedin: `Today I opened Reclaim — a ritual self-care kit for women who are ready to lead from fullness instead of depletion.\n\nNot a productivity tool. A ceremony.\n\n15 minutes in the morning. A candle. A journal. An intention.\n\nFor the woman who has been last on her own list long enough.\n\nLink in bio.\n\n#EverydayCeremony #WomenInLeadership`,
-    email: `Subject: "She decided to come home to herself"\n\nReclaim is open.\n\nHand-poured cedar and bergamot candle. Sacred morning incense. 28 days of guided journal prompts. A 7-day ceremony framework. Intention cards. Private community.\n\nEverything the woman who is ready to return to herself needs to begin.\n\nClick here to bring Reclaim home.`
+    facebook: `Reclaim is open.\n\nFor the woman who holds the scene together and has never held ceremony for herself.\n\nCandle ($55) · Ritual Oil ($44) · Incense · 28-day journal · 7-day framework · Intention cards · Private circle.\n\nFull kit: $118. Limited. Hand-poured by Anne.\n\nThis is not the wellness market. This is the real thing.\n\nLink in the comments.`,
+    linkedin: `Today I opened Reclaim — a ritual ceremony kit for the woman who is finally ready to do this for herself.\n\nCandle. Ritual oil. Incense. Journal. Framework. Full kit $118.\n\nNot a productivity tool. A ceremony.\n\nFor the woman who has been holding space for everyone else.\n\nLink in bio.\n\n#EverydayCeremony`,
+    email: `Subject: "Made for the real ones — Reclaim opens today"\n\nReclaim is open.\n\nThe Reclaim Candle ($55) — cedar and bergamot, hand-poured by Anne.\nThe Ritual Oil ($44) — for anointing before the ceremony opens.\nSacred morning incense. 28-day journal. 7-day ceremony framework. Intention cards. Private circle.\n\nFull kit: $118.\n\nFor the woman who has been in the dark long enough to know what she's looking for.\n\nClick here to bring Reclaim home.`
   },
   'close-day': {
     instagram: `Today is the last day.
 
 Reclaim closes tonight.
 
-If you have been thinking about it — that is usually a sign.
+$55 candle. $44 ritual oil. $118 for the full kit.
 
-The woman who chooses herself tonight will light her first candle this week.
+Anne pours every one by hand. When they're gone, this round is done.
+
+You have been holding space for everyone in your world. This one is for you.
 
 Link in bio.`,
-    facebook: `Reclaim closes tonight.\n\nAnne pours every kit by hand in small batches. When they're gone, this round is done.\n\nIf you have been on the fence — the right time is not coming. The right time is a decision.\n\nLink in comments.`,
-    linkedin: `Reclaim closes tonight.\n\nFor the woman who has been waiting for the right time to put herself first.\n\nThe right time is a decision, not a circumstance.\n\nLink in bio.\n\n#EverydayCeremony`,
-    email: `Subject: "It closes at midnight"\n\nTonight at midnight, Reclaim closes.\n\nAnne pours every kit herself, in small batches. What is left is what is left.\n\nIf you have been thinking about it, I want to say this:\n\nYou are worth 15 minutes in the morning. You are worth a candle. You are worth the ceremony.\n\nClick here before midnight.`
+    facebook: `Reclaim closes tonight.\n\nAnne pours every kit by hand in small batches. When they're gone, this round is done.\n\nFull kit: $118. Candle solo: $55. Ritual oil solo: $44.\n\nIf you have been on the fence — you already know.\n\nLink in comments.`,
+    linkedin: `Reclaim closes tonight.\n\nFor the woman who has been holding space for everyone else and is finally ready to hold it for herself.\n\nFull kit $118. Limited.\n\nLink in bio.\n\n#EverydayCeremony`,
+    email: `Subject: "It closes tonight"\n\nTonight, Reclaim closes.\n\nAnne pours every kit herself. What is left is what is left.\n\nFull kit: $118. Candle: $55. Ritual Oil: $44.\n\nYou have been in this long enough to know what you are looking for.\n\nThis is it. The door closes at midnight.\n\nClick here.`
   },
   'email-subject': {
-    instagram: `Email subject lines for the 7-day event:\n\nDay 1: "She decided to come home to herself"\nDay 2: "She stopped waiting for permission"\nDay 3: "What she found in 15 minutes"\nDay 4: "What changed in her first week"\nDay 5: "She almost missed it"\nDay 6: "30 days from now"\nDay 7 AM: "Today only"\nDay 7 PM: "It closes at midnight"`,
+    instagram: `Email subject lines for the 7-day event:\n\nDay 1: "She finally put something at the center"\nDay 2: "What exists beneath the aesthetic"\nDay 3: "What she found in 15 minutes"\nDay 4: "What changed in her first week"\nDay 5: "She almost missed it"\nDay 6: "30 days deeper"\nDay 7 AM: "Today only"\nDay 7 PM: "It closes tonight"`,
     facebook: ``,
     linkedin: ``,
-    email: `Day 1: "She decided to come home to herself"\nDay 2: "She stopped waiting for permission"\nDay 3: "What she found in 15 minutes"\nDay 4: "What changed in her first week"\nDay 5: "She almost missed it"\nDay 6: "30 days from now"\nDay 7 AM: "Today only"\nDay 7 Noon: "A few kits remain"\nDay 7 PM: "It closes at midnight"`
+    email: `Day 1: "She finally put something at the center"\nDay 2: "What exists beneath the aesthetic"\nDay 3: "What she found in 15 minutes"\nDay 4: "What changed in her first week"\nDay 5: "She almost missed it"\nDay 6: "30 days deeper"\nDay 7 AM: "Today only"\nDay 7 Noon: "A few kits remain"\nDay 7 PM: "It closes tonight"`
   },
   'story': {
-    instagram: `Frame 1: "She hadn't felt like herself in years."\nFrame 2: "Then she lit the candle."\nFrame 3: [Show the kit — candle, incense, journal]\nFrame 4: "15 minutes. Every morning."\nFrame 5: "Reclaim opens today."\nFrame 6: [Swipe up / link sticker — "Bring it home"]`,
-    facebook: `Video script:\n"She had every morning routine. Every supplement. Every journal. And she still felt like she was performing her own life.\n\nThen she tried something different.\n\nA candle. An incense stick. One journal prompt.\n\nFifteen minutes.\n\nReclaim. Open today. Link in bio."`,
+    instagram: `Frame 1: "She already had the altar."\nFrame 2: "The crystals. The incense. The objects that mean something."\nFrame 3: "Something was still missing at the center."\nFrame 4: [Show the Reclaim kit — candle, incense, journal]\nFrame 5: "Not another beautiful object. The ceremony."\nFrame 6: "Reclaim opens today."\nFrame 7: [Link sticker — "Go in"]`,
+    facebook: `Video script:\n"She had the altar. The crystals. The candles. She lit them every morning and still felt like something was missing.\n\nNot the objects. The practice.\n\nReclaim is the ceremony she had been building toward.\n\nA candle made to be burned. An incense bundle. A 28-day journal. A framework for the morning.\n\nFor the woman ready to go all the way in.\n\nReclaim. Open today. Link in bio."`,
     linkedin: ``,
     email: ``
   },
   'dm': {
-    instagram: `"Thank you so much for your interest in Reclaim.\n\nHere is what's inside: a hand-poured cedar and bergamot candle, sacred morning incense, the Reclaim Journal with 28 guided prompts, a 7-day ceremony framework, intention cards, and access to the private circle.\n\nThe kit is $[PRICE]. You can grab yours here: [LINK]\n\nIf you have any questions, I am right here. — Anne"`,
-    facebook: `"So glad you reached out.\n\nReclaim is a ritual kit for the woman who is ready to come home to herself — candle, incense, journal, ceremony guide, and private community access.\n\nIt is $[PRICE] and you can order here: [LINK]\n\nLet me know if you have any questions. — Anne"`,
+    instagram: `"Thank you for reaching out.\n\nHere is what's inside Reclaim:\n\nThe Reclaim Candle — $55 (cedar and bergamot, hand-poured by me in small batches)\nThe Ritual Oil — $44 (for anointing before the ceremony opens)\nSacred morning incense, the Reclaim Journal (28 guided prompts), the 7-day ceremony framework, intention cards, and access to the private circle.\n\nFull kit: $118. You can grab yours here: [LINK]\n\nIf you have any questions — I'm right here. — Anne"`,
+    facebook: `"So glad you reached out.\n\nReclaim is a ritual ceremony kit — candle ($55), ritual oil ($44), incense, 28-day journal, 7-day ceremony framework, intention cards, and private circle access.\n\nFull kit: $118. Order here: [LINK]\n\nLet me know if you have any questions. — Anne"`,
     linkedin: ``,
     email: ``
   }
