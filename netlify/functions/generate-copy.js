@@ -14,13 +14,14 @@ exports.handler = async function(event) {
     'Content-Type': 'application/json'
   };
 
-  let pillar, topic, tone, platform;
+  let pillar, topic, tone, platform, history;
   try {
     const body = JSON.parse(event.body || '{}');
     pillar = body.pillar || 'Celebrating You';
     topic = body.topic || '';
     tone = body.tone || 'Sacred & Grounding';
     platform = body.platform || 'all';
+    history = Array.isArray(body.history) ? body.history.slice(0, 8) : [];
   } catch {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
@@ -42,7 +43,13 @@ A soulful woman, 40s-50s, who has put others first for so long she's lost the th
 - Never open a post with "I" as the first word
 - Instagram: 3-5 short paragraphs + 3 hashtags
 - Facebook: conversational, ends with a question to invite replies
-- LinkedIn: professional authority angle, women in leadership lens`;
+- LinkedIn: professional authority angle, women in leadership lens
+
+## MEMORY — DO NOT REPEAT
+The following posts were recently generated. Write something COMPLETELY DIFFERENT — new hook, new opening line, new angle, new emotional entry point. Never reuse an opener or theme from this list:
+\${history.length > 0 ? history.map((h, i) => `[${i + 1}] ${h}`).join('\n\n') : '(no history — first generation)'}
+
+Vary the emotional entry point each time: gratitude, longing, quiet power, return, ceremony, self-recognition, depth, belonging.\`;
 
   const platformsToWrite = platform === 'all' ? ['INSTAGRAM', 'FACEBOOK', 'LINKEDIN'] : [platform.toUpperCase()];
   const topicLine = topic ? `Today's angle: ${topic}` : '';
