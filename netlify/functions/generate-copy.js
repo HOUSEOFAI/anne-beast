@@ -78,7 +78,10 @@ exports.handler = async function(event) {
       signal: AbortSignal.timeout(25000)
     });
 
-    if (!res.ok) throw new Error('Claude API error: ' + res.status);
+    if (!res.ok) {
+      const errBody = await res.text();
+      throw new Error('Claude API error ' + res.status + ': ' + errBody);
+    }
     const data = await res.json();
     const text = data.content[0].text;
 
