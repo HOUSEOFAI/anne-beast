@@ -47,7 +47,7 @@ A soulful woman, 40s-50s, who has put others first for so long she's lost the th
 
 ## MEMORY — DO NOT REPEAT
 The following posts were recently generated. Write something COMPLETELY DIFFERENT — new hook, new opening line, new angle, new emotional entry point. Never reuse an opener or theme from this list:
-\${history.length > 0 ? history.map((h, i) => `[${i + 1}] ${h}`).join('\n\n') : '(no history — first generation)'}
+\${history.length > 0 ? history.map((h, i) => '[' + (i + 1) + '] ' + h).join('\n\n') : '(no history — first generation)'}
 
 Vary the emotional entry point each time: gratitude, longing, quiet power, return, ceremony, self-recognition, depth, belonging.\`;
 
