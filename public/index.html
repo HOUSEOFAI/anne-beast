@@ -1160,6 +1160,22 @@ function selectPillar(el, name) {
   selectedPillar = name;
 }
 
+// ── Copy Engine Memory (localStorage) ────────────────────────
+function getCEHistory(pillar, platform) {
+  try { return JSON.parse(localStorage.getItem('ce_history_' + pillar + '_' + platform) || '[]'); }
+  catch(e) { return []; }
+}
+function saveCEHistory(pillar, platform, copy) {
+  try {
+    const platforms = platform === 'all' ? ['instagram','facebook','linkedin'] : [platform];
+    platforms.forEach(pl => {
+      const key = 'ce_history_' + pillar + '_' + pl;
+      const hist = getCEHistory(pillar, pl);
+      if (copy[pl]) { hist.unshift(copy[pl]); localStorage.setItem(key, JSON.stringify(hist.slice(0, 10))); }
+    });
+  } catch(e) {}
+}
+
 async function generateCopy() {
   const topic = document.getElementById('ce-topic').value;
   const platform = document.getElementById('ce-platform').value;
@@ -1170,11 +1186,17 @@ async function generateCopy() {
   loading.style.display = 'flex'; outCard.style.display = 'none';
   outCard.classList.remove('output-card');
 
+  // Build history from localStorage for all relevant platforms
+  const platforms = platform === 'all' ? ['instagram','facebook','linkedin'] : [platform];
+  const history = [];
+  platforms.forEach(pl => { history.push(...getCEHistory(selectedPillar, pl)); });
+  const uniqueHistory = [...new Set(history)].slice(0, 8);
+
   let copy = null;
   try {
     const res = await fetch('/.netlify/functions/generate-copy', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ pillar: selectedPillar, topic, tone, platform }),
+      body: JSON.stringify({ pillar: selectedPillar, topic, tone, platform, history: uniqueHistory }),
       signal: AbortSignal.timeout(25000)
     });
     if (res.ok) copy = await res.json();
@@ -1191,6 +1213,7 @@ async function generateCopy() {
   }
 
   ceCopy = copy;
+  saveCEHistory(selectedPillar, platform, copy);
   loading.style.display = 'none';
   outCard.style.display = 'block';
 

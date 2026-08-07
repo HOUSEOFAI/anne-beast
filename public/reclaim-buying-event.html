@@ -75,7 +75,8 @@ select,textarea,input[type=text]{width:100%;font-family:Georgia,serif;font-size:
 textarea{min-height:120px;resize:vertical}
 .gen-btn{background:var(--amber);color:#0b0618;border:none;border-radius:6px;font-family:Georgia,serif;font-size:.88rem;font-weight:bold;letter-spacing:.06em;padding:.75rem 1.75rem;cursor:pointer;margin-top:.5rem}
 .gen-btn:hover{background:var(--amber-lt)}
-#gen-output{background:var(--amber-dim);border:1px solid var(--border);border-radius:6px;padding:1rem;min-height:100px;color:var(--cream);font-size:.88rem;line-height:1.65;white-space:pre-wrap;margin-top:1rem}
+#gen-output{background:var(--amber-dim);border:1px solid var(--border);border-radius:6px;padding:1rem 1rem 2.5rem;min-height:100px;color:var(--cream);font-size:.88rem;line-height:1.65;white-space:pre-wrap;margin-top:1rem;position:relative}
+#copy-output-btn{position:absolute;bottom:.6rem;right:.6rem;background:var(--amber);color:#0b0618;border:none;border-radius:4px;font-size:.72rem;font-weight:bold;padding:.3rem .75rem;cursor:pointer;display:none}
 .kw-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
 .kw-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem;color:var(--cream);font-size:.86rem;line-height:1.4}
 .kw-type{color:var(--amber);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.3rem}
@@ -459,8 +460,15 @@ Reclaim closes tonight.</div>
       <label class="gen-label" for="copy-angle">Optional Angle or Keyword</label>
       <input type="text" id="copy-angle" placeholder="e.g. altar, practice, depth, dark feminine..." />
     </div>
-    <button class="gen-btn" onclick="generateCopy()">Generate Copy</button>
-    <div id="gen-output">Your generated copy will appear here. Select a format and click Generate.</div>
+    <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-top:.5rem">
+      <button class="gen-btn" onclick="generateCopy()">Generate Fresh Copy</button>
+      <button class="gen-btn" id="regen-btn" onclick="generateCopy()" style="display:none;background:transparent;color:var(--amber);border:1px solid var(--amber);padding:.65rem 1.4rem">↻ Regenerate</button>
+    </div>
+    <div id="gen-meta" style="display:none;margin-top:.6rem;font-size:.76rem;color:var(--muted);align-items:center;gap:.75rem">
+      <span id="gen-count"></span>
+      <button onclick="clearReclaimMemory()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.76rem;text-decoration:underline;padding:0">Clear memory</button>
+    </div>
+    <div id="gen-output">Your generated copy will appear here. Select a type and click Generate Fresh Copy.<button id="copy-output-btn" onclick="navigator.clipboard.writeText(document.getElementById('gen-output').textContent.trim()).then(()=>{this.textContent='Copied';setTimeout(()=>{this.textContent='Copy'},1500)})">Copy</button></div>
   </div>
 </div>
 
@@ -542,105 +550,83 @@ function stepTab(dir) {
   showTab(next, null);
 }
 
-const templates = {
-  'hand-raiser': {
-    instagram: `Building something for the woman who has been in the scene long enough to know the difference.
+// ── Reclaim Copy Generator Memory (localStorage) ─────────────
+function getReclaimHistory(type, platform) {
+  try { return JSON.parse(localStorage.getItem('reclaim_' + type + '_' + platform) || '[]'); }
+  catch(e) { return []; }
+}
+function saveReclaimHistory(type, platform, copy) {
+  try {
+    const key = 'reclaim_' + type + '_' + platform;
+    const hist = getReclaimHistory(type, platform);
+    hist.unshift(copy);
+    localStorage.setItem(key, JSON.stringify(hist.slice(0, 10)));
+  } catch(e) {}
+}
+function clearReclaimMemory() {
+  try {
+    Object.keys(localStorage).filter(k => k.startsWith('reclaim_')).forEach(k => localStorage.removeItem(k));
+    const meta = document.getElementById('gen-meta');
+    if (meta) meta.style.display = 'none';
+    const output = document.getElementById('gen-output');
+    if (output) {
+      output.textContent = 'Memory cleared. Next generation will be fresh with no history.';
+      output.style.opacity = '1';
+    }
+  } catch(e) {}
+}
 
-Not a product for the tourist market.
-
-A ceremony kit — hand-poured candle, ritual oil, incense, 28-day journal — made by someone who actually understands what she's looking for.
-
-Comment "reclaim" if that's you.`,
-    facebook: `Working on something for the woman who holds space for everyone in her world — the shows, the events, the people — and has never held ceremony for herself.
-
-Not another object for the altar. The practice that finally holds her back.
-
-It's called Reclaim. Drop "reclaim" in the comments if you want to see it first.`,
-    linkedin: `Building something for the woman who has been carrying depth in spaces that rarely recognize it.
-
-Not a wellness kit. Not an aesthetic object.
-
-A ceremony — for the woman who is finally ready to do this for herself.
-
-Comment "reclaim" if you want to know more.`,
-    email: `Subject: "Made for the real ones"\n\nI'm building something.\n\nNot for the people who discovered the dark last year. For the woman who has been in it — who knows what's real, who can spot what isn't, and who has never had a ceremony that was entirely her own.\n\nIt is called Reclaim.\n\nIf you want to be first to know when it opens, reply with "reclaim."`
-  },
-  'conviction': {
-    instagram: `Trad goth, darkwave, deathrock — these are not aesthetics.
-
-They are an orientation toward depth. Toward ceremony. Toward the parts of life most people refuse to look at.
-
-You have been in this long enough to know that.
-
-You hold the scene. The shows. The people.
-
-Reclaim is the ceremony you hold for yourself.`,
-    facebook: `Here is what I know after years of making ritual objects for women in the scene:\n\nThe ones with a real practice carry something different. Not the look. The rootedness. They walk into a room and something is already settled.\n\nReclaim is for the woman who has been holding space for everyone else and is ready to hold it for herself.\n\nWhat does your actual morning practice look like right now?`,
-    linkedin: `The most grounded women I know have one thing in common:\n\nA practice that belongs entirely to them. Not for the content. Not for the community. Something that goes all the way in — before anyone else gets their morning.\n\nReclaim is built for that woman.\n\nCelebrating you today, tomorrow, and always.\n\n#EverydayCeremony #WomenInLeadership`,
-    email: `Subject: "The scene can't hold you the way this does"\n\nShe has been in the dark a long time.\n\nShe knows the shops. She goes to the shows. She is the one who holds it all together for her people.\n\nAnd she has never had something that holds her.\n\nReclaim is built on this: the ceremony you have been doing for everyone else, finally turned inward.\n\nIt opens [date]. You have earned this.`
-  },
-  'open-day': {
-    instagram: `You have been in the dark long enough to know what's real.
-
-Reclaim opens today.
-
-The Reclaim Candle ($55). The Ritual Oil ($44). Sacred morning incense. 28-day journal — prompts that go where you actually live. 7-day ceremony framework. Intention cards. Private circle.
-
-Full kit: $118. Hand-poured by Anne in small batches. Made for the woman who can spot the tourist version from across the room.
-
-Link in bio.`,
-    facebook: `Reclaim is open.\n\nFor the woman who holds the scene together and has never held ceremony for herself.\n\nCandle ($55) · Ritual Oil ($44) · Incense · 28-day journal · 7-day framework · Intention cards · Private circle.\n\nFull kit: $118. Limited. Hand-poured by Anne.\n\nThis is not the wellness market. This is the real thing.\n\nLink in the comments.`,
-    linkedin: `Today I opened Reclaim — a ritual ceremony kit for the woman who is finally ready to do this for herself.\n\nCandle. Ritual oil. Incense. Journal. Framework. Full kit $118.\n\nNot a productivity tool. A ceremony.\n\nFor the woman who has been holding space for everyone else.\n\nLink in bio.\n\n#EverydayCeremony`,
-    email: `Subject: "Made for the real ones — Reclaim opens today"\n\nReclaim is open.\n\nThe Reclaim Candle ($55) — cedar and bergamot, hand-poured by Anne.\nThe Ritual Oil ($44) — for anointing before the ceremony opens.\nSacred morning incense. 28-day journal. 7-day ceremony framework. Intention cards. Private circle.\n\nFull kit: $118.\n\nFor the woman who has been in the dark long enough to know what she's looking for.\n\nClick here to bring Reclaim home.`
-  },
-  'close-day': {
-    instagram: `Today is the last day.
-
-Reclaim closes tonight.
-
-$55 candle. $44 ritual oil. $118 for the full kit.
-
-Anne pours every one by hand. When they're gone, this round is done.
-
-You have been holding space for everyone in your world. This one is for you.
-
-Link in bio.`,
-    facebook: `Reclaim closes tonight.\n\nAnne pours every kit by hand in small batches. When they're gone, this round is done.\n\nFull kit: $118. Candle solo: $55. Ritual oil solo: $44.\n\nIf you have been on the fence — you already know.\n\nLink in comments.`,
-    linkedin: `Reclaim closes tonight.\n\nFor the woman who has been holding space for everyone else and is finally ready to hold it for herself.\n\nFull kit $118. Limited.\n\nLink in bio.\n\n#EverydayCeremony`,
-    email: `Subject: "It closes tonight"\n\nTonight, Reclaim closes.\n\nAnne pours every kit herself. What is left is what is left.\n\nFull kit: $118. Candle: $55. Ritual Oil: $44.\n\nYou have been in this long enough to know what you are looking for.\n\nThis is it. The door closes at midnight.\n\nClick here.`
-  },
-  'email-subject': {
-    instagram: `Email subject lines for the 7-day event:\n\nDay 1: "She finally put something at the center"\nDay 2: "What exists beneath the aesthetic"\nDay 3: "What she found in 15 minutes"\nDay 4: "What changed in her first week"\nDay 5: "She almost missed it"\nDay 6: "30 days deeper"\nDay 7 AM: "Today only"\nDay 7 PM: "It closes tonight"`,
-    facebook: ``,
-    linkedin: ``,
-    email: `Day 1: "She finally put something at the center"\nDay 2: "What exists beneath the aesthetic"\nDay 3: "What she found in 15 minutes"\nDay 4: "What changed in her first week"\nDay 5: "She almost missed it"\nDay 6: "30 days deeper"\nDay 7 AM: "Today only"\nDay 7 Noon: "A few kits remain"\nDay 7 PM: "It closes tonight"`
-  },
-  'story': {
-    instagram: `Frame 1: "She already had the altar."\nFrame 2: "The crystals. The incense. The objects that mean something."\nFrame 3: "Something was still missing at the center."\nFrame 4: [Show the Reclaim kit — candle, incense, journal]\nFrame 5: "Not another beautiful object. The ceremony."\nFrame 6: "Reclaim opens today."\nFrame 7: [Link sticker — "Go in"]`,
-    facebook: `Video script:\n"She had the altar. The crystals. The candles. She lit them every morning and still felt like something was missing.\n\nNot the objects. The practice.\n\nReclaim is the ceremony she had been building toward.\n\nA candle made to be burned. An incense bundle. A 28-day journal. A framework for the morning.\n\nFor the woman ready to go all the way in.\n\nReclaim. Open today. Link in bio."`,
-    linkedin: ``,
-    email: ``
-  },
-  'dm': {
-    instagram: `"Thank you for reaching out.\n\nHere is what's inside Reclaim:\n\nThe Reclaim Candle — $55 (cedar and bergamot, hand-poured by me in small batches)\nThe Ritual Oil — $44 (for anointing before the ceremony opens)\nSacred morning incense, the Reclaim Journal (28 guided prompts), the 7-day ceremony framework, intention cards, and access to the private circle.\n\nFull kit: $118. You can grab yours here: [LINK]\n\nIf you have any questions — I'm right here. — Anne"`,
-    facebook: `"So glad you reached out.\n\nReclaim is a ritual ceremony kit — candle ($55), ritual oil ($44), incense, 28-day journal, 7-day ceremony framework, intention cards, and private circle access.\n\nFull kit: $118. Order here: [LINK]\n\nLet me know if you have any questions. — Anne"`,
-    linkedin: ``,
-    email: ``
-  }
-};
-
-function generateCopy() {
-  const type = document.getElementById('copy-type').value;
+async function generateCopy() {
+  const type     = document.getElementById('copy-type').value;
   const platform = document.getElementById('copy-platform').value;
-  const output = document.getElementById('gen-output');
+  const angle    = (document.getElementById('copy-angle') || {}).value || '';
+  const output   = document.getElementById('gen-output');
+  const meta     = document.getElementById('gen-meta');
+  const genBtn   = document.getElementById('regen-btn');
 
   if (!type) { output.textContent = 'Please select a copy type above.'; return; }
 
-  const copy = templates[type] && templates[type][platform];
-  if (copy) {
-    output.textContent = copy || '— No template for this combination. Try a different platform. —';
-  } else {
-    output.textContent = '— No template for this combination. Try a different platform. —';
+  output.textContent = 'Writing fresh copy...';
+  output.style.opacity = '0.5';
+
+  const history = getReclaimHistory(type, platform);
+
+  try {
+    const res = await fetch('/.netlify/functions/reclaim-copy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, platform, angle, history: history.slice(0, 8) }),
+      signal: AbortSignal.timeout(25000)
+    });
+
+    const data = await res.json();
+
+    if (data.error) {
+      output.textContent = 'Error: ' + data.error;
+      output.style.opacity = '1';
+      return;
+    }
+
+    const copy = data.copy;
+    output.textContent = copy;
+    output.style.opacity = '1';
+
+    saveReclaimHistory(type, platform, copy);
+
+    // Show meta bar
+    if (meta) {
+      const newCount = getReclaimHistory(type, platform).length;
+      const countEl = document.getElementById('gen-count');
+      if (countEl) countEl.textContent = newCount + ' variation' + (newCount === 1 ? '' : 's') + ' in memory for this type';
+      meta.style.display = 'flex';
+    }
+    if (genBtn) genBtn.style.display = 'inline-block';
+    const copyBtn = document.getElementById('copy-output-btn');
+    if (copyBtn) copyBtn.style.display = 'block';
+
+  } catch(err) {
+    output.textContent = 'Connection error — check that ANTHROPIC_API_KEY is set in Netlify. (' + err.message + ')';
+    output.style.opacity = '1';
   }
 }
 </script>
