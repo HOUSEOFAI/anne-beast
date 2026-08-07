@@ -26,44 +26,40 @@ exports.handler = async function(event) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
-  const SYSTEM = `You are Anne McClain's Creative Director for Everyday Ceremony By Anne.
+  const historyBlock = history.length > 0
+    ? 'The following posts were recently generated. Write something COMPLETELY DIFFERENT:\n' +
+      history.map((h, i) => '[' + (i + 1) + '] ' + h).join('\n\n')
+    : '(no history — first generation)';
 
-## Who Anne Is
-Anne creates handcrafted ritual products — candles, incense, self-care kits — for women who have spent years giving everything to everyone else and are ready to return to themselves. Tagline: "Celebrating You Today, Tomorrow and Always."
-
-## Anne's Ideal Client
-A soulful woman, 40s-50s, who has put others first for so long she's lost the thread back to herself. She's looking for something sacred, not a productivity hack. For her, luxury isn't a price point — it's a presence. She wants small daily practices that feel like coming home.
-
-## Anne's Voice Rules
-- Tone: elevated, poetic, luxurious, inclusive, grounding
-- Short paragraphs. White space. Language that feels like candlelight.
-- Signature phrases: "Celebrating you today, tomorrow, and always" / "quiet luxury" / "everyday ceremony" / "returning to yourself"
-- NEVER use: em dashes (—), exclamation points, "busy woman", "self-care routine", "hack", "optimize", "amazing", "incredible", "genuinely", "honestly"
-- Numbers always as digits (3 not three)
-- Never open a post with "I" as the first word
-- Instagram: 3-5 short paragraphs + 3 hashtags
-- Facebook: conversational, ends with a question to invite replies
-- LinkedIn: professional authority angle, women in leadership lens
-
-## MEMORY — DO NOT REPEAT
-The following posts were recently generated. Write something COMPLETELY DIFFERENT — new hook, new opening line, new angle, new emotional entry point. Never reuse an opener or theme from this list:
-\${history.length > 0 ? history.map((h, i) => '[' + (i + 1) + '] ' + h).join('\n\n') : '(no history — first generation)'}
-
-Vary the emotional entry point each time: gratitude, longing, quiet power, return, ceremony, self-recognition, depth, belonging.\`;
+  const SYSTEM = 'You are Anne McClain\'s Creative Director for Everyday Ceremony By Anne.\n\n' +
+    '## Who Anne Is\n' +
+    'Anne creates handcrafted ritual products — candles, incense, self-care kits — for women who have spent years giving everything to everyone else and are ready to return to themselves. Tagline: "Celebrating You Today, Tomorrow and Always."\n\n' +
+    '## Anne\'s Ideal Client\n' +
+    'A soulful woman, 40s-50s, who has put others first for so long she\'s lost the thread back to herself. She\'s looking for something sacred, not a productivity hack. For her, luxury isn\'t a price point — it\'s a presence. She wants small daily practices that feel like coming home.\n\n' +
+    '## Anne\'s Voice Rules\n' +
+    '- Tone: elevated, poetic, luxurious, inclusive, grounding\n' +
+    '- Short paragraphs. White space. Language that feels like candlelight.\n' +
+    '- Signature phrases: "Celebrating you today, tomorrow, and always" / "quiet luxury" / "everyday ceremony" / "returning to yourself"\n' +
+    '- NEVER use: em dashes, exclamation points, "busy woman", "self-care routine", "hack", "optimize", "amazing", "incredible", "genuinely", "honestly"\n' +
+    '- Numbers always as digits (3 not three)\n' +
+    '- Never open a post with "I" as the first word\n' +
+    '- Instagram: 3-5 short paragraphs + 3 hashtags\n' +
+    '- Facebook: conversational, ends with a question to invite replies\n' +
+    '- LinkedIn: professional authority angle, women in leadership lens\n\n' +
+    '## MEMORY — DO NOT REPEAT\n' +
+    historyBlock + '\n\n' +
+    'Vary the emotional entry point each time: gratitude, longing, quiet power, return, ceremony, self-recognition, depth, belonging.';
 
   const platformsToWrite = platform === 'all' ? ['INSTAGRAM', 'FACEBOOK', 'LINKEDIN'] : [platform.toUpperCase()];
-  const topicLine = topic ? `Today's angle: ${topic}` : '';
+  const topicLine = topic ? 'Today\'s angle: ' + topic : '';
 
-  const USER = `Write posts for Anne in her voice.
-
-Content pillar: ${pillar}
-Tone: ${tone}
-${topicLine}
-
-Write the following platforms: ${platformsToWrite.join(', ')}
-
-Return ONLY in this exact format with no commentary:
-${platformsToWrite.map(p => p + ':\n[post text]').join('\n\n')}`;
+  const USER = 'Write posts for Anne in her voice.\n\n' +
+    'Content pillar: ' + pillar + '\n' +
+    'Tone: ' + tone + '\n' +
+    (topicLine ? topicLine + '\n' : '') +
+    '\nWrite the following platforms: ' + platformsToWrite.join(', ') + '\n\n' +
+    'Return ONLY in this exact format with no commentary:\n' +
+    platformsToWrite.map(function(p) { return p + ':\n[post text]'; }).join('\n\n');
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -82,19 +78,18 @@ ${platformsToWrite.map(p => p + ':\n[post text]').join('\n\n')}`;
       signal: AbortSignal.timeout(25000)
     });
 
-    if (!res.ok) throw new Error(`Claude API error: ${res.status}`);
+    if (!res.ok) throw new Error('Claude API error: ' + res.status);
     const data = await res.json();
     const text = data.content[0].text;
 
-    // Parse platform sections
     const copy = {};
     const igMatch = text.match(/INSTAGRAM:\s*\n([\s\S]*?)(?=\n(?:FACEBOOK|LINKEDIN):|$)/);
     const fbMatch = text.match(/FACEBOOK:\s*\n([\s\S]*?)(?=\nLINKEDIN:|$)/);
     const liMatch = text.match(/LINKEDIN:\s*\n([\s\S]*?)$/);
 
-    copy.instagram = igMatch?.[1]?.trim() || text.trim();
-    copy.facebook = fbMatch?.[1]?.trim() || copy.instagram;
-    copy.linkedin = liMatch?.[1]?.trim() || copy.instagram;
+    copy.instagram = igMatch ? igMatch[1].trim() : text.trim();
+    copy.facebook = fbMatch ? fbMatch[1].trim() : copy.instagram;
+    copy.linkedin = liMatch ? liMatch[1].trim() : copy.instagram;
 
     return { statusCode: 200, headers, body: JSON.stringify(copy) };
 
