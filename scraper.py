@@ -1,271 +1,330 @@
 #!/usr/bin/env python3
 """
-THE MAGNIFICENT BEAST — Daily Intelligence Scraper
-Runs on GitHub Actions at 7am UTC daily.
-Scrapes Reddit + RSS, detects pain patterns, generates report via Claude,
-saves to JSONBin for the Netlify poster to consume at 9am UTC.
+🌹 Everyday Ceremony By Anne — Daily Intelligence Scraper
+Scrapes Reddit, RSS, YouTube. Detects pain patterns. Generates report via Claude API.
 """
 
 import os
 import json
+import sys
 import time
-import re
+import logging
+from datetime import datetime
+from typing import List, Dict
 import requests
-import feedparser
-from datetime import datetime, timezone
+from dotenv import load_dotenv
+from anthropic import Anthropic
 
-import anthropic
+load_dotenv()
 
-# ─── Import client config ────────────────────────────────────────────────────
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 from client_config import (
-    CLIENT_NAME, CLIENT_BRAND, CLIENT_NICHE,
-    IDEAL_CLIENT_DESCRIPTION, OFFERS, REPORT_VOICE_RULES,
-    CONTENT_PILLARS, REDDIT_SUBS, PAIN_PATTERNS,
-    PAIN_SEARCH_SUBS, RSS_FEEDS, YOUTUBE_HANDLES
+    CLIENT_NAME, CLIENT_BRAND, CLIENT_NICHE, IDEAL_CLIENT_DESCRIPTION,
+    OFFERS, REPORT_VOICE_RULES, YOUTUBE_HANDLES, REDDIT_SUBS,
+    PAIN_PATTERNS, RSS_FEEDS, PAIN_SEARCH_SUBS
 )
 
-# ─── Env vars ────────────────────────────────────────────────────────────────
-ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
-JSONBIN_BIN_ID    = os.environ["JSONBIN_BIN_ID"]
-JSONBIN_API_KEY   = os.environ["JSONBIN_API_KEY"]
+ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY')
+if not ANTHROPIC_API_KEY:
+    logger.error("CRITICAL: ANTHROPIC_API_KEY not found in environment variables")
+    sys.exit(1)
 
-anthropic_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+anthropic_client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
-# ─── Reddit scraper ──────────────────────────────────────────────────────────
-def scrape_reddit(subreddits, limit=25):
+JSONBIN_BIN_ID = os.environ.get('JSONBIN_BIN_ID')
+JSONBIN_API_KEY = os.environ.get('JSONBIN_API_KEY')
+
+def scrape_reddit(subreddits: List[str], limit: int = 25) -> List[Dict]:
     posts = []
-    headers = {"User-Agent": "Mozilla/5.0 (HOAI-Beast/1.0)"}
-    for sub in subreddits:
-        try:
-            url = f"https://www.reddit.com/r/{sub}/hot.json?limit={limit}"
-            r = requests.get(url, headers=headers, timeout=15)
-            if r.status_code != 200:
-                print(f"Reddit {sub}: HTTP {r.status_code}")
-                continue
-            data = r.json()
-            for item in data.get("data", {}).get("children", []):
-                p = item.get("data", {})
-                title = p.get("title", "")
-                body  = p.get("selftext", "")
-                score = p.get("score", 0)
-                if score > 5 and title:
+    headers = {'User-Agent': 'Mozilla/5.0 (Everyday Ceremony Bot v1.0)'}
+    
+    for subreddit in subreddits:
+        retry_count = 0
+        max_retries = 3
+        
+        while retry_count < max_retries:
+            try:
+                logger.info(f"📱 Scraping Reddit r/{subreddit}...")
+                url = f"https://www.reddit.com/r/{subreddit}/new.json?limit={limit}"
+                response = requests.get(url, headers=headers, timeout=10)
+                response.raise_for_status()
+                
+                data = response.json()
+                posts_data = data.get('data', {}).get('children', [])
+                
+                for post in posts_data:
+                    post_data = post.get('data', {})
                     posts.append({
-                        "source": f"r/{sub}",
-                        "title": title,
-                        "body": body[:500],
-                        "score": score,
-                        "url": f"https://reddit.com{p.get('permalink','')}"
+                        'source': 'reddit',
+                        'subreddit': subreddit,
+                        'title': post_data.get('title', ''),
+                        'text': post_data.get('selftext', ''),
+                        'score': post_data.get('score', 0),
+                        'url': f"https://reddit.com{post_data.get('permalink', '')}"
                     })
-            time.sleep(1.5)
-        except Exception as e:
-            print(f"Reddit {sub} error: {e}")
+                
+                logger.info(f"   ✅ {len(posts_data)} posts from r/{subreddit}")
+                break
+                
+            except requests.exceptions.RequestException as e:
+                retry_count += 1
+                logger.warning(f"   ⚠️  Reddit r/{subreddit}: {e}")
+                if retry_count < max_retries:
+                    wait_time = 2 ** retry_count
+                    logger.info(f"   Retrying in {wait_time}s...")
+                    time.sleep(wait_time)
+                else:
+                    logger.error(f"   ❌ Failed after {max_retries} retries")
+    
+    logger.info(f"📱 Total Reddit posts: {len(posts)}")
     return posts
 
-
-# ─── RSS scraper ─────────────────────────────────────────────────────────────
-def scrape_rss(feeds, limit=10):
+def scrape_rss_feeds(feed_urls: List[str]) -> List[Dict]:
+    try:
+        import feedparser
+    except ImportError:
+        logger.error("feedparser not installed. Install with: pip install feedparser")
+        return []
+    
     articles = []
-    for url in feeds:
+    
+    for feed_url in feed_urls:
         try:
-            feed = feedparser.parse(url)
-            for entry in feed.entries[:limit]:
-                title   = getattr(entry, "title", "")
-                summary = getattr(entry, "summary", "")[:500]
-                link    = getattr(entry, "link", "")
-                if title:
-                    articles.append({
-                        "source": feed.feed.get("title", url),
-                        "title": title,
-                        "summary": summary,
-                        "url": link
-                    })
+            logger.info(f"📰 Scraping RSS: {feed_url[:50]}...")
+            feed = feedparser.parse(feed_url)
+            
+            for entry in feed.entries[:15]:
+                articles.append({
+                    'source': 'rss',
+                    'feed': feed_url,
+                    'title': entry.get('title', ''),
+                    'summary': entry.get('summary', ''),
+                    'link': entry.get('link', ''),
+                    'published': entry.get('published', '')
+                })
+            
+            logger.info(f"   ✅ {len(feed.entries[:15])} articles")
+            
         except Exception as e:
-            print(f"RSS {url} error: {e}")
+            logger.warning(f"   ⚠️  RSS feed error: {e}")
+    
+    logger.info(f"📰 Total RSS articles: {len(articles)}")
     return articles
 
-
-# ─── YouTube scraper (no API key — HTML scrape) ───────────────────────────────
-def scrape_youtube(handles, limit=5):
+def scrape_youtube_channel(channel_handle: str) -> List[Dict]:
     videos = []
-    headers = {"User-Agent": "Mozilla/5.0"}
-    for handle in handles:
-        try:
-            url = f"https://www.youtube.com/{handle}/videos"
-            r = requests.get(url, headers=headers, timeout=15)
-            titles = re.findall(r'"title":\{"runs":\[\{"text":"([^"]{10,100})"', r.text)
-            seen = set()
-            for t in titles[:limit]:
-                if t not in seen:
-                    seen.add(t)
-                    videos.append({"source": handle, "title": t})
-        except Exception as e:
-            print(f"YouTube {handle} error: {e}")
-        time.sleep(1)
+    
+    try:
+        from yt_dlp import YoutubeDL
+        logger.info(f"🎬 Scraping YouTube {channel_handle}...")
+        
+        ydl_opts = {
+            'quiet': True,
+            'no_warnings': True,
+            'extract_flat': 'in_playlist',
+            'playlistend': 10,
+        }
+        
+        with YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(f"https://youtube.com/{channel_handle}/videos", download=False)
+            
+            if info and 'entries' in info:
+                for entry in info['entries']:
+                    videos.append({
+                        'source': 'youtube',
+                        'channel': channel_handle,
+                        'title': entry.get('title', ''),
+                        'url': entry.get('url', ''),
+                        'duration': entry.get('duration', 0)
+                    })
+        
+        logger.info(f"   ✅ {len(videos)} videos")
+        
+    except ImportError:
+        logger.warning("   ⚠️  yt-dlp not installed. Install with: pip install yt-dlp")
+    except Exception as e:
+        logger.warning(f"   ⚠️  YouTube scrape error: {e}")
+    
     return videos
 
+def scrape_youtube_channels(handles: List[str]) -> List[Dict]:
+    all_videos = []
+    for handle in handles:
+        all_videos.extend(scrape_youtube_channel(handle))
+        time.sleep(1)
+    
+    logger.info(f"🎬 Total YouTube videos: {len(all_videos)}")
+    return all_videos
 
-# ─── Pain pattern detection ───────────────────────────────────────────────────
-def detect_pain_patterns(posts, pain_patterns):
-    hits = {category: [] for category in pain_patterns}
-    for post in posts:
-        text = (post.get("title","") + " " + post.get("body","")).lower()
-        for category, phrases in pain_patterns.items():
-            for phrase in phrases:
-                if phrase.lower() in text:
-                    hits[category].append({
-                        "phrase": phrase,
-                        "source": post.get("source",""),
-                        "title": post.get("title","")[:100]
+def detect_pain_patterns(content: List[Dict], pain_keywords: Dict[str, List[str]]) -> Dict:
+    logger.info("🔍 Detecting pain patterns...")
+    
+    pain_hits = {}
+    
+    for category, keywords in pain_keywords.items():
+        pain_hits[category] = []
+        
+        for item in content:
+            text = f"{item.get('title', '')} {item.get('text', '')} {item.get('summary', '')}".lower()
+            
+            for keyword in keywords:
+                if keyword.lower() in text:
+                    pain_hits[category].append({
+                        'source': item.get('source', 'unknown'),
+                        'keyword': keyword,
+                        'item': item
                     })
-    return {k: v for k, v in hits.items() if v}
+    
+    total_hits = sum(len(v) for v in pain_hits.values())
+    logger.info(f"   Found {total_hits} pain pattern hits")
+    
+    return pain_hits
 
+def generate_report(reddit_posts: List[Dict], rss_articles: List[Dict], 
+                   youtube_videos: List[Dict], pain_hits: Dict) -> str:
+    logger.info("🤖 Generating intelligence report via Claude...")
+    
+    content_summary = f"""
+TODAY'S CONTENT COLLECTED:
+- Reddit posts: {len(reddit_posts)}
+- RSS articles: {len(rss_articles)}
+- YouTube videos: {len(youtube_videos)}
 
-# ─── Generate intelligence report via Claude ─────────────────────────────────
-def generate_report(reddit_posts, rss_articles, youtube_videos, pain_hits):
-    today = datetime.now(timezone.utc).strftime("%B %d, %Y")
+PAIN PATTERNS DETECTED:
+{json.dumps(pain_hits, indent=2)[:2000]}
 
-    content_summary = []
-    content_summary.append("=== REDDIT SIGNAL ===")
-    for p in reddit_posts[:15]:
-        content_summary.append(f"[{p['source']}] {p['title']}")
+REDDIT HIGHLIGHTS:
+{json.dumps([p['title'] for p in reddit_posts[:5]], indent=2)}
 
-    content_summary.append("\n=== RSS ARTICLES ===")
-    for a in rss_articles[:10]:
-        content_summary.append(f"[{a['source']}] {a['title']}")
+RSS HIGHLIGHTS:
+{json.dumps([a['title'] for a in rss_articles[:5]], indent=2)}
 
-    content_summary.append("\n=== YOUTUBE TOPICS ===")
-    for v in youtube_videos[:10]:
-        content_summary.append(f"[{v['source']}] {v['title']}")
-
-    content_summary.append("\n=== PAIN PATTERN HITS ===")
-    for cat, hits in pain_hits.items():
-        content_summary.append(f"{cat}: {len(hits)} hits")
-        for h in hits[:3]:
-            content_summary.append(f"  - \"{h['phrase']}\" via {h['source']}")
-
-    prompt = f"""You are the Daily Intelligence Analyst for {CLIENT_BRAND}.
-
-CLIENT: {CLIENT_NAME}
-BRAND: {CLIENT_BRAND}
-NICHE: {CLIENT_NICHE}
-
-IDEAL CLIENT:
-{IDEAL_CLIENT_DESCRIPTION}
-
-OFFERS:
-{OFFERS}
-
-VOICE RULES:
-{REPORT_VOICE_RULES}
-
-CONTENT PILLARS:
-{', '.join(CONTENT_PILLARS)}
-
-TODAY'S RAW SIGNAL ({today}):
-{chr(10).join(content_summary)}
-
-Generate a daily intelligence report with:
-
-1. TOP 3 EMERGING TOPICS (what the ideal client is talking about TODAY)
-2. PAIN POINT FREQUENCY (which pain categories are most active)
-3. OFFER OPPORTUNITY (which offer fits today's pain signal best)
-4. READY-TO-USE CONTENT:
-   - 1 Facebook post (conversational, empathetic, 150-200 words)
-   - 1 Instagram caption (visual hook, 80-120 words, ends with CTA)
-   - 1 LinkedIn post (authority positioning, 100-150 words)
-   - 1 Email subject line + preview text
-
-Write in the brand voice. No hustle language. No "busy woman" framing.
-The report should feel like a wise friend who lit a candle before writing it.
-
-Return as valid JSON with keys: emerging_topics, pain_frequency, offer_opportunity, facebook_post, instagram_caption, linkedin_post, email_subject, email_preview, generated_at
+YOUTUBE HIGHLIGHTS:
+{json.dumps([v['title'] for v in youtube_videos[:5]], indent=2)}
 """
+    
+    system_prompt = f"""You are {CLIENT_BRAND}'s content intelligence AI. 
+Ideal Client: {IDEAL_CLIENT_DESCRIPTION}
+Brand Voice: {REPORT_VOICE_RULES}
+Offers: {OFFERS}
+Niche: {CLIENT_NICHE}
 
-    response = anthropic_client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=2000,
-        messages=[{"role": "user", "content": prompt}]
-    )
+Generate a concise intelligence report (under 1000 words) with:
+1. Top 3 Emerging Topics
+2. Pain Point Frequency
+3. Offer Opportunities
+4. Content Ideas
+5. Audience Insights
 
-    raw = response.content[0].text.strip()
-    # Extract JSON if wrapped in markdown
-    if "```json" in raw:
-        raw = raw.split("```json")[1].split("```")[0].strip()
-    elif "```" in raw:
-        raw = raw.split("```")[1].split("```")[0].strip()
+Be specific. Include exact quote snippets. Make it actionable."""
 
     try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        return {
-            "emerging_topics": ["Signal gathered — parsing error"],
-            "pain_frequency": {},
-            "offer_opportunity": OFFERS.split("\n")[0] if OFFERS else "",
-            "facebook_post": raw[:500],
-            "instagram_caption": "",
-            "linkedin_post": "",
-            "email_subject": f"{CLIENT_BRAND} — Daily Signal",
-            "email_preview": "Your daily intelligence is ready.",
-            "generated_at": today,
-            "raw_response": raw
+        message = anthropic_client.messages.create(
+            model="claude-opus-4-1",
+            max_tokens=1500,
+            system=system_prompt,
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"Generate today's intelligence report based on this content:\n\n{content_summary}"
+                }
+            ]
+        )
+        
+        report = message.content[0].text
+        logger.info("✅ Report generated successfully")
+        return report
+        
+    except Exception as e:
+        logger.error(f"❌ Claude API error: {e}")
+        raise
+
+def save_to_jsonbin(report: str, metadata: Dict) -> bool:
+    if not JSONBIN_BIN_ID or not JSONBIN_API_KEY:
+        logger.warning("⚠️  JSONBin credentials missing")
+        return False
+    
+    try:
+        logger.info("☁️  Saving to JSONBin...")
+        
+        url = f"https://api.jsonbin.io/v3/b/{JSONBIN_BIN_ID}"
+        headers = {
+            "Content-Type": "application/json",
+            "X-Master-Key": JSONBIN_API_KEY
         }
+        
+        payload = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "client": CLIENT_NAME,
+            "report": report,
+            "metadata": metadata
+        }
+        
+        response = requests.put(url, json=payload, headers=headers, timeout=10)
+        response.raise_for_status()
+        
+        logger.info("✅ Saved to JSONBin")
+        return True
+        
+    except Exception as e:
+        logger.error(f"❌ JSONBin save error: {e}")
+        return False
 
-
-# ─── Save to JSONBin ──────────────────────────────────────────────────────────
-def save_to_jsonbin(data):
-    headers = {
-        "Content-Type": "application/json",
-        "X-Master-Key": JSONBIN_API_KEY,
-        "X-Bin-Versioning": "false"
-    }
-    url = f"https://api.jsonbin.io/v3/b/{JSONBIN_BIN_ID}"
-    r = requests.put(url, json=data, headers=headers, timeout=30)
-    if r.status_code in (200, 201):
-        print(f"✅ Saved to JSONBin: {JSONBIN_BIN_ID}")
-    else:
-        print(f"❌ JSONBin error {r.status_code}: {r.text}")
-    return r.status_code
-
-
-# ─── Main ─────────────────────────────────────────────────────────────────────
 def main():
-    print(f"\n🌹 {CLIENT_BRAND} — Daily Intelligence Scraper")
-    print(f"📅 {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}\n")
-
-    print("📡 Scraping Reddit...")
-    all_subs = list(set(REDDIT_SUBS + PAIN_SEARCH_SUBS))
-    reddit_posts = scrape_reddit(all_subs, limit=20)
-    print(f"   {len(reddit_posts)} posts collected")
-
-    print("📰 Scraping RSS...")
-    rss_articles = scrape_rss(RSS_FEEDS)
-    print(f"   {len(rss_articles)} articles collected")
-
-    print("🎬 Scraping YouTube...")
-    youtube_videos = scrape_youtube(YOUTUBE_HANDLES, limit=5)
-    print(f"   {len(youtube_videos)} videos collected")
-
-    print("🔍 Detecting pain patterns...")
-    pain_hits = detect_pain_patterns(reddit_posts, PAIN_PATTERNS)
-    print(f"   {sum(len(v) for v in pain_hits.values())} hits across {len(pain_hits)} categories")
-
-    print("🤖 Generating intelligence report via Claude...")
-    report = generate_report(reddit_posts, rss_articles, youtube_videos, pain_hits)
-    report["client"] = CLIENT_BRAND
-    report["scraped_at"] = datetime.now(timezone.utc).isoformat()
-    report["reddit_post_count"] = len(reddit_posts)
-    report["rss_article_count"] = len(rss_articles)
-
-    print("💾 Saving to JSONBin...")
-    status = save_to_jsonbin(report)
-
-    if status in (200, 201):
-        print(f"\n✅ Done! {CLIENT_BRAND} intelligence ready for the Beast poster.\n")
-        print(f"📌 Top topic: {report.get('emerging_topics', [''])[0] if report.get('emerging_topics') else 'n/a'}")
-    else:
-        print("\n⚠️  Report generated but JSONBin save failed. Check secrets.")
-        raise SystemExit(1)
-
+    try:
+        logger.info("=" * 60)
+        logger.info(f"🌹 {CLIENT_BRAND} — Daily Intelligence Scraper")
+        logger.info(f"📅 {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')}")
+        logger.info("=" * 60)
+        
+        reddit_posts = scrape_reddit(REDDIT_SUBS) if REDDIT_SUBS else []
+        rss_articles = scrape_rss_feeds(RSS_FEEDS) if RSS_FEEDS else []
+        youtube_videos = scrape_youtube_channels(YOUTUBE_HANDLES) if YOUTUBE_HANDLES else []
+        
+        all_content = reddit_posts + rss_articles + youtube_videos
+        
+        pain_hits = detect_pain_patterns(all_content, PAIN_PATTERNS)
+        
+        report = generate_report(reddit_posts, rss_articles, youtube_videos, pain_hits)
+        
+        timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        local_file = f"daily_report_{timestamp}.json"
+        
+        metadata = {
+            "sources": {
+                "reddit": len(reddit_posts),
+                "rss": len(rss_articles),
+                "youtube": len(youtube_videos)
+            },
+            "pain_hits": {k: len(v) for k, v in pain_hits.items()}
+        }
+        
+        with open(local_file, 'w') as f:
+            json.dump({
+                "timestamp": datetime.utcnow().isoformat(),
+                "client": CLIENT_NAME,
+                "report": report,
+                **metadata
+            }, f, indent=2)
+        
+        logger.info(f"📁 Report saved locally: {local_file}")
+        
+        save_to_jsonbin(report, metadata)
+        
+        logger.info("=" * 60)
+        logger.info("✅ Scrape cycle complete")
+        logger.info("=" * 60)
+        
+        return 0
+        
+    except Exception as e:
+        logger.error(f"FATAL ERROR: {e}", exc_info=True)
+        return 1
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
