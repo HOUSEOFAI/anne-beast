@@ -1,0 +1,629 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reclaim — Buying Event Command Center | Everyday Ceremony By Anne</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b0618;--surface:#130d22;--surface2:#1a1230;
+  --border:#2d1a56;--border-lt:#3d2570;
+  --amber:#c9a227;--amber-lt:#e8bb38;--amber-dim:rgba(201,162,39,0.12);
+  --cream:#f0e8d8;--muted:#7a6090;
+  --pine:var(--bg);--gold:var(--amber);--ivory:var(--surface2);--slate:var(--cream);--mist:var(--border)
+}
+body{font-family:Georgia,serif;background:var(--bg);color:var(--cream);min-height:100vh}
+.hdr{background:var(--bg);border-bottom:1px solid rgba(201,162,39,.2);padding:1.5rem 2rem}
+.hdr-eyebrow{color:var(--amber);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem}
+.hdr-title{color:var(--cream);font-size:2rem;font-style:italic}
+.hdr-sub{color:var(--muted);font-size:.85rem;margin-top:.25rem}
+nav{background:var(--bg);border-bottom:1px solid rgba(201,162,39,.15);display:flex;padding:0 1rem;overflow-x:auto}
+nav::-webkit-scrollbar{display:none}
+.tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:Georgia,serif;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;padding:.85rem 1.1rem;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.tab:hover{color:var(--cream)}
+.tab.active{color:var(--amber);border-bottom-color:var(--amber)}
+.tab-arrows{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;background:var(--surface);border-top:1px solid rgba(201,162,39,.2);padding:.75rem 1.25rem;z-index:200}
+.tab-arrows .tab-label{color:var(--amber);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-align:center;flex:1}
+.arr-btn{background:var(--amber);color:#0b0618;border:none;border-radius:6px;font-size:1.1rem;font-weight:bold;padding:.55rem 1.4rem;cursor:pointer;transition:all .2s;flex-shrink:0}
+.arr-btn:hover{background:var(--amber-lt)}
+.arr-btn:disabled{background:var(--surface2);color:var(--muted);cursor:default}
+footer{margin-bottom:4rem}
+main{max-width:900px;margin:0 auto;padding:2rem}
+.panel{display:none}
+.panel.active{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.75rem;margin-bottom:1.25rem}
+.section-label{color:var(--amber);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;margin-top:1.5rem;display:flex;align-items:center;gap:.75rem}
+.section-label:first-child{margin-top:0}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.offer-position{font-size:1.15rem;color:var(--cream);line-height:1.6;font-style:italic;padding:1rem 0}
+.deliverable{display:flex;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--border)}
+.deliverable:last-child{border-bottom:none}
+.del-num{color:var(--amber);font-size:.82rem;font-weight:bold;min-width:1.5rem;padding-top:.1rem}
+.del-title{color:var(--cream);font-weight:bold;font-size:.9rem;margin-bottom:.2rem}
+.del-desc{color:var(--muted);font-size:.85rem;line-height:1.5}
+.profile-quote{background:var(--amber-dim);border-left:3px solid var(--amber);padding:1rem 1.25rem;font-style:italic;color:var(--cream);font-size:.9rem;line-height:1.65;border-radius:0 6px 6px 0;margin:.5rem 0}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.pain-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:1rem}
+.pain-label{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.45rem}
+.pain-text{color:var(--muted);font-size:.85rem;line-height:1.5}
+.result-item{background:var(--amber-dim);border-left:3px solid var(--amber);padding:1rem 1.25rem;border-radius:0 6px 6px 0;margin-bottom:.75rem}
+.result-label{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.35rem}
+.result-text{color:var(--cream);font-size:.88rem;line-height:1.55}
+.week-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem}
+.week-title{color:var(--cream);font-size:1rem;font-weight:bold;margin-bottom:.25rem}
+.week-sub{color:var(--amber);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.85rem}
+.week-text{color:var(--muted);font-size:.87rem;line-height:1.6;margin-bottom:.75rem}
+.hook-list{list-style:none;margin-top:.5rem}
+.hook-list li{padding:.4rem 0;border-bottom:1px solid var(--border);color:var(--cream);font-size:.87rem;line-height:1.5;font-style:italic}
+.hook-list li:last-child{border-bottom:none}
+.hook-list li::before{content:'\201C';color:var(--amber)}
+.hook-list li::after{content:'\201D';color:var(--amber)}
+.hr-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem}
+.hr-type{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.6rem}
+.hr-body{color:var(--cream);font-size:.88rem;line-height:1.7;white-space:pre-line}
+.day-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem}
+.day-label{color:var(--amber);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.4rem}
+.day-hook{color:var(--cream);font-size:1rem;font-style:italic;margin-bottom:.65rem;line-height:1.4}
+.day-body{color:var(--muted);font-size:.87rem;line-height:1.65;margin-bottom:.75rem;white-space:pre-line}
+.day-meta{display:flex;gap:1.5rem;flex-wrap:wrap;padding-top:.5rem;border-top:1px solid var(--border)}
+.meta-label{color:var(--amber);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;font-weight:bold}
+.meta-val{color:var(--cream);font-size:.83rem}
+.gen-row{margin-bottom:1rem}
+.gen-label{color:var(--cream);font-size:.85rem;font-weight:bold;margin-bottom:.35rem;display:block}
+select,textarea,input[type=text]{width:100%;font-family:Georgia,serif;font-size:.88rem;border:1px solid var(--border);border-radius:6px;padding:.65rem .85rem;color:var(--cream);background:var(--surface2)}
+textarea{min-height:120px;resize:vertical}
+.gen-btn{background:var(--amber);color:#0b0618;border:none;border-radius:6px;font-family:Georgia,serif;font-size:.88rem;font-weight:bold;letter-spacing:.06em;padding:.75rem 1.75rem;cursor:pointer;margin-top:.5rem}
+.gen-btn:hover{background:var(--amber-lt)}
+#gen-output{background:var(--amber-dim);border:1px solid var(--border);border-radius:6px;padding:1rem 1rem 2.5rem;min-height:100px;color:var(--cream);font-size:.88rem;line-height:1.65;white-space:pre-wrap;margin-top:1rem;position:relative}
+#copy-output-btn{position:absolute;bottom:.6rem;right:.6rem;background:var(--amber);color:#0b0618;border:none;border-radius:4px;font-size:.72rem;font-weight:bold;padding:.3rem .75rem;cursor:pointer;display:none}
+.kw-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.kw-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem;color:var(--cream);font-size:.86rem;line-height:1.4}
+.kw-type{color:var(--amber);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;font-weight:bold;margin-bottom:.3rem}
+.algo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-top:.5rem}
+.algo-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.75rem;text-align:center;font-size:.83rem;color:var(--muted)}
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.76rem;border-top:1px solid rgba(201,162,39,.1);margin-top:2rem}
+@media(max-width:640px){.pain-grid{grid-template-columns:1fr}.kw-grid{grid-template-columns:1fr}.algo-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div style="display:flex;align-items:center;gap:1rem;margin-bottom:.5rem">
+    <a href="/" style="color:var(--amber);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(201,162,39,.4);border-radius:4px;padding:.3rem .75rem;white-space:nowrap">← Beast Console</a>
+    <div class="hdr-eyebrow" style="margin:0">House of AI™ · Buying Event Command Center</div>
+  </div>
+  <div class="hdr-title">Reclaim</div>
+  <div class="hdr-sub">Everyday Ceremony By Anne · Anne McClain</div>
+</header>
+
+<nav id="main-nav">
+  <button class="tab active" onclick="showTab(0,this)">The Offer</button>
+  <button class="tab" onclick="showTab(1,this)">4-Week Launch</button>
+  <button class="tab" onclick="showTab(2,this)">Hand Raisers</button>
+  <button class="tab" onclick="showTab(3,this)">7-Day Event</button>
+  <button class="tab" onclick="showTab(4,this)">Copy Generator</button>
+  <button class="tab" onclick="showTab(5,this)">SEO &amp; AEO</button>
+</nav>
+
+<div class="tab-arrows">
+  <button class="arr-btn" id="btn-prev" onclick="stepTab(-1)" disabled="">←</button>
+  <span class="tab-label" id="tab-label-center">The Offer</span>
+  <button class="arr-btn" id="btn-next" onclick="stepTab(1)">→</button>
+</div>
+
+<main>
+
+<!-- ── TAB 1: THE OFFER ─────────────────────────────────── -->
+<div id="panel-offer" class="panel active">
+  <div class="card">
+    <div class="section-label">Offer Positioning</div>
+    <div class="offer-position">She has been in the dark longer than most people have been curious about it. She can tell the real ones from the tourists before they even speak. And yet — the ceremony she holds for her scene, her people, her whole world — she has never held one for herself. Reclaim is that. Not another beautiful object. The practice she has been carrying the space for, finally turned inward.</div>
+
+    <div class="section-label">What She Gets</div>
+    <div class="deliverable"><div class="del-num">01</div><div><div class="del-title">The Reclaim Candle — $55</div><div class="del-desc">Hand-poured in cedar and bergamot. Made by Anne in small batches, not for a shelf — for the ceremony. Lit before the journal, before the phone, before the world has any claim on the morning. A ritual object with one job: to begin something.</div></div></div>
+    <div class="deliverable"><div class="del-num">02</div><div><div class="del-title">Ritual Oil — $44</div><div class="del-desc">Anointed before the ceremony opens. Applied to pulse points, to the candle, to the intention cards. Not a beauty product. An activation. Made by Anne for the woman who knows the difference between decoration and practice.</div></div></div>
+    <div class="deliverable"><div class="del-num">03</div><div><div class="del-title">Sacred Morning Incense Bundle</div><div class="del-desc">Palo santo and lavender blend. Used to open the space before the journal. Not for the altar photo. For the actual practice — fifteen minutes of smoke and silence before the world begins.</div></div></div>
+    <div class="deliverable"><div class="del-num">04</div><div><div class="del-title">7-Day Ceremony Framework</div><div class="del-desc">A 15-minute ritual guide — candle, oil, incense, prompt, intention — for her first week. Simple enough to do every day. Rooted enough to actually mean something.</div></div></div>
+    <div style="margin-top:1rem;padding:.85rem 1rem;background:var(--amber-dim);border:1px solid var(--amber);border-radius:6px;font-size:.9rem;color:var(--cream)"><strong style="color:var(--amber)">Full Ritual Kit — $118</strong> &nbsp;·&nbsp; Candle + Ritual Oil + Incense + 7-Day Ceremony Framework</div>
+
+    <div class="section-label">Her Inner Monologue</div>
+    <div class="profile-quote">I've been in the scene since before it was on TikTok. I know who's real and who found this six months ago. I go to the shows, I know the shops, I know the people. I hold space for all of it. And I still don't have something that holds me. I light candles before I go out — but that's not a practice, that's a ritual. I want the real thing. Made by someone who actually understands what I'm asking for. Not sold to me because of how I look.</div>
+
+    <div class="section-label">Pain Trifecta</div>
+    <div class="pain-grid">
+      <div class="pain-item"><div class="pain-label">The Scene</div><div class="pain-text">She holds space for everyone in her world — the shows, the events, the people who need somewhere to belong. She is the anchor. She does not have an anchor. She has been giving the ceremony to everyone else and skipping it for herself.</div></div>
+      <div class="pain-item"><div class="pain-label">The Objects</div><div class="pain-text">She has bought from brands that market darkness to people who discovered it last year. She can spot it. She is done paying for the aesthetic version of something that is supposed to be real. When she spends, she wants it to land in something true.</div></div>
+      <div class="pain-item"><div class="pain-label">The Practice</div><div class="pain-text">She has the altar. The oils. The incense. She lights things and sits in front of them and feels adjacent to something — not inside it. She knows the difference. She has been waiting for something that closes the gap.</div></div>
+    </div>
+
+    <div class="section-label">The 5 Results</div>
+    <div class="result-item"><div class="result-label">Revenue</div><div class="result-text">She stops giving her time and her gifts to rooms that do not understand what she carries. A woman rooted in her own practice knows what she is worth — and she stops discounting it for people who cannot see it.</div></div>
+    <div class="result-item"><div class="result-label">Time</div><div class="result-text">The 15 minutes she protects become the spine of her day. She stops giving the first of herself to everyone else. The ceremony teaches her — by feel, not by logic — what is worth her presence and what is not.</div></div>
+    <div class="result-item"><div class="result-label">Relationships</div><div class="result-text">She stops holding space from depletion and starts holding it from depth. Her people feel the difference. She becomes more of what she has always been — and less available to the ones who have been taking what they did not earn.</div></div>
+    <div class="result-item"><div class="result-label">Capacity</div><div class="result-text">She has always held a great deal. The ceremony teaches her how to be held. She stops being the last one standing at the end of the night — holding everything, recharged by nothing — and starts filling herself first.</div></div>
+    <div class="result-item"><div class="result-label">Identity</div><div class="result-text">She was never performing. She was always this. The ceremony does not change who she is — it takes her further into it. And for the first time, the inside matches the outside completely.</div></div>
+  </div>
+</div>
+
+<!-- ── TAB 2: 4-WEEK LAUNCH ─────────────────────────────── -->
+<div id="panel-launch" class="panel">
+  <div class="card">
+
+    <div class="section-label">Week 1 — The Big Idea</div>
+    <div class="week-card">
+      <div class="week-title">State of the Niche</div>
+      <div class="week-sub">What's Collapsing / What's Rising</div>
+      <div class="week-text"><strong>What's collapsing:</strong> The goth, darkwave, and trad goth scenes have been discovered — and monetized. Brands are selling darkness to people who found it six months ago on TikTok, and the women who have been in the scene for years can see it from across the room. The aesthetic market is oversaturated with products that look right but were made for the tourist. The real ones are done with it.</div>
+      <div class="week-text"><strong>What's rising:</strong> Practice over performance. The women who have held the scene together — who go to the shows, run the events, hold the space for their whole community — are hungry for something that holds them back. Not another beautiful object. A ceremony with roots. Made by someone who actually understands what ceremony is.</div>
+      <div class="week-sub" style="margin-top:.75rem">Week 1 Hooks</div>
+      <ul class="hook-list">
+        <li>You've been in the dark longer than most people have been curious about it. When's the last time you held ceremony for yourself?</li>
+        <li>You can spot a fake from across the room. This is not for them.</li>
+        <li>You hold space for everyone in your world. Something is allowed to hold you back.</li>
+        <li>You have the altar. The oils. The incense. You know what's still missing.</li>
+      </ul>
+    </div>
+
+    <div class="section-label">Week 2 — Story, Proof, Barriers</div>
+    <div class="week-card">
+      <div class="week-title">Story Post Angle</div>
+      <div class="week-text">The moment Anne realized the ritual objects she was making were not products — they were invitations. Not to look at ceremony, but to live inside it. Share the origin of Reclaim — why she made it, who she made it for, and what the difference is between having the candle and actually doing the practice. The woman she was speaking to already had beautiful things. Anne was building a container for what those things were always pointing toward.</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Client Proof Angle</div>
+      <div class="week-text">A woman who came to Reclaim with an altar already built — who thought she had ceremony — and what shifted in 7 days when she actually had a framework. Not dramatic. Quiet. She lit the candle not for the photo but for the 15 minutes. She wrote something honest in the journal. She felt, for the first time, like the practice was holding her rather than decorating her space.</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Barriers Post Angles</div>
+      <div class="week-text">Address each of these directly — one post or story per barrier:</div>
+      <ul class="hook-list">
+        <li>I already have a practice. (Response: You have the altar. Reclaim gives you the ceremony.)</li>
+        <li>I don't do mainstream wellness. (Response: This isn't wellness. It's ritual. There is a difference.)</li>
+        <li>I've bought things like this before and they end up on the shelf. (Response: Reclaim includes the practice, not just the objects. The framework is what makes it real.)</li>
+      </ul>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Hand Raiser Scripts</div>
+      <div class="hr-body">1. "Building something for the woman who already has the altar and is ready for the ceremony that actually goes deep. Not aesthetics. Practice. If that's you — comment 'yes' below."
+
+2. "Working on something for the woman who has been circling ceremony her whole life and is finally ready to go all the way in. Drop 'reclaim' if you want to see it first."</div>
+    </div>
+
+    <div class="section-label">Week 3 — Vision Casting + Direct Invite</div>
+    <div class="week-card">
+      <div class="week-title">Vision Casting Post</div>
+      <div class="week-text">Paint the specific morning. The house is still dark. She strikes the match before the phone comes on. The cedar and bergamot are familiar now — the scent of her own ceremony, her own mornings. She opens the journal. The prompt today goes somewhere she didn't expect. She writes for 10 minutes, not editing, just following. She closes the journal and sits with the candle for a moment. Then she begins her day. And everything that comes after it carries something of that quiet. That is 30 days of Reclaim — not a transformation, a deepening.</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Direct Invite Copy</div>
+      <div class="week-text">"Reclaim opens [date]. There are [X] kits available — each one hand-poured and packed by Anne. If you have been building the altar and waiting for the ceremony to match it, this is it."</div>
+    </div>
+    <div class="week-card">
+      <div class="week-title">Email Direction</div>
+      <div class="week-text"><strong>Subject:</strong> "She finally put something at the center"<br><strong>Direction:</strong> Open with the gap — she has the altar, the objects, the aesthetic, and something is still missing at the center. Move into what changes when the practice is real. Close with the CTA to the Reclaim page. No wellness language. No urgency. Invitation to go in.</div>
+    </div>
+
+    <div class="section-label">Week 4 — The 7-Day Event</div>
+    <div class="week-card">
+      <div class="week-title">Event Week Structure</div>
+      <div class="week-text">The 7-day event runs daily — one post per day on all platforms. See the 7-Day Event tab for the complete copy for each day. Day 7 gets three sends: morning, noon, and closing hour. Every post ends with a single-word or single-phrase CTA — no paragraphs, no pressure.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TAB 3: HAND RAISERS ─────────────────────────────── -->
+<div id="panel-handraisers" class="panel">
+  <div class="card">
+
+    <div class="hr-card">
+      <div class="hr-type">Asset Drop</div>
+      <div class="hr-body">I just finished writing the ritual guide that comes inside every Reclaim kit.
+
+It's called the 7-Day Ceremony Framework. Fifteen minutes in the morning. A candle. An incense stick. One journal prompt. That is all it asks for.
+
+If you want a preview before the kit opens, drop "ceremony" below and I'll send it to you.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Client Win</div>
+      <div class="hr-body">She had been lighting candles for years.
+
+Beautiful ones. Intentional ones. She knew what ceremony was supposed to feel like.
+
+But when she sat down with the Reclaim framework — the prompt, the practice, the actual container — something clicked.
+
+She told me it was the first morning in a long time that felt like it belonged to her. Not to the aesthetic. To her.
+
+That is what Reclaim is for.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Conviction</div>
+      <div class="hr-body">Trad goth, darkwave, deathrock — these are not aesthetics.
+
+They are an orientation toward depth. Toward the parts of life most people refuse to look at. Toward ceremony as a way of living, not a way of dressing.
+
+You have known this since before most people knew the word.
+
+Reclaim is for the woman who has been holding the scene together — the shows, the people, the space — and has never held a ceremony for herself.
+
+Not the candle you lit before you went out. The practice you come home to.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Gathering</div>
+      <div class="hr-body">Building something for the woman who has been in the dark long enough to know what's real.
+
+Not a product for the tourist market. A ceremony kit made by someone who understands what ceremony actually is.
+
+A hand-poured candle. A ritual oil. A 28-day journal. A framework for the morning. And the decision to finally do this for yourself.
+
+If that's you — I want to hear from you.</div>
+    </div>
+
+    <div class="hr-card">
+      <div class="hr-type">Direct Tease</div>
+      <div class="hr-body">Reclaim opens [date].
+
+The Reclaim Candle ($55) — cedar and bergamot, hand-poured in small batches.
+The Ritual Oil ($44) — for anointing before the ceremony opens.
+Sacred morning incense. 7-Day Ceremony Framework — fifteen minutes in the morning, a candle, oil, incense, one prompt, one intention.
+
+Full kit: $118.
+
+Made by Anne. Not for the aesthetic market. For the woman who has been in the scene long enough to know what she's actually looking for.
+
+Comment "reclaim" if you want to know more.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── TAB 4: 7-DAY EVENT ──────────────────────────────── -->
+<div id="panel-event" class="panel">
+  <div class="card">
+
+    <div class="day-card">
+      <div class="day-label">Day 1 — The Awakening</div>
+      <div class="day-hook">You have been in the dark long enough to know what's real. This was made for you.</div>
+      <div class="day-body">Not for the tourist market. Not for the woman who discovered this last year.
+
+For the woman who has been going to the shows, knowing the shops, holding the scene together — and has never held a ceremony entirely for herself.
+
+Reclaim opens today.
+
+The Reclaim Candle — $55. Cedar and bergamot. Hand-poured by Anne in small batches. Made to be burned, not displayed.
+
+The Ritual Oil — $44. For anointing before the ceremony opens. Not a beauty product. An activation.
+
+Sacred incense. 7-day ceremony framework.
+
+Full kit: $118.
+
+This is the ceremony you have been holding for everyone else. Now it's yours.
+
+Link in bio.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Link in bio — Reclaim opens today.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"She finally put something at the center"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 2 — The Permission</div>
+      <div class="day-hook">You do not need permission to go deeper than the aesthetic.</div>
+      <div class="day-body">You have the look. The altar. The objects that mean something.
+
+And somewhere you have known that what you carry goes further than what anyone can see.
+
+Reclaim does not care about the look. It only cares about the practice.
+
+The candle is lit not to be photographed but to begin something. The ceremony is not for the caption. It is for you — the version of you nobody sees in the content.
+
+15 minutes. Every morning. Something real.
+
+It is open now.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Reclaim — still open. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"What exists beneath the aesthetic"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 3 — The Ritual</div>
+      <div class="day-hook">Fifteen minutes. A candle. Sacred incense. This is how ceremony begins — not as a look, but as a practice.</div>
+      <div class="day-body">The house is still dark. She strikes the match before the phone comes on.
+
+Cedar and bergamot. The smell is already becoming hers.
+
+She lights the incense next — palo santo and lavender, soft and grounding. She watches the smoke for a moment.
+
+She sits with the question: "What do I need to stop performing?"
+
+She stays with it for 8 minutes. Not for anyone. Just answering.
+
+Then she watches the candle and begins her day.
+
+Everything that comes after that 15 minutes is clearer — not because the world changed, but because she did.
+
+That is inside Reclaim.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Inside Reclaim. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"What she found in 15 minutes"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 4 — The Proof</div>
+      <div class="day-hook">She already had the altar. What changed was having a ceremony to hold inside it.</div>
+      <div class="day-body">She came to Reclaim with beautiful objects already on her shelf.
+
+She thought she had a practice. She had the pieces.
+
+But the first morning she followed the framework — candle, incense, no phone — something was different.
+
+She sat with the ceremony for a few minutes. She didn't share it. She let it be true.
+
+The next morning she came back. Not because she had to. Because she wanted to go further.
+
+By day 4, something had shifted. Not everything. Not dramatically. Just quietly, in the direction of her actual self.
+
+Kits are still available.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Reclaim. Limited kits. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"What changed in her first week"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 5 — The Inventory</div>
+      <div class="day-hook">Half the kits are gone. This is not pressure. This is an update.</div>
+      <div class="day-body">Anne pours every candle by hand, in small batches. There are never hundreds of Reclaim kits available at once.
+
+What remains: the cedar and bergamot candle, the sacred incense bundle, the 7-day ceremony framework.
+
+Everything you need for the practice you have been building toward.
+
+If you have been thinking about it — that is usually a sign.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Reclaim. While they last. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"She almost missed it"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-label">Day 6 — The Vision</div>
+      <div class="day-hook">Imagine 30 days from now.</div>
+      <div class="day-body">The morning ritual is no longer something she decides to do. It is simply what happens when she wakes up.
+
+She lights the candle. Cedar and bergamot — the scent of her own mornings now, not just a beautiful thing she owns. She opens the journal. The prompts have taken her somewhere she did not expect. She has written things she did not know she was holding.
+
+She is 30 days more herself than she was when she opened the box.
+
+Not a different self. A deeper one.
+
+The event closes tomorrow. Last chance to join this round.</div>
+      <div class="day-meta">
+        <div><div class="meta-label">CTA</div><div class="meta-val">Last chance — Reclaim closes tomorrow. Link in bio.</div></div>
+        <div><div class="meta-label">Email Subject</div><div class="meta-val">"30 days deeper"</div></div>
+      </div>
+    </div>
+
+    <div class="day-card" style="border-color:var(--amber)">
+      <div class="day-label">Day 7 — Last Call (Triple Send)</div>
+      <div class="day-hook">The woman who goes in tonight will light her first candle this week.</div>
+      <div class="day-body">Today is the last day Reclaim is open in this round.
+
+Anne pours every kit by hand. When they're gone, they're gone — and the next round won't be for a while.
+
+You have been building the altar for a long time. The ceremony is here.
+
+Reclaim closes tonight.</div>
+      <div class="day-meta" style="flex-direction:column;gap:.5rem">
+        <div><div class="meta-label">Send 1 — Morning</div><div class="meta-val">Subject: "Today only" — "Today is the last day Reclaim is open."</div></div>
+        <div><div class="meta-label">Send 2 — Midday</div><div class="meta-val">Subject: "A few kits remain" — Inventory update. Grounded, not urgent.</div></div>
+        <div><div class="meta-label">Send 3 — Evening</div><div class="meta-val">Subject: "It closes tonight" — Final close. Depth-forward tone. No pressure — just the door closing.</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── TAB 5: COPY GENERATOR ───────────────────────────── -->
+<div id="panel-copygen" class="panel">
+  <div class="card">
+    <div class="section-label">Generate Copy</div>
+    <div class="gen-row">
+      <label class="gen-label" for="copy-type">Copy Type</label>
+      <select id="copy-type">
+        <option value="">Select a format...</option>
+        <option value="hand-raiser">Hand Raiser</option>
+        <option value="conviction">Conviction Post</option>
+        <option value="open-day">Opening Day Post</option>
+        <option value="close-day">Closing Day Post</option>
+        <option value="email-subject">Email Subject Lines</option>
+        <option value="story">Instagram Story Script</option>
+        <option value="dm">DM Follow-Up</option>
+      </select>
+    </div>
+    <div class="gen-row">
+      <label class="gen-label" for="copy-platform">Platform</label>
+      <select id="copy-platform">
+        <option value="instagram">Instagram</option>
+        <option value="facebook">Facebook</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="email">Email</option>
+      </select>
+    </div>
+    <div class="gen-row">
+      <label class="gen-label" for="copy-angle">Optional Angle or Keyword</label>
+      <input type="text" id="copy-angle" placeholder="e.g. altar, practice, depth, dark feminine...">
+    </div>
+    <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-top:.5rem">
+      <button class="gen-btn" onclick="generateCopy()">Generate Fresh Copy</button>
+      <button class="gen-btn" id="regen-btn" onclick="generateCopy()" style="display:none;background:transparent;color:var(--amber);border:1px solid var(--amber);padding:.65rem 1.4rem">↻ Regenerate</button>
+    </div>
+    <div id="gen-meta" style="display:none;margin-top:.6rem;font-size:.76rem;color:var(--muted);align-items:center;gap:.75rem">
+      <span id="gen-count"></span>
+      <button onclick="clearReclaimMemory()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.76rem;text-decoration:underline;padding:0">Clear memory</button>
+    </div>
+    <div id="gen-output">Your generated copy will appear here. Select a type and click Generate Fresh Copy.<button id="copy-output-btn" onclick="navigator.clipboard.writeText(document.getElementById('gen-output').textContent.trim()).then(()=>{this.textContent='Copied';setTimeout(()=>{this.textContent='Copy'},1500)})">Copy</button></div>
+  </div>
+</div>
+
+<!-- ── TAB 6: SEO & AEO ────────────────────────────────── -->
+<div id="panel-seo" class="panel">
+  <div class="card">
+
+    <div class="section-label">Primary Keywords</div>
+    <div class="kw-grid">
+      <div class="kw-item"><div class="kw-type">Primary</div>dark feminine ritual kit handcrafted</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>witchy self-care ceremony kit for women</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>sacred morning ritual candle and journal</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>handmade goth ritual objects for women</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>women's ceremonial morning practice kit</div>
+      <div class="kw-item"><div class="kw-type">Primary</div>everyday ceremony candles handpoured</div>
+    </div>
+
+    <div class="section-label">AEO Questions</div>
+    <div class="kw-grid">
+      <div class="kw-item"><div class="kw-type">AEO</div>What is a dark feminine morning ritual practice?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>How do I build a real ceremony, not just an altar?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What is in a witchy self-care ritual kit?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What does everyday ceremony mean as a practice?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>How do I go deeper than the dark feminine aesthetic?</div>
+      <div class="kw-item"><div class="kw-type">AEO</div>What candles are best for a sacred morning ritual?</div>
+    </div>
+
+    <div class="section-label">GEO Brand Phrases</div>
+    <div class="kw-grid">
+      <div class="kw-item"><div class="kw-type">GEO</div>Everyday Ceremony By Anne</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>Anne McClain ritual products Boston</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>Reclaim ritual kit Everyday Ceremony</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>Celebrating You Today Tomorrow and Always</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>dark feminine ceremony kit Boston handcrafted</div>
+      <div class="kw-item"><div class="kw-type">GEO</div>handcrafted ceremony kits Anne McClain</div>
+    </div>
+
+    <div class="section-label">Algorithm Signals</div>
+    <div class="algo-grid">
+      <div class="algo-item">Post between 7–9am or 6–8pm</div>
+      <div class="algo-item">Reply to every comment within 1 hour</div>
+      <div class="algo-item">Use 3–5 hashtags max (IG)</div>
+      <div class="algo-item">Stories daily during event week</div>
+      <div class="algo-item">Pin opening and closing day posts</div>
+      <div class="algo-item">Save posts to a relevant collection</div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<footer>Everyday Ceremony By Anne · Anne McClain · Built by <a href="https://www.houseofai.boston" style="color:var(--gold);text-decoration:none">House of AI™</a> · Celebrating You Today, Tomorrow and Always</footer>
+
+<script>
+const TAB_IDS   = ['offer','launch','handraisers','event','copygen','seo'];
+const TAB_NAMES  = ['The Offer','4-Week Launch','Hand Raisers','7-Day Event','Copy Generator','SEO & AEO'];
+let currentTab = 0;
+
+function showTab(idx, btn) {
+  currentTab = idx;
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#main-nav .tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + TAB_IDS[idx]).classList.add('active');
+  if (btn) btn.classList.add('active');
+  else document.querySelectorAll('#main-nav .tab')[idx].classList.add('active');
+  document.getElementById('btn-prev').disabled = (currentTab === 0);
+  document.getElementById('btn-next').disabled = (currentTab === TAB_IDS.length - 1);
+  document.getElementById('tab-label-center').textContent = TAB_NAMES[idx];
+  const navBtn = document.querySelectorAll('#main-nav .tab')[idx];
+  if (navBtn) navBtn.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function stepTab(dir) {
+  const next = currentTab + dir;
+  if (next < 0 || next >= TAB_IDS.length) return;
+  showTab(next, null);
+}
+
+function getReclaimHistory(type, platform) {
+  try { return JSON.parse(localStorage.getItem('reclaim_' + type + '_' + platform) || '[]'); }
+  catch(e) { return []; }
+}
+function saveReclaimHistory(type, platform, copy) {
+  try {
+    const key = 'reclaim_' + type + '_' + platform;
+    const hist = getReclaimHistory(type, platform);
+    hist.unshift(copy);
+    localStorage.setItem(key, JSON.stringify(hist.slice(0, 10)));
+  } catch(e) {}
+}
+function clearReclaimMemory() {
+  try {
+    Object.keys(localStorage).filter(k => k.startsWith('reclaim_')).forEach(k => localStorage.removeItem(k));
+    const meta = document.getElementById('gen-meta');
+    if (meta) meta.style.display = 'none';
+    const output = document.getElementById('gen-output');
+    if (output) {
+      output.textContent = 'Memory cleared. Next generation will be fresh with no history.';
+      output.style.opacity = '1';
+    }
+  } catch(e) {}
+}
+
+async function generateCopy() {
+  const type     = document.getElementById('copy-type').value;
+  const platform = document.getElementById('copy-platform').value;
+  const angle    = (document.getElementById('copy-angle') || {}).value || '';
+  const output   = document.getElementById('gen-output');
+  const meta     = document.getElementById('gen-meta');
+  const genBtn   = document.getElementById('regen-btn');
+
+  if (!type) { output.textContent = 'Please select a copy type above.'; return; }
+
+  output.textContent = 'Writing fresh copy...';
+  output.style.opacity = '0.5';
+
+  const history = getReclaimHistory(type, platform);
+
+  try {
+    const res = await fetch('/.netlify/functions/reclaim-copy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, platform, angle, history: history.slice(0, 8) }),
+      signal: AbortSignal.timeout(25000)
+    });
+
+    const data = await res.json();
+
+    if (data.error) {
+      output.textContent = 'Error: ' + data.error;
+      output.style.opacity = '1';
+      return;
+    }
+
+    const copy = data.copy;
+    output.textContent = copy;
+    output.style.opacity = '1';
+
+    saveReclaimHistory(type, platform, copy);
+
+    if (meta) {
+      const newCount = getReclaimHistory(type, platform).length;
+      const countEl = document.getElementById('gen-count');
+      if (countEl) countEl.textContent = newCount + ' variation' + (newCount === 1 ? '' : 's') + ' in memory for this type';
+      meta.style.display = 'flex';
+    }
+    if (genBtn) genBtn.style.display = 'inline-block';
+    const copyBtn = document.getElementById('copy-output-btn');
+    if (copyBtn) copyBtn.style.display = 'block';
+
+  } catch(err) {
+    output.textContent = 'Connection error — check that ANTHROPIC_API_KEY is set in Netlify. (' + err.message + ')';
+    output.style.opacity = '1';
+  }
+}
+</script>
+
+</body></html>
