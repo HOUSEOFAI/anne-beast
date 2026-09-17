@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Magnificent Beast — Everyday Ceremony By Anne</title>
 <style>
   :root {
@@ -429,9 +427,8 @@
 <header>
   <div class="hdr-left">
     <div class="hdr-logo">
-      <img src="logo.png" alt="Everyday Ceremony By Anne"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
-      <span class="hdr-logo-fallback">✦</span>
+      <img src="logo.png" alt="Everyday Ceremony By Anne" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" style="display: none;">
+      <span class="hdr-logo-fallback" style="display: block;">✦</span>
     </div>
     <div>
       <div class="hdr-eyebrow">House of AI · Magnificent Beast Console</div>
@@ -457,9 +454,9 @@
 </nav>
 
 <div class="tab-arrows">
-  <button class="arr-btn" id="arr-prev" onclick="stepConsoleTab(-1)" disabled>&#8592;</button>
+  <button class="arr-btn" id="arr-prev" onclick="stepConsoleTab(-1)" disabled="">←</button>
   <span class="tab-label-center" id="console-tab-label">✦ Creative Director</span>
-  <button class="arr-btn" id="arr-next" onclick="stepConsoleTab(1)">&#8594;</button>
+  <button class="arr-btn" id="arr-next" onclick="stepConsoleTab(1)">→</button>
 </div>
 
 <!-- ─── MAIN ────────────────────────────────────────────────── -->
@@ -596,7 +593,7 @@
         <div class="scene-emoji">🌹</div>
         <div><div class="scene-name">Rose Garden Sanctuary</div><div class="scene-desc">Private rose garden at golden hour, flowing cream dress, deep pink blooms, soft warm light, serene and self-possessed</div></div>
       </div>
-      <div class="scene-row" onclick="selectScene(this,'Incense & Intention')">
+      <div class="scene-row" onclick="selectScene(this,'Incense &amp; Intention')">
         <div class="scene-emoji">🌿</div>
         <div><div class="scene-name">Incense &amp; Intention</div><div class="scene-desc">Wooden altar table, incense smoke rising, dried herbs and crystals arranged with care, candlelight, deep burgundy wrap</div></div>
       </div>
@@ -655,12 +652,9 @@
         <select class="field-select" id="cd-pillar">
           <option value="">Let the Director decide</option>
           <option>The Sacred Self</option>
-          <option>Quiet Luxury</option>
           <option>The Ceremony Within</option>
           <option>Ritual &amp; Healing</option>
           <option>Celebrating You</option>
-          <option>Boston Besties</option>
-          <option>The CEO Board</option>
         </select>
       </div>
     </div>
@@ -712,18 +706,15 @@
   <div class="card">
     <div class="card-header">
       <div class="card-label">Viral Hook Bank</div>
-      <div class="badge amber">35 Hooks · 7 Pillars</div>
+      <div class="badge amber">20 Hooks · 4 Pillars</div>
     </div>
     <p class="vi-meta">Pre-tested opening hooks across all 7 content pillars. Each is engineered to stop the scroll, trigger recognition, and pull the reader into Anne's world.</p>
     <div class="pillar-tabs">
       <button class="ptab active" onclick="filterHooks('all',this)">All Pillars</button>
       <button class="ptab" onclick="filterHooks('The Sacred Self',this)">The Sacred Self</button>
-      <button class="ptab" onclick="filterHooks('Quiet Luxury',this)">Quiet Luxury</button>
       <button class="ptab" onclick="filterHooks('The Ceremony Within',this)">The Ceremony Within</button>
       <button class="ptab" onclick="filterHooks('Ritual &amp; Healing',this)">Ritual &amp; Healing</button>
       <button class="ptab" onclick="filterHooks('Celebrating You',this)">Celebrating You</button>
-      <button class="ptab" onclick="filterHooks('Boston Besties',this)">Boston Besties</button>
-      <button class="ptab" onclick="filterHooks('The CEO Board',this)">The CEO Board</button>
     </div>
     <div class="hooks" id="hook-grid"></div>
   </div>
@@ -731,7 +722,7 @@
   <div class="card">
     <div class="card-header">
       <div class="card-label">Content Pillars</div>
-      <div class="badge amber">7 Active</div>
+      <div class="badge amber">4 Active</div>
     </div>
     <div class="pillar-list-items" id="pillar-list"></div>
   </div>
@@ -754,17 +745,14 @@
     <div class="field-label" style="margin-bottom:10px;">Content Pillar</div>
     <div class="pillar-pills" id="copy-pillar-pills">
       <div class="ppill active" onclick="selectPillar(this,'The Sacred Self')">The Sacred Self</div>
-      <div class="ppill" onclick="selectPillar(this,'Quiet Luxury')">Quiet Luxury</div>
       <div class="ppill" onclick="selectPillar(this,'The Ceremony Within')">The Ceremony Within</div>
       <div class="ppill" onclick="selectPillar(this,'Ritual &amp; Healing')">Ritual &amp; Healing</div>
       <div class="ppill" onclick="selectPillar(this,'Celebrating You')">Celebrating You</div>
-      <div class="ppill" onclick="selectPillar(this,'Boston Besties')">Boston Besties</div>
-      <div class="ppill" onclick="selectPillar(this,'The CEO Board')">The CEO Board</div>
     </div>
 
     <div class="form-2col">
       <div>
-        <label class="field-label">Platforms</label>
+        <label class="field-label">Platforms</spam>
         <select class="field-select" id="ce-platform">
           <option value="all">All 3 Platforms</option>
           <option value="instagram">Instagram only</option>
@@ -786,7 +774,7 @@
 
     <div class="form-row">
       <label class="field-label">Topic or Angle (optional)</label>
-      <input type="text" class="field-input" id="ce-topic" placeholder="e.g. morning ritual, candles, self-care, sisterhood..." />
+      <input type="text" class="field-input" id="ce-topic" placeholder="e.g. morning ritual, candles, self-care, sisterhood...">
     </div>
 
     <button class="btn btn-primary" onclick="generateCopy()">✦ Generate My Copy</button>
@@ -803,7 +791,7 @@
       <button class="pftab" onclick="showCEPlatform('facebook',this)">Facebook</button>
       <button class="pftab" onclick="showCEPlatform('linkedin',this)">LinkedIn</button>
     </div>
-    <div class="output-platform-label" id="ce-platform-label">INSTAGRAM</div>
+    <div class="output-platform-label" id="ce-platform-label">INSTAGTAM</div>
     <div class="output-text" id="ce-output-text"></div>
     <div class="output-actions">
       <button class="btn btn-ghost small-btn" onclick="copyCE()">📋 Copy to Clipboard</button>
@@ -815,7 +803,7 @@
 
 
 <!-- ══════════════════════════════════════════════════════════ -->
-<!-- POST TO BUFFER                                             -->
+<!-- POST TOBUFFER                                             -->
 <!-- ══════════════════════════════════════════════════════════ -->
 <div id="panel-post-to-buffer" class="panel">
 
@@ -844,7 +832,7 @@
 
     <div class="form-row">
       <label class="field-label">Image URL (optional)</label>
-      <input type="text" class="field-input" id="ptb-img" placeholder="https://... (leave blank for text-only post)" />
+      <input type="text" class="field-input" id="ptb-img" placeholder="https://... (leave blank for text-only post)">
     </div>
 
     <div class="form-row">
@@ -902,18 +890,14 @@
       <div class="badge amber">Advisory</div>
     </div>
     <p style="color:var(--cream);opacity:.8;font-size:.93rem;line-height:1.65;margin-bottom:1.5rem;">
-      Your ECBA Marketing Advisory Board — a council of strategic AI advisors built around Anne's brand, voice, and vision. Open the board to get guidance on marketing decisions, content strategy, campaign direction, and business clarity.
+      Your ECBA Marketing Advisory Board └ a council of strategic AI advisors built around Anne's brand, voice, and vision. Open the board to get guidance on marketing decisions, content strategy, campaign direction, and business clarity.
     </p>
 
     <div style="text-align:center;padding:2rem 0;">
       <div style="font-size:2.5rem;margin-bottom:1rem;">♛</div>
       <div style="color:var(--amber);font-family:'Cormorant Garamond',serif;font-size:1.5rem;letter-spacing:.08em;margin-bottom:.5rem;">ECBA Marketing Advisory Board</div>
       <div style="color:var(--muted);font-size:.88rem;margin-bottom:2rem;">Everyday Ceremony By Anne · Strategic Counsel</div>
-      <a href="https://chatgpt.com/g/g-687026dee290819196b0f698ebb89be2-ecba-marketing-advisory-board"
-         target="_blank"
-         style="display:inline-block;background:var(--amber);color:#0b0618;font-weight:700;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;padding:.85rem 2.2rem;border-radius:6px;text-decoration:none;transition:background .2s;"
-         onmouseover="this.style.background='var(--amber-lt)'"
-         onmouseout="this.style.background='var(--amber)'">
+      <a href="https://chatgpt.com/g/g-687026dee290819196b0f698ebb89be2-ecba-marketing-advisory-board" target="_blank" style="display:inline-block;background:var(--amber);color:#0b0618;font-weight:700;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;padding:.85rem 2.2rem;border-radius:6px;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='var(--amber-lt)'" onmouseout="this.style.background='var(--amber)'">
         Enter the Boardroom →
       </a>
     </div>
@@ -948,7 +932,7 @@
 </main>
 
 <footer>
-  Everyday Ceremony By Anne · Anne McClain · Built by <a href="https://www.houseofai.boston">HOUSE OF AI</a> · <a href="https://www.houseofai.boston">www.houseofai.boston</a><br/>
+  Everyday Ceremony By Anne · Anne McClain · Built by <a href="https://www.houseofai.boston">HOUSE OF AI</a> · <a href="https://www.houseofai.boston">www.houseofai.boston</a><br>
   <strong>The Beast runs autonomously. Anne does nothing. It runs every day.</strong>
 </footer>
 
@@ -958,22 +942,16 @@
 <script>
 const PILLARS = [
   { name:'The Sacred Self', theme:'Returning to yourself after years of giving everything to everyone else', hooks:["You've been giving from a well that no one ever refills.","She didn't lose herself all at once. It happened one small surrender at a time.","The woman you've been waiting to become is the one you abandoned.","You gave them your mornings. Your evenings. Your quiet.","Somewhere between taking care of everyone else, you forgot you were someone too."] },
-  { name:'Quiet Luxury', theme:'Redefining luxury as presence and intention, not price', hooks:["Real luxury is not something you buy. It's something you return to.","The most expensive thing you own is your attention. Where are you spending it?","She stopped waiting for someone else to make it beautiful.","Luxury is not a price point. It's a practice.","A candle lit with intention costs nothing. But it changes everything."] },
   { name:'The Ceremony Within', theme:'Making everyday moments sacred and intentional', hooks:["Your morning doesn't have to be a routine. It can be a ceremony.","The ordinary moment you keep rushing past is where the magic is.","She learned to make even Tuesday feel like something sacred.","What would change if you treated getting dressed as a ritual?","You don't need a retreat. You need 10 minutes and a match."] },
   { name:'Ritual & Healing', theme:'The quiet power of consistent, intentional self-care practices', hooks:["Healing doesn't always look like a breakthrough. Sometimes it looks like a candle.","The ritual didn't fix everything. It reminded her she was worth showing up for.","She tried the retreats, the therapists, the getaways. Then she tried stillness.","Small practices don't change your life all at once. They change it one morning at a time.","What if the thing you've been searching for has been waiting in the quiet?"] },
-  { name:'Celebrating You', theme:'Honoring yourself fully — in small moments and grand ones', hooks:["Celebrating you today, tomorrow, and always — not when you've earned it.","You keep waiting for a reason to celebrate yourself. This is it.","She stopped waiting to be chosen and chose herself.","Your wholeness is worth honoring. Right now. As you are.","The ceremony isn't for the version of you that has it all together. It's for this one."] },
-  { name:'Boston Besties', theme:'The magic of women who truly show up for each other', hooks:["The right women in your corner change everything.","She stopped performing and found her people.","There's a kind of healing that only happens in a room full of women who get it.","Not everyone deserves a seat at your table. But the right ones belong there forever.","Real community doesn't drain you. It fills the well."] },
-  { name:'The CEO Board', theme:'Leading your life and business with wisdom — your own and the mentors who guide you', hooks:["She stopped asking permission and started asking better questions.","Every great decision I've made started with sitting with the right wisdom.","You don't have to figure it out alone. That's not strength. That's stubbornness.","The woman who knows what she wants still needs a board.","Leadership isn't about having all the answers. It's about knowing who to ask."] }
+  { name:'Celebrating You', theme:'Honoring yourself fully — in small moments and grand ones', hooks:["Celebrating you today, tomorrow, and always — not when you've earned it.","You keep waiting for a reason to celebrate yourself. This is it.","She stopped waiting to be chosen and chose herself.","Your wholeness is worth honoring. Right now. As you are.","The ceremony isn't for the version of you that has it all together. It's for this one."] }
 ];
 
 const FALLBACK = {
   'The Sacred Self':{ instagram:"You've been giving from a well that no one ever refills.\n\nThe woman who cooks the meals, manages the calendar, holds everyone together — she deserves a ceremony too.\n\nNot when things calm down. Not when everyone else is taken care of.\n\nNow.\n\nYour wholeness is worth celebrating — today, tomorrow, and always.\n\n#EverydayCeremony #TheSacredSelf", facebook:"Somewhere between taking care of everyone else, we forget that we're someone too.\n\nI created Everyday Ceremony for the woman who gives everything — and deserves something sacred in return.\n\nWhat's one small way you've returned to yourself this week? Share below.", linkedin:"The woman who leads her business, her family, her community — she pours from herself constantly.\n\nBut the most powerful thing she can do is return to herself.\n\nNot after everything is done. Now. As she is.\n\nThat's what everyday ceremony means.\n\n#Leadership #SacredSelf #EverydayCeremony" },
-  'Quiet Luxury':{ instagram:"Real luxury is not something you buy. It's something you return to.\n\nA candle lit with intention. A cup of tea made slowly. A morning that belongs entirely to you.\n\nThis is the everyday ceremony.\n\n#QuietLuxury #EverydayCeremony", facebook:"She stopped waiting for someone else to make it beautiful.\n\nShe made it beautiful herself. With a candle, a ritual, and the quiet decision that she was worth it.\n\nWhat does quiet luxury look like in your life?", linkedin:"Luxury is not a price point. It's a practice.\n\nThe most expensive thing you own is your attention. Where you spend it shapes everything.\n\n#QuietLuxury #IntentionalLiving" },
   'The Ceremony Within':{ instagram:"Your morning doesn't have to be a routine. It can be a ceremony.\n\nThe ordinary moment you keep rushing past is where the magic is.\n\nTen minutes. A match. A breath. A beginning.\n\n#TheCeremonyWithin #EverydayCeremony", facebook:"She learned to make even Tuesday feel like something sacred.\n\nNot by doing more. By slowing down enough to notice.\n\nWhat ordinary moment are you rushing past today?", linkedin:"What would change if you treated the start of your workday as a ritual?\n\nNot a routine. A ceremony.\n\nIntentional leaders know the difference.\n\n#IntentionalLiving #Leadership" },
   'Ritual & Healing':{ instagram:"Healing doesn't always look like a breakthrough. Sometimes it looks like a candle.\n\nSmall practices don't change your life all at once. They change it one morning at a time.\n\n#RitualAndHealing #EverydayCeremony", facebook:"She tried the retreats, the therapists, the getaways. Then she tried stillness.\n\nWhat if the thing you've been searching for has been waiting in the quiet?\n\nThat's what ritual is for.", linkedin:"The ritual didn't fix everything. It reminded her she was worth showing up for.\n\nConsistency is its own form of healing.\n\n#WellnessLeadership #EverydayCeremony" },
   'Celebrating You':{ instagram:"Celebrating you today, tomorrow, and always — not when you've earned it.\n\nNot when the house is clean. Not when the project is done.\n\nNow. As you are.\n\nYou don't have to perform your way into worthiness.\n\n#CelebratingYou #EverydayCeremony", facebook:"You keep waiting for a reason to celebrate yourself.\n\nThis is it. Today. This ordinary, unremarkable, beautiful day.\n\nLight the candle. Draw the bath. Make the tea slowly. You are the ceremony.\n\nWhat small thing are you doing today just for you?", linkedin:"She stopped waiting to be chosen and chose herself.\n\nThat's not arrogance. That's sovereignty.\n\nCelebrating you — today, tomorrow, and always.\n\n#WomenInLeadership #EverydayCeremony" },
-  'Boston Besties':{ instagram:"The right women in your corner change everything.\n\nNot the ones who celebrate the highlight reel. The ones who sit with you in the middle of it.\n\nThat's Boston Besties.\n\n#BostonBesties #EverydayCeremony", facebook:"There's a kind of healing that only happens in a room full of women who get it.\n\nNot everyone deserves a seat at your table. But the right ones belong there forever.\n\nWho are your people?", linkedin:"Real community doesn't drain you. It fills the well.\n\nThe women who have helped me grow aren't cheerleaders. They're truth-tellers.\n\nFind your board. Find your besties.\n\n#CommunityOverCompetition #WomenInBusiness" },
-  'The CEO Board':{ instagram:"She stopped asking permission and started asking better questions.\n\nEvery great decision starts with sitting with the right wisdom.\n\nYou don't have to figure it out alone.\n\n#TheCEOBoard #EverydayCeremony", facebook:"You don't have to figure it out alone. That's not strength. That's stubbornness.\n\nLeadership isn't about having all the answers. It's about knowing who to ask.\n\nWho's on your board?", linkedin:"The woman who knows what she wants still needs a board.\n\nNot for permission. For perspective.\n\nSurround yourself with wisdom — and lead accordingly.\n\n#Leadership #WomenInBusiness #TheCEOBoard" }
 };
 
 const SCENES = ['Candlelit Morning Ritual','Rose Garden Sanctuary','Incense & Intention','Parisian Bath Ritual','Velvet Reading Nook','Moonlit Terrace','Sacred Morning Table','Washington Townhouse Study','Botanical Spa Escape','Sunset Ceremony'];
@@ -1149,11 +1127,11 @@ function filterHooks(pillar, btn) {
 function renderPillarList() {
   const list = document.getElementById('pillar-list');
   list.innerHTML = PILLARS.map((p,i) =>
-    '<div class="pitem"><div class="pnum">'+(i+1)+'.</div><div><div class="pname">'+p.name+'</div><div class="ptheme">'+p.theme+'</div></div></div>'
+    '<div class="pitem"><div class="pnum">'+(i+1)+'.</div><div class="pname">'+p.name+'</div><div class="ptheme">'+p.theme+'</div></div></div>'
   ).join('');
 }
 
-// ── COPY ENGINE ───────────────────────────────────────────────
+// ── COPY EGINE ───────────────────────────────────────────────
 function selectPillar(el, name) {
   document.querySelectorAll('.ppill').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
@@ -1218,7 +1196,6 @@ async function generateCopy() {
   outCard.style.display = 'block';
 
   const tabs = document.getElementById('ce-tabs');
-  const platforms = platform === 'all' ? ['instagram','facebook','linkedin'] : [platform];
   tabs.innerHTML = platforms.map((pl,i) =>
     '<button class="pftab'+(i===0?' active':'')+'" onclick="showCEPlatform(\''+pl+'\',this)">'+pl.charAt(0).toUpperCase()+pl.slice(1)+'</button>'
   ).join('');
@@ -1291,5 +1268,6 @@ renderPillarList();
 updateNextRun();
 setInterval(updateNextRun, 60000);
 </script>
-</body>
-</html>
+
+
+</body></html>
